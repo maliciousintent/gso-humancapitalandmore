@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Your prismic.io project</title>
+        <script src="js/vendor/jquery-2.1.1.min.js"></script>
+        <script src="js/vendor/prismic.io-1.0.28.min.js"></script>
+        <script src="js/prismic-configuration.js"></script>
+        <script src="js/prismic-helpers.js"></script>
+        <script src="js/prismic-templates.js"></script>
+    </head>
+    <body class="loading">
+
+        <header>
+            <script type="text/template">
+                <a href="index.html?<%= ctx.maybeRefParam %>">
+                    <h1>Your prismic.io project</h1>
+                </a>
+            </script>
+        </header>
+
+        <h2 id="title">
+            <script type="text/template">
+                <% if(docs.total_results_size > 0) { %>
+                    <%= docs.total_results_size %> documents
+                <% } else { %>
+                    No results found
+                <% } %>
+            </script>
+        </h2>
+
+        <ul id="results">
+            <script type="text/template">
+                <% for(var i=0; i<docs.results.length; i++) { %>
+                    <li>
+                        <a href="<%= ctx.linkResolver(ctx, docs.results[i]) %>">
+                            <%= docs.results[i].slug %>
+                        </a>
+                    </li>
+                <% } %>
+            </script>
+        </ul>
+
+        <div id="pagination">
+            <script type="text/template">
+                <% if(docs.total_pages > 1) { %>
+                    <hr>
+                    <ul>
+                        <% if (docs.page != 1) { %>
+                            <li>
+                                <a href="#<%= docs.page - 1 %>" data-forcereload="true">previous page</a>
+                            </li>
+                        <% } %>
+                        <% for (var i = 1; i <= docs.total_pages; i++) { %>
+                            <li>
+                                <% if (docs.page == i) { %>
+                                    <span><%= i %></span>
+                                <% } else { %>
+                                    <a href="#<%= i %>" data-forcereload="true"><%= i %></a>
+                                <% } %>
+                            </li>
+                        <% } %>
+                        <% if (docs.page != docs.total_pages) { %>
+                            <li>
+                                <a href="#<%= docs.page + 1 %>" data-forcereload="true">next page</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                <% } %>
+            </script>
+        </div>
+
+        <footer>
+            <script type="text/template">
+                <% if(!ctx.oauth().hasPrivilegedAccess) { %>
+                    <hr><a href="signin.html">Sign in to preview changes</a>
+                <% } %>
+            </script>
+        </footer>
+
+        <script src="//static.cdn.prismic.io/prismic.js"></script>
+
+        <!-- Logic -->
+
+        <script type="text/javascript">
+            $(function() {
+
+                Helpers.withPrismic(function(ctx) {
+
+                    // Retrieve the query
+                    var q = Helpers.queryString['q'];
+
+                    ctx.api.form("everything").set('page', parseInt(window.location.hash.substring(1)) || 1 ).ref(ctx.ref).query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
+
+                        if (err) { Configuration.onPrismicError(err); return; }
+
+                        // Feed the templates
+                        $('header, #title, #results, #pagination, footer').render({
+                            docs: docs,
+                            ctx: ctx
+                        },
+                        // Useful for pagination: refresh on some links even when only anchor changed
+                        function() {
+                            $('[data-forcereload=true]').click(function(e){
+                                window.location = $(this).attr('href');
+                                window.location.reload();
+                            });
+                        });
+
+                    });
+
+                });
+
+            });
+        </script>
+
+    </body>
+</html>

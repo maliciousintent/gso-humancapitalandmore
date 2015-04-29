@@ -1,0 +1,78 @@
+{
+  "Intestazioni post" : {
+    "title" : {
+      "type" : "StructuredText",
+      "fieldset" : "Titolo post",
+      "config" : {
+        "single" : "heading1,em,strong",
+        "placeholder" : "Titolo post"
+      }
+    },
+    "excerpt" : {
+      "type" : "StructuredText",
+      "fieldset" : "Preview post",
+      "config" : {
+        "multi" : "p,em,strong,hyperlink",
+        "placeholder" : "Breve descrizione articolo",
+        "minHeight" : "100px"
+      }
+    },
+    "featureImage" : {
+      "type" : "Image",
+      "fieldset" : "Main Image",
+      "config" : {
+        "constraint" : {
+          "width" : 1920.0,
+          "height" : 1080.0
+        }
+      }
+    }
+  },
+  "Contenuto post" : {
+    "content" : {
+      "type" : "StructuredText",
+      "fieldset" : "Post",
+      "config" : {
+        "minHeight" : "400px",
+        "imageConstraint" : {
+          "width" : 960.0
+        }
+      }
+    }
+  },
+  "Meta data post" : {
+    "categories": {
+      "type": "Group",
+      "fieldset": "Categorie del post (1-n)",
+      "config": {
+        "fields": {
+          "Categoria": {
+            "type": "Link",
+            "config": {
+              "select": "document",
+              "masks": [ "categoria" ],
+              "placeholder": "Categoria"
+            }
+          }
+        }
+      }
+    },
+    "authors": {
+      "type": "Group",
+        "fieldset": "Autori del post (1-n)",
+        "config": {
+          "fields": {
+            "Autore": {
+              "type": "Link",
+              "config": {
+                "select": "document",
+                "masks": [ "autore" ],
+                "placeholder": "Autore"
+              }
+            }
+          }
+        }
+    }
+    
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Your prismic.io project</title>
+        <script src="js/vendor/jquery-2.1.1.min.js"></script>
+        <script src="js/vendor/prismic.io-1.0.28.min.js"></script>
+        <script src="js/prismic-configuration.js"></script>
+        <script src="js/prismic-helpers.js"></script>
+        <script src="js/prismic-templates.js"></script>
+    </head>
+    <body class="loading">
+
+        <header>
+            <script type="text/template">
+                <a href="index.html?<%= ctx.maybeRefParam %>">
+                    <h1>Your prismic.io project</h1>
+                </a>
+            </script>
+        </header>
+
+        <article>
+            <script type="text/template">
+                <%= doc.asHtml(ctx) %>
+            </script>
+        </article>
+
+        <aside>
+            <script type="text/template">
+                <% if(doc.linkedDocuments.length > 0) { %>
+                    <hr>
+                    <h2>Linked documents:</h2>
+                    <ul>
+                        <% for(var i=0; i<doc.linkedDocuments.length; i++) { %>
+                            <li>
+                                <a href="detail.html?id=<%= doc.linkedDocuments[i].id %>&slug=<%= doc.linkedDocuments[i].slug %>">
+                                    <%= doc.linkedDocuments[i].slug %>
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                <% } %>
+            </script>
+        </aside>
+
+        <footer>
+            <script type="text/template">
+                <% if(!ctx.oauth().hasPrivilegedAccess) { %>
+                    <hr><a href="signin.html">Sign in to preview changes</a>
+                <% } %>
+            </script>
+        </footer>
+
+        <script src="//static.cdn.prismic.io/prismic.js"></script>
+
+        <!-- Logic -->
+
+        <script type="text/javascript">
+            $(function() {
+
+                Helpers.withPrismic(function(ctx) {
+
+                    // Retrieve the document
+                    var id = Helpers.queryString['id'],
+                        slug = Helpers.queryString['slug'];
+
+                    ctx.api.form("everything").ref(ctx.ref).query('[[:d = at(document.id, "' + id + '")]]').submit(function(err, docs) {
+
+                        if (err) { Configuration.onPrismicError(err); return; }
+
+                        var doc = docs.results[0];
+
+                        // If there is no documents for this id
+                        if(!doc) {
+                            document.location = 'notfound.html';
+                        }
+
+                        // If the slug doesn't match
+                        if(doc.slug != slug) {
+                            // If this is an old valid slug, redirect
+                            if(doc.slugs.indexOf(slug) > -1) {
+                                document.location = 'detail.html?id=' + doc.id + '&slug=' + doc.slug + '&ref=' + ref;
+                            } else {
+                                document.location = 'notfound.html';
+                            }
+                        }
+
+                        // Feed the templates
+                        $('header, article, aside, footer').render({
+                            doc: doc,
+                            ctx: ctx
+                        });
+
+                    });
+
+                });
+
+            });
+        </script>
+
+    </body>
+</html>

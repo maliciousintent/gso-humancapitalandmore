@@ -1,0 +1,47 @@
+{
+  "Informazioni categoria" : {
+    "title" : {
+      "type" : "StructuredText",
+      "fieldset" : "Titolo categoria",
+      "config" : {
+        "single" : "heading1,em,strong",
+        "placeholder" : "Titolo categoria"
+      }
+    },
+    "excerpt" : {
+      "type" : "StructuredText",
+      "fieldset" : "Descrizione categoria",
+      "config" : {
+        "multi" : "p,em,strong,hyperlink",
+        "placeholder" : "Breve descrizione categoria",
+        "minHeight" : "100px"
+      }
+    },
+    "featureImage" : {
+      "type" : "Image",
+      "fieldset" : "Immagine cover",
+      "config" : {
+        "constraint" : {
+          "width" : 1920.0,
+          "height" : 1080.0
+        }
+      }
+    }
+  },
+  "Altre informazioni" : {
+    "icon" : {
+      "type" : "Image",
+      "fieldset" : "Icona categoria",
+      "config" : {
+        "constraint" : {
+          "width" : 200.0,
+          "height" : 200.0
+        }
+      }
+    },
+    "color" : {
+      "type" : "Color",
+      "fieldset" : "Colore categoria"
+    }
+  }
+}

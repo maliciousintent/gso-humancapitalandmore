@@ -1,0 +1,41 @@
+{
+  "Informazioni autore" : {
+    "title" : {
+      "type" : "StructuredText",
+      "fieldset" : "Nome e cognome autore",
+      "config" : {
+        "single" : "heading1",
+        "placeholder" : "Nome e cognome"
+      }
+    },
+    "profilePic" : {
+      "type" : "Image",
+      "fieldset" : "Foto autore",
+      "config" : {
+        "constraint" : {
+          "width" : 1920.0,
+          "height" : 1080.0
+        },
+        "thumbnails": [
+        	{
+        		"name": "Avatar",
+        		"width": 100,
+        		"height": 100
+        	},
+        	{
+        		"name": "Profile",
+        		"width": 250,
+        		"height": 250
+        	}
+        ]
+      }
+    },
+    "biography" : {
+      "type" : "StructuredText",
+      "fieldset" : "Post",
+      "config" : {
+        "minHeight" : "400px"
+      }
+    }
+  }
+}

@@ -1,78 +1,137 @@
 {
-  "Intestazioni post" : {
+  "Intestazioni" : {
     "title" : {
       "type" : "StructuredText",
-      "fieldset" : "Titolo post",
+      "fieldset" : "Intestazioni articolo",
       "config" : {
-        "single" : "heading1,em,strong",
-        "placeholder" : "Titolo post"
+        "single" : "heading1",
+        "placeholder" : "Titolo"
       }
     },
     "excerpt" : {
       "type" : "StructuredText",
-      "fieldset" : "Preview post",
       "config" : {
-        "multi" : "p,em,strong,hyperlink",
-        "placeholder" : "Breve descrizione articolo",
-        "minHeight" : "100px"
+        "single" : "heading3",
+        "placeholder" : "Sommario articolo (circa 60 parole)"
       }
     },
     "featureImage" : {
       "type" : "Image",
-      "fieldset" : "Main Image",
+      "fieldset" : "Immagine di copertina",
       "config" : {
+        "placeholder" : "Carica un'mmagine",
         "constraint" : {
-          "width" : 1920.0,
-          "height" : 1080.0
+          "width" : 1920,
+          "height" : 1080
         }
       }
     }
   },
-  "Contenuto post" : {
+  "Contenuto" : {
     "content" : {
       "type" : "StructuredText",
-      "fieldset" : "Post",
+      "fieldset" : "Articolo",
       "config" : {
-        "minHeight" : "400px",
         "imageConstraint" : {
-          "width" : 960.0
+          "width" : 960
+        }
+      }
+    },
+    "quotes" : {
+      "type" : "Group",
+      "fieldset" : "Citazioni",
+      "config" : {
+        "fields" : {
+          "Categoria" : {
+            "type" : "StructuredText",
+            "config" : {
+              "multi" : "em,strong",
+              "placeholder" : "Citazione"
+            }
+          }
         }
       }
     }
   },
-  "Meta data post" : {
-    "categories": {
-      "type": "Group",
-      "fieldset": "Categorie del post (1-n)",
-      "config": {
-        "fields": {
-          "Categoria": {
-            "type": "Link",
-            "config": {
-              "select": "document",
-              "masks": [ "categoria" ],
-              "placeholder": "Categoria"
+  "Meta" : {
+    "postDate" : {
+      "type" : "Date",
+      "fieldset" : "Dettagli",
+      "config" : {
+        "label" : "Data pubblicazione"
+      }
+    },
+    "postReadingTime" : {
+      "type" : "Number",
+      "config" : {
+        "label" : "Tempo di lettura"
+      }
+    },
+    "postFeatured" : {
+      "type" : "Select",
+      "config" : {
+        "label" : "Metti in evidenza",
+        "options" : [ "Sì (verrà pubblicato in homepage)", "No" ]
+      }
+    },
+    "categories" : {
+      "type" : "Group",
+      "fieldset" : "Categorie",
+      "config" : {
+        "fields" : {
+          "Categoria" : {
+            "type" : "Link",
+            "config" : {
+              "select" : "document",
+              "masks" : [ "categoria" ],
+              "placeholder" : "Categoria"
             }
           }
         }
       }
     },
-    "authors": {
-      "type": "Group",
-        "fieldset": "Autori del post (1-n)",
-        "config": {
-          "fields": {
-            "Autore": {
-              "type": "Link",
-              "config": {
-                "select": "document",
-                "masks": [ "autore" ],
-                "placeholder": "Autore"
-              }
+    "authors" : {
+      "type" : "Group",
+      "fieldset" : "Autori",
+      "config" : {
+        "fields" : {
+          "Autore" : {
+            "type" : "Link",
+            "config" : {
+              "select" : "document",
+              "masks" : [ "autore" ],
+              "placeholder" : "Autore"
             }
           }
         }
+      }
     }
-    
+  },
+  "Correlati" : {
+    "related[0]" : {
+      "fieldset" : "Articoli correlati",
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Articolo #1",
+        "select" : "document",
+        "masks" : [ "post" ]
+      }
+    },
+    "related[1]" : {
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Articolo #2",
+        "select" : "document",
+        "masks" : [ "post" ]
+      }
+    },
+    "related[2]" : {
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Articolo #3",
+        "select" : "document",
+        "masks" : [ "post" ]
+      }
+    }
   }
 }

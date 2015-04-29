@@ -1,47 +1,56 @@
 {
-  "Informazioni categoria" : {
+  "Contenuto" : {
     "title" : {
       "type" : "StructuredText",
-      "fieldset" : "Titolo categoria",
+      "fieldset" : "Informazioni generali della categoria",
       "config" : {
-        "single" : "heading1,em,strong",
-        "placeholder" : "Titolo categoria"
+        "single" : "heading1",
+        "placeholder" : "Titolo"
       }
     },
     "excerpt" : {
       "type" : "StructuredText",
-      "fieldset" : "Descrizione categoria",
       "config" : {
-        "multi" : "p,em,strong,hyperlink",
-        "placeholder" : "Breve descrizione categoria",
-        "minHeight" : "100px"
-      }
-    },
-    "featureImage" : {
-      "type" : "Image",
-      "fieldset" : "Immagine cover",
-      "config" : {
-        "constraint" : {
-          "width" : 1920.0,
-          "height" : 1080.0
-        }
+        "single" : "heading3",
+        "placeholder" : "Sommario categoria (circa 60 parole)"
       }
     }
   },
-  "Altre informazioni" : {
+  "Avanzate" : {
+    "ismain" : {
+      "type" : "Select",
+      "fieldset" : "Informazioni aggiuntive",
+      "config" : {
+        "label" : "Tipo categoria",
+        "options" : [ "Macro Categoria", "Sotto Categoria" ]
+      }
+    },
+    "parent" : {
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Categoria padre (solo in caso di Sotto Categorie)",
+        "select" : "document",
+        "masks" : [ "categoria" ]
+      }
+    }
+  },
+  "Grafica" : {
     "icon" : {
       "type" : "Image",
-      "fieldset" : "Icona categoria",
+      "fieldset" : "Icona e colore della categoria",
       "config" : {
+        "placeholder" : "Carica nuova icona",
         "constraint" : {
-          "width" : 200.0,
-          "height" : 200.0
+          "width" : 200,
+          "height" : 200
         }
       }
     },
     "color" : {
       "type" : "Color",
-      "fieldset" : "Colore categoria"
+      "config" : {
+        "label" : "Colore"
+      }
     }
   }
 }

@@ -1,11 +1,18 @@
 {
-  "Informazioni autore" : {
-    "title" : {
+  "Anagrafica" : {
+    "name" : {
       "type" : "StructuredText",
-      "fieldset" : "Nome e cognome autore",
+      "fieldset" : "Nome e cognome",
       "config" : {
         "single" : "heading1",
-        "placeholder" : "Nome e cognome"
+        "placeholder" : "Nome Cognome"
+      }
+    },
+    "role" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading3",
+        "placeholder" : "Ruolo"
       }
     },
     "profilePic" : {
@@ -13,28 +20,64 @@
       "fieldset" : "Foto autore",
       "config" : {
         "constraint" : {
-          "width" : 1920.0,
-          "height" : 1080.0
+          "width" : 1920,
+          "height" : 1080
         },
-        "thumbnails": [
-        	{
-        		"name": "Avatar",
-        		"width": 100,
-        		"height": 100
-        	},
-        	{
-        		"name": "Profile",
-        		"width": 250,
-        		"height": 250
-        	}
-        ]
+        "thumbnails" : [ {
+          "name" : "Avatar",
+          "width" : 100,
+          "height" : 100
+        }, {
+          "name" : "Profile",
+          "width" : 250,
+          "height" : 250
+        } ]
       }
-    },
+    }
+  },
+  "Biografia" : {
     "biography" : {
       "type" : "StructuredText",
-      "fieldset" : "Post",
+      "fieldset" : "Biografia",
       "config" : {
-        "minHeight" : "400px"
+        "placeholder" : "Biografia dell'autore"
+      }
+    }
+  },
+  "Social" : {
+    "linkedin" : {
+      "type" : "Link",
+      "fieldset" : "Social media",
+      "config" : {
+        "placeholder" : "Linkedin",
+        "select" : "web"
+      }
+    },
+    "twitter" : {
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Twitter",
+        "select" : "web"
+      }
+    },
+    "blog" : {
+      "type" : "Link",
+      "config" : {
+        "placeholder" : "Blog personale",
+        "select" : "web"
+      }
+    },
+    "email" : {
+      "type" : "Text",
+      "fieldset" : "Altre informazioni personali",
+      "config" : {
+        "label" : "E-mail"
+      }
+    },
+    "phone" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Telefono"
       }
     }
   }

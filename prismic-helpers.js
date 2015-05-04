@@ -5,6 +5,10 @@ var Prismic = require('prismic.io').Prismic,
     url = require('url'),
     querystring = require('querystring');
 
+
+var _ = require('lodash');
+
+
 exports.previewCookie = Prismic.previewCookie;
 
 // -- Helpers
@@ -34,6 +38,40 @@ exports.getDocuments = function(ctx, ids, callback) {
     callback(null, []);
   }
 };
+
+
+/**
+  - for GSO cats
+**/
+exports.getCategories = function (ctx, callback) {
+  ctx.api.forms('categorie').ref(ctx.ref).query('').submit(function (err, categories) {
+
+    var _cats = _.chain(categories.results)
+                  .map(function (c) {
+                      return {
+                      'id': c.id,
+                      'slug': c.slug,
+                      'titolo': c.fragments['categoria.title'].value[0].text,
+                      'padre': c.fragments['categoria.parent'] ? c.fragments['categoria.parent'].value.document.id : 'parent'
+                    };
+                  })
+                  .groupBy(function (cat) {
+                    return cat.padre;
+                  })
+                  .value();
+
+    var _finalArray = _.map(_cats.parent, function (p) {
+      p.sottocategorie = _cats[p.id];
+      delete p['padre'];
+      return p;
+    });
+
+
+    callback(err, _finalArray);
+  });
+}
+
+
 
 exports.getBookmark = function(ctx, bookmark, callback) {
   var id = ctx.api.bookmarks[bookmark];

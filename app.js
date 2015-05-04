@@ -2,18 +2,18 @@
 /**
  * Module dependencies.
  */
-var express = require('express'),
-    favicon = require('static-favicon'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    methodOverride = require('method-override'),
-    session = require('express-session'),
-    errorHandler = require('errorhandler'),
-    routes = require('./routes'),
-    http = require('http'),
-    path = require('path'),
-    prismic = require('./prismic-helpers');
+var express = require('express');
+var favicon = require('static-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var session = require('express-session');
+var errorHandler = require('errorhandler');
+var routes = require('./routes');
+var http = require('http');
+var path = require('path');
+var prismic = require('./prismic-helpers');
 
 var app = express();
 
@@ -21,6 +21,22 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+var stylus = require('stylus');
+var nib = require('nib');
+app.use(
+  stylus.middleware({
+    src: path.join(__dirname, 'public'),
+    compile: function (str, path) {
+      return stylus(str)
+              .set('filename', path)
+              .set('compress', true)
+              .use(nib());
+    }
+  })
+);
+
+
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser());
@@ -33,9 +49,9 @@ app.use(errorHandler());
 
 // Routes
 app.route('/').get(routes.index);
-app.route('/documents/:id/:slug').get(routes.detail);
+app.route('/post/:id/:slug').get(routes.detail);
+app.route('/category/:id/:slug').get(routes.category);
 app.route('/search').get(routes.search);
-app.route('/preview').get(routes.preview);
 
 var PORT = app.get('port');
 

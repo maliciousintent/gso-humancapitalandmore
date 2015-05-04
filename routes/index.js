@@ -1,21 +1,59 @@
+/*jshint node:true, eqnull:true, laxcomma:true, undef:true, indent:2, camelcase:false */
+
+'use strict';
+
 var prismic = require('../prismic-helpers');
 
-// -- Display all documents
+var async = require('async');
+var _ = require('lodash');
 
+
+
+
+
+
+// -- Display index
 exports.index = prismic.route(function(req, res, ctx) {
-  ctx.api.form('everything').set("page", req.param('page') || "1").ref(ctx.ref).submit(function(err, docs) {
-    if (err) { prismic.onPrismicError(err, req, res); return; }
-    res.render('index', {
-      docs: docs
+
+  prismic.getCategories(ctx, function (err, categories) {
+
+    ctx.api.form('posts').set('page', req.params.page || '1').ref(ctx.ref).submit(function(err_, docs) {
+      if (err_) { prismic.onPrismicError(err_, req, res); return; }
+
+      res.render('index', {
+        docs: docs,
+        categories: categories || []
+      });
     });
+
+  });
+
+});
+
+
+
+exports.category = prismic.route(function(req, res, ctx) {
+  prismic.getCategories(ctx, function (err, categories) {
+
+    ctx.api.form('posts').set('page', req.params.page || '1').ref(ctx.ref).submit(function(err_, docs) {
+      if (err_) { prismic.onPrismicError(err_, req, res); return; }
+
+      res.render('category', {
+        docs: docs,
+        categories: categories || []
+      });
+    });
+
   });
 });
+
+
 
 // -- Display a given document
 
 exports.detail = prismic.route(function(req, res, ctx) {
-  var id = req.params['id'],
-      slug = req.params['slug'];
+  var id = req.params.id;
+  var slug = req.params.slug;
 
   prismic.getDocument(ctx, id, slug, 
     function(err, doc) {
@@ -27,7 +65,7 @@ exports.detail = prismic.route(function(req, res, ctx) {
     function(doc) {
       res.redirect(301, ctx.linkResolver(doc));
     },
-    function(NOT_FOUND) {
+    function(/*NOT_FOUND*/) {
       res.send(404, 'Sorry, we cannot find that!');
     }
   );
@@ -36,10 +74,10 @@ exports.detail = prismic.route(function(req, res, ctx) {
 // -- Search in documents
 
 exports.search = prismic.route(function(req, res, ctx) {
-  var q = req.query['q'];
+  var q = req.query.q;
 
   if(q) {
-    ctx.api.form('everything').set("page", req.param('page') || "1").ref(ctx.ref)
+    ctx.api.form('everything').set('page', req.params.page || '1').ref(ctx.ref)
            .query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
       if (err) { prismic.onPrismicError(err, req, res); return; }
       res.render('search', {
@@ -56,19 +94,4 @@ exports.search = prismic.route(function(req, res, ctx) {
     });
   }
 
-});
-
-// -- Preview documents from the Writing Room
-
-exports.preview = prismic.route(function(req, res, ctx) {
-  var token = req.query['token'];
-
-  if (token) {
-    ctx.api.previewSession(token, ctx.linkResolver, '/', function(err, url) {
-      res.cookie(prismic.previewCookie, token, { maxAge: 30 * 60 * 1000, path: '/', httpOnly: false });
-      res.redirect(301, url);
-    });
-  } else {
-    res.send(400, "Missing token from querystring");
-  }
 });

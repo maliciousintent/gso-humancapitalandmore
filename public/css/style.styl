@@ -1,0 +1,151 @@
+@import ('nib')
+
+_accent = #de2f32
+_light = #f2f2f2
+_textlight = #a89f9f
+_dark = #212121
+
+.sans-font
+  font-family 'museo-sans', sans-serif
+.serif-font
+  font-family 'adobe-caslon-pro', serif
+
+.pure-g [class *='pure-u'],
+.pure-g-r [class*="pure-u"]
+  @extends .sans-font
+
+html,
+body
+  width 100%
+  height 100%
+  @extends .sans-font
+  background #fff
+
+.pure-form
+  input[type='text'], input[type='password'], input[type='email'], input[type='url'], input[type='date'], input[type='month'], input[type='time'], input[type='datetime'], input[type='datetime-local'], input[type='week'], input[type='number'], input[type='search'], input[type='tel'], input[type='color'], select, textarea
+    @extends .sans-font
+  button
+    @extends .sans-font
+
+.pure-button
+  @extends .sans-font
+
+h1, h2, h3,
+h4, h5, h6
+  font-weight 400
+
+_spacer = 5, 10, 20, 40, 60, 80, 90, 100, 150, 190
+
+for _val in _spacer
+  .spacer-{ _val }
+    height ( _val * 1px )
+
+.text-left
+  text-align left
+.text-center
+  text-align center
+.text-right
+  text-align right
+
+  
+.page
+  width 100%
+  height auto
+
+.container
+  margin 0 auto
+  padding 0 50px
+
+  
+//*** Layout Specifics ***//
+header
+  position fixed
+  z-index 20
+  top 50px
+  left 50px
+  right 50px
+  background _light
+  
+  .header-inner
+    clearfix()
+    .pull-left
+      float left
+    .pull-right
+      float right
+
+  a.gso-hcam-logo
+    display block
+    width 90px
+    height 90px
+    float left
+
+  menu
+    margin 0
+    padding 0
+    float left
+    ul
+      display block
+      margin 0
+      padding 0 0 0 20px
+      list-style none
+      li
+        display inline-block
+        a
+          display block
+          padding 0 20px
+          height 90px
+          line-height 90px
+          font-weight 500
+          font-size 14px
+          text-transform uppercase
+          text-decoration none
+          color _textlight
+          cursor pointer
+          transition color 0.5s ease
+        &:hover,
+        &.selected
+          a
+            color _accent
+
+footer
+  background _dark
+  color lighten(_dark, 40%)
+  font-size 14px
+  line-height 20px
+  font-weight 300
+  
+  a
+    color lighten(_dark, 40%)
+    text-decoration none
+    transition color 0.5s ease
+    &:hover
+      color _light
+  
+  .footer-inner
+    padding 45px
+  
+  .company-profile,
+  .footer-menu
+    margin 0 5px 30px 5px
+    
+  ul.footer-menu
+    list-style none
+    padding 0
+    li
+      display block
+      margin-bottom 10px
+      line-height 16px
+      a
+        display block
+        font-size 14px
+        font-weight 300
+        strong
+          text-transform uppercase
+          font-weight 700
+
+section.app
+  background #FFF
+  min-height 500px
+  transition opacity 0.5s ease
+  &.fade
+    opacity 0

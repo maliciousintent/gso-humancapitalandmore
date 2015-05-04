@@ -1,17 +1,69 @@
-doctype html(lang='en')
+doctype html
+html
+  head
+    title Human Capital and More  
+      block title 
+    
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css')
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='shortcut icon', href='/img/favicon.png', type='image/png')
+    
+    script(src='//use.typekit.net/iqx5wxc.js')
+    script.
+      try{Typekit.load();}catch(e){}
+    
+    block afterhead
 
-head
-    title Your prismic.io project
-    link(rel="stylesheet", href="/stylesheets/style.css")
-    // Required for Previews and Experiments
-    script(src="//static.cdn.prismic.io/prismic.min.js")
-
-body
-
+  body
+  
     header
-        a(href="/")
-            h1 Your prismic.io project
+      .header-inner
+        .pull-left
+          a.gso-hcam-logo(href='/', title='Vai alla pagina iniziale del Blog')
+            img(src='/img/gso-hcam-logo.png', alt='Human Capital and More', width='90', height='90')
+          menu
+            ul
+              each cat in categories
+                li: a(href='/category/#{cat.id}/#{cat.slug}/') #{cat.titolo}
 
-    block body
+        .pull-right
+          
+    section.app
+    
+      block topspacer
+        .spacer-190
+        
+      block app
+    
+    footer
+      .footer-inner
+        .pure-g
+          .pure-u-1.pure-u-md-6-24
+            .company-profile
+              img(src='/img/gso-company-footer.png', alt='GSO Company', width='85', height='37')
+              .spacer-20
+              :markdown
+                **GSO Company Spa**  
+                Piazza L. V. Bertarelli 1, 20122 Milano  
+                Phone **+39 02 864 53 572**  
+                Email **[gsomilano@gso.it](mailto:gsomilano@gso.it)**  
+                P.IVA / C.F. **08200500968**  
 
+          .pure-u-1.pure-u-md-18-24
+            .pure-g
 
+              each cat in categories
+                .pure-u-1-3.pure-u-xl-1-6
+                  ul.footer-menu
+                    li: a(href='/category/#{cat.id}/#{cat.slug}/'): strong #{cat.titolo}
+                    each subcat in cat.sottocategorie
+                      li: a(href='/category/#{subcat.id}/#{subcat.slug}/') #{subcat.titolo}
+
+    
+    script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='/js/main.js')
+    block scripts

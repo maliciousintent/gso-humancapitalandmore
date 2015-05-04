@@ -1,0 +1,14 @@
+extends layout
+
+block title
+  | - Welcome
+
+//-block topspacer
+
+block app
+  .page
+    .container
+      article
+        !{doc.asHtml(ctx.linkResolver)}
+
+//-block scripts

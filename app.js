@@ -49,9 +49,12 @@ app.use(errorHandler());
 
 // Routes
 app.route('/').get(routes.index);
-app.route('/post/:id/:slug').get(routes.detail);
-app.route('/category/:id/:slug').get(routes.category);
+app.route('/post/:slug/:id').get(routes.post);
+app.route('/category/:slug/:id').get(routes.category);
+app.route('/author/:slug/:id').get(routes.author);
 app.route('/search').get(routes.search);
+
+app.route('*').get(routes.notfound);
 
 var PORT = app.get('port');
 

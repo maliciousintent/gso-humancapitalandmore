@@ -39,7 +39,7 @@ $(function() {
           $('header menu li').removeClass('selected');
           return Helpers.fade();
         })
-        .then(function() { 
+        .then(function() {
           return $.get(href);
         })
         .then(function(html) {

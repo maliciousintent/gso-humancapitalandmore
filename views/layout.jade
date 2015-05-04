@@ -27,7 +27,7 @@ html
           menu
             ul
               each cat in categories
-                li: a(href='/category/#{cat.id}/#{cat.slug}/') #{cat.titolo}
+                li: a(href='/category/#{cat.slug}/#{cat.id}/') #{cat.titolo}
 
         .pull-right
           
@@ -58,9 +58,9 @@ html
               each cat in categories
                 .pure-u-1-3.pure-u-xl-1-6
                   ul.footer-menu
-                    li: a(href='/category/#{cat.id}/#{cat.slug}/'): strong #{cat.titolo}
+                    li: a(href='/category/#{cat.slug}/#{cat.id}/'): strong #{cat.titolo}
                     each subcat in cat.sottocategorie
-                      li: a(href='/category/#{subcat.id}/#{subcat.slug}/') #{subcat.titolo}
+                      li: a(href='/category/#{subcat.slug}/#{subcat.id}/') #{subcat.titolo}
 
     
     script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')

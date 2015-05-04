@@ -52,7 +52,7 @@ exports.category = prismic.route(function(req, res, ctx) {
 
 
 // -- Display a given document
-exports.detail = prismic.route(function(req, res, ctx) {
+exports.post = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories) {
 
@@ -63,6 +63,35 @@ exports.detail = prismic.route(function(req, res, ctx) {
       function(err, doc) {
         if (err) { prismic.onPrismicError(err, req, res); return; }
         res.render('post', {
+          doc: doc,
+          categories: categories || []
+        });
+      },
+      function(doc) {
+        res.redirect(301, ctx.linkResolver(doc));
+      },
+      function(/*NOT_FOUND*/) {
+        res.send(404, 'Sorry, we cannot find that!');
+      }
+    );
+
+  });
+});
+
+
+
+// -- Display a given document
+exports.author = prismic.route(function(req, res, ctx) {
+
+  prismic.getCategories(ctx, function (err, categories) {
+
+    var id = req.params.id;
+    var slug = req.params.slug;
+
+    prismic.getDocument(ctx, id, slug, 'autori',
+      function(err, doc) {
+        if (err) { prismic.onPrismicError(err, req, res); return; }
+        res.render('author', {
           doc: doc,
           categories: categories || []
         });
@@ -102,4 +131,16 @@ exports.search = prismic.route(function(req, res, ctx) {
     });
   }
 
+});
+
+
+//  -- 404 Not Found
+exports.notfound = prismic.route(function(req, res, ctx) {
+  prismic.getCategories(ctx, function (err, categories) {
+
+    res.render('404', {
+      categories: categories || []
+    });
+
+  });
 });

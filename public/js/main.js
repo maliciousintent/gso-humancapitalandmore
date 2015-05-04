@@ -1,9 +1,12 @@
 /*jshint browser:true, indent:2, laxcomma:true, loopfunc: true */
 /*global $, Modernizr*/
 
+
 $(function() {
 
   'use strict';
+  
+  var clicking = false;
 
   /**
    * Pages setup
@@ -65,6 +68,7 @@ $(function() {
             setup[loaded.page] || (function() {})
           )();
           Helpers.fade();
+          clicking = false;
           return loaded.page;
         });
     };
@@ -73,6 +77,13 @@ $(function() {
 
     // Intercept clicks on links
     $(document.body).on('click', '[href]', function(e) {
+
+      if (clicking) {
+        e.preventDefault();
+        return;
+      }
+
+      clicking = true;
       
       var href = $(this).attr('href');
 

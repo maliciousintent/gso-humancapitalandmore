@@ -13,12 +13,12 @@ var _ = require('lodash');
 
 
 
-// -- Display index
+//  -- Display index (featured posts)
 exports.index = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories) {
 
-    ctx.api.form('posts').set('page', url.parse(req.url, true).query.page || '1').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(1).submit(function(err_, docs) {
+    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, docs) {
       if (err_) { prismic.onPrismicError(err_, req, res); return; }
 
       res.render('index', {
@@ -33,6 +33,7 @@ exports.index = prismic.route(function(req, res, ctx) {
 
 
 
+//  -- Display category page
 exports.category = prismic.route(function(req, res, ctx) {
   prismic.getCategories(ctx, function (err, categories) {
 
@@ -51,29 +52,35 @@ exports.category = prismic.route(function(req, res, ctx) {
 
 
 // -- Display a given document
-
 exports.detail = prismic.route(function(req, res, ctx) {
-  var id = req.params.id;
-  var slug = req.params.slug;
 
-  prismic.getDocument(ctx, id, slug, 
-    function(err, doc) {
-      if (err) { prismic.onPrismicError(err, req, res); return; }
-      res.render('detail', {
-        doc: doc
-      });
-    },
-    function(doc) {
-      res.redirect(301, ctx.linkResolver(doc));
-    },
-    function(/*NOT_FOUND*/) {
-      res.send(404, 'Sorry, we cannot find that!');
-    }
-  );
+  prismic.getCategories(ctx, function (err, categories) {
+
+    var id = req.params.id;
+    var slug = req.params.slug;
+
+    prismic.getDocument(ctx, id, slug, 'posts',
+      function(err, doc) {
+        if (err) { prismic.onPrismicError(err, req, res); return; }
+        res.render('post', {
+          doc: doc,
+          categories: categories || []
+        });
+      },
+      function(doc) {
+        res.redirect(301, ctx.linkResolver(doc));
+      },
+      function(/*NOT_FOUND*/) {
+        res.send(404, 'Sorry, we cannot find that!');
+      }
+    );
+
+  });
 });
 
-// -- Search in documents
 
+
+// -- Search in documents
 exports.search = prismic.route(function(req, res, ctx) {
   var q = req.query.q;
 

@@ -17,8 +17,15 @@ exports.getApiHome = function(accessToken, callback) {
   Prismic.Api(Configuration.apiEndpoint, callback, accessToken);
 };
 
-exports.getDocument = function(ctx, id, slug, onSuccess, onNewSlug, onNotFound) {
-  ctx.api.forms('everything').ref(ctx.ref).query('[[:d = at(document.id, "' + id + '")]]').submit(function(err, documents) {
+exports.getDocument = function(ctx, id, slug, type, onSuccess, onNewSlug, onNotFound) {
+  var _type;
+  if (!_type) {
+    _type = 'everything';
+  } else {
+    _type = type;
+  }
+
+  ctx.api.forms(_type).ref(ctx.ref).query('[[:d = at(document.id, "' + id + '")]]').submit(function(err, documents) {
     var results = documents.results;
     var doc = results && results.length ? results[0] : undefined;
     if (err) onSuccess(err);

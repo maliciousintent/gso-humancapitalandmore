@@ -11,10 +11,14 @@ block app
       h1 Welcome
 
       each doc in docs.results
-        p=doc.fragments['post.title'].value[0].text + ' - ' + (doc.fragments['post.postDate'] ? doc.fragments['post.postDate'].value : 'NO DATA')
+        p
+          =doc.fragments['post.title'].value[0].text + ' - ' + (doc.fragments['post.postDate'] ? doc.fragments['post.postDate'].value : 'NO DATA')
+          br
+          a(href='/post/#{doc.id}/#{doc.slug}')
+            =doc.fragments['post.title'].value[0].text
 
 
-      pre(style='font-size:9px;')=JSON.stringify(docs, null, 2)
+      //-pre(style='font-size:9px;')=JSON.stringify(docs, null, 2)
 
       if docs.prev_page
         a(href='/?page=#{docs.page - 1}') « Previous Page

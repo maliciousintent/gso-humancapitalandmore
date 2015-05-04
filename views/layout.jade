@@ -30,6 +30,10 @@ html
                 li: a(href='/category/#{cat.slug}/#{cat.id}/') #{cat.titolo}
 
         .pull-right
+          form(action='/search', method='GET')
+            input(type='text', name='q', value='')
+            button.pure-button(type='submit')
+              span Ricerca
           
     section.app
     

@@ -12,7 +12,24 @@ exports.Configuration = {
   // -- Links resolution rules
   linkResolver: function(doc) {
     if (doc.isBroken) return false;
-    return '/documents/' + doc.id + '/' + doc.slug;
+
+    var _prepend = '';
+
+    switch(doc.type) {
+      case 'autore':
+        _prepend = '/author';
+        break;
+
+      case 'post':
+        _prepend = '/post';
+        break;
+
+      case 'categoria':
+        _prepend = '/category';
+        break;
+    }
+
+    return _prepend + '/' + doc.slug + '/' + doc.id;
   },
 
   // -- What to do in the event of an error from prismic.io

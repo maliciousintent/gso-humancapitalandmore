@@ -53,7 +53,7 @@ app.route('/post/:slug/:id').get(routes.post);
 app.route('/category/:slug/:id').get(routes.category);
 app.route('/author/:slug/:id').get(routes.author);
 app.route('/search').get(routes.search);
-
+//  -- not found --
 app.route('*').get(routes.notfound);
 
 var PORT = app.get('port');

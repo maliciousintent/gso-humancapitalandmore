@@ -111,25 +111,32 @@ exports.author = prismic.route(function(req, res, ctx) {
 
 // -- Search in documents
 exports.search = prismic.route(function(req, res, ctx) {
-  var q = req.query.q;
+  
+  prismic.getCategories(ctx, function (err, categories) {
 
-  if(q) {
-    ctx.api.form('everything').set('page', req.params.page || '1').ref(ctx.ref)
-           .query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
-      if (err) { prismic.onPrismicError(err, req, res); return; }
+    var q = req.query.q;
+
+    if (q) {
+      ctx.api.form('everything').set('page', req.params.page || '1').ref(ctx.ref)
+             .query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
+        if (err) { prismic.onPrismicError(err, req, res); return; }
+        res.render('search', {
+          q: q,
+          docs: docs,
+          url: req.url,
+          categories: categories || []
+        });
+      });
+    } else {
       res.render('search', {
         q: q,
-        docs: docs,
-        url: req.url
+        docs: null,
+        url: req.url,
+        categories: categories || []
       });
-    });
-  } else {
-    res.render('search', {
-      q: q,
-      docs: null,
-      url: req.url
-    });
-  }
+    }
+
+  });
 
 });
 

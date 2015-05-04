@@ -17,7 +17,7 @@ exports.index = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories) {
 
-    ctx.api.form('posts').set('page', req.params.page || '1').ref(ctx.ref).submit(function(err_, docs) {
+    ctx.api.form('posts').set('page', req.params.page || '1').ref(ctx.ref).orderings('[my.post.postDate desc]').submit(function(err_, docs) {
       if (err_) { prismic.onPrismicError(err_, req, res); return; }
 
       res.render('index', {

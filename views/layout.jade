@@ -11,6 +11,8 @@ html
     link(rel='stylesheet', href='/css/style.css')
     link(rel='shortcut icon', href='/img/favicon.png', type='image/png')
     
+    script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='//use.typekit.net/iqx5wxc.js')
     script.
       try{Typekit.load();}catch(e){}
@@ -29,12 +31,49 @@ html
               each cat in categories
                 li: a(href='/category/#{cat.slug}/#{cat.id}/') #{cat.titolo}
 
-        .pull-right
-          form(action='/search', method='GET')
-            input(type='text', name='q', value='')
-            button.pure-button(type='submit')
-              span Ricerca
+        .pull-right.text-right
+        
+          //- Search Handler
           
+          form.pure-form#search-form(action='/search', method='GET')
+            #search-container
+              input#search-terms(type='text', name='q', value='')
+              button.pure-button.search-button(type='submit')
+                i.icon-magnifying-glass
+            button.pure-button.search-button#search-toggle(type='button')
+              i.icon-magnifying-glass
+              
+            script.
+              $(function () {
+                $('#search-form').on('submit', function (e) {
+                  if ($('#search-terms').val().trim() == '') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                  }
+                  
+                  setTimeout(function () {
+                    $('#search-terms').val('');
+                  }, 100);
+                });
+                
+                $('#search-toggle').on('click', function (e) {
+                  $('#search-toggle').css('display', 'none');
+                  $('#search-container').css('display', 'block');
+                  $('#search-terms').trigger('focus');
+                  
+                  e.preventDefault();
+                });
+                
+                $('#search-terms').on('blur', function () {
+                  setTimeout(function () {
+                    $('#search-toggle').css('display', 'block');
+                    $('#search-container').css('display', 'none');
+                  }, 100);
+                });
+              });
+
+
     section.app
     
       block topspacer
@@ -67,7 +106,5 @@ html
                       li: a(href='/category/#{subcat.slug}/#{subcat.id}/') #{subcat.titolo}
 
     
-    script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')
-    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='/js/main.js')
     block scripts

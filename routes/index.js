@@ -18,15 +18,20 @@ exports.index = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories) {
 
-    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(4).submit(function(err_, featuredPosts) {
+    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, featuredPosts) {
 
-      ctx.api.form('posts').ref(ctx.ref).query('[[:d=at(my.post.postFeatured, "No")]]').orderings('[my.post.postDate desc]').pageSize(8).submit(function(err__, lastPosts) {
+      ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).submit(function(err__, lastPosts) {
+
+        var _feats = _.sample(featuredPosts.results, 4);
 
         if (err__) { prismic.onPrismicError(err__, req, res); return; }
 
+        var _diff = _.difference(_.pluck(lastPosts.results, 'id'), _.pluck(_feats, 'id'));
+        var _diffPosts = _.filter(lastPosts.results, function(obj) { return _diff.indexOf(obj.id) >= 0; });
+
         res.render('index', {
-          featuredPosts: featuredPosts,
-          lastPosts: lastPosts,
+          featuredPosts: _feats,
+          lastPosts: _.slice(_diffPosts, 0, 8),
           categories: categories || []
         });
 

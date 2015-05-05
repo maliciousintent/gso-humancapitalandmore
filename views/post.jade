@@ -3,12 +3,32 @@ extends layout
 block title
   | - Welcome
 
-//-block topspacer
+block topspacer
+  .page.page-full-image(style='background-image: url("#{doc.fragments["post.featureImage"].value.views.fullscreen.url}");')
+  .page.page-fixed-image
 
 block app
   .page
     .container
+      pre=JSON.stringify(doc,null,2)
       article
         !{doc.asHtml(ctx.linkResolver)}
 
-//-block scripts
+block scripts
+  script.
+    $(function () {
+    
+      /* Set fixed image on top when scrolling */
+      var isset = false;
+      $(window).on('scroll', function () {
+        var top = Math.max($('html').scrollTop(), $('body').scrollTop());
+        if (top >= 300 && !isset) {
+          $('.page-full-image, .page-fixed-image').addClass('fixed');
+          isset = true;
+        } else if (top < 300 && isset) {
+          $('.page-full-image, .page-fixed-image').removeClass('fixed');
+          isset = false;
+        }
+      });
+      
+    });

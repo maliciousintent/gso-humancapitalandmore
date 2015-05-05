@@ -51,6 +51,36 @@ for _val in _spacer
 .page
   width 100%
   height auto
+  &.page-full-image
+    background-size cover
+    background-repeat no-repeat
+    background-position center
+    height 550px
+    max-height 100%
+    position relative
+    overflow hidden
+    &:after
+      position absolute
+      content ''
+      top 0
+      left 0
+      right 0
+      bottom 0
+      background rgba(darken(_textlight, 30%), 0)
+      transition background 1s ease
+    &.fixed
+      position fixed
+      top -300px
+      left 0
+      right 0
+      &:after
+        background rgba(darken(_textlight, 30%), 0.4)
+  &.page-fixed-image
+    height 550px
+    display none
+    &.fixed
+      display block
+      
 
 .container
   margin 0 auto

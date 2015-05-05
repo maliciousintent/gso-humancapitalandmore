@@ -49,7 +49,7 @@ $(function() {
           return { 
             $el: $fragment, 
             page: $fragment.attr('id'), 
-            selected: $('header menu li.selected a').attr('href') 
+            selected: href
           };
         })
         .then(function(loaded) {
@@ -134,7 +134,7 @@ $(function() {
   var Helpers = {
 
     scrollTop: function() {
-      return $('html, body').animate({scrollTop: 0}, Math.min(250, $('html, body').scrollTop())).promise();
+      return $('html, body').animate({scrollTop: 0}, Math.min(250, Math.max($('html').scrollTop(), $('body').scrollTop()))).promise();
     },
 
     fade: function() {

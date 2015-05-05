@@ -134,7 +134,7 @@ $(function() {
   var Helpers = {
 
     scrollTop: function() {
-      return $(document.body).animate({scrollTop: 0}, Math.min(250, $(document.body).scrollTop())).promise();
+      return $('html, body').animate({scrollTop: 0}, Math.min(250, $('html, body').scrollTop())).promise();
     },
 
     fade: function() {

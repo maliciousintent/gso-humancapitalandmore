@@ -3,6 +3,9 @@ extends layout
 block title
   | - Welcome
 
+block appID
+  - var appID = 'author'
+
 //-block topspacer
 
 block app
@@ -11,4 +14,3 @@ block app
       article
         !{doc.asHtml(ctx.linkResolver)}
 
-//-block scripts

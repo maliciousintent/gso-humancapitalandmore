@@ -3,6 +3,9 @@ extends layout
 block title
   | - Welcome
 
+block appID
+  - var appID = 'category'
+
 //-block topspacer
 
 block app
@@ -12,4 +15,3 @@ block app
 
       pre=JSON.stringify(docs, null, 2)
 
-//-block scripts

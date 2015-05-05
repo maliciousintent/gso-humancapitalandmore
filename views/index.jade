@@ -3,6 +3,9 @@ extends layout
 block title
   | - Welcome
 
+block appID
+  - var appID = 'home'
+
 //-block topspacer
 
 block app
@@ -26,4 +29,3 @@ block app
       if docs.next_page
         a(href='/?page=#{docs.page + 1}') Next Page »
 
-//-block scripts

@@ -16,6 +16,34 @@ $(function() {
     'home': function() {
     },
 
+    'author': function() {
+    },
+
+    'category': function() {
+    },
+
+    'post': function() {
+      
+      /* Set fixed image on top when scrolling */
+      var isset = false;
+      $(window).on('scroll', function () {
+        var top = Math.max($('html').scrollTop(), $('body').scrollTop());
+        if (top >= 300 && !isset) {
+          $('.page-full-image, .page-fixed-image').addClass('fixed');
+          isset = true;
+        } else if (top < 300 && isset) {
+          $('.page-full-image, .page-fixed-image').removeClass('fixed');
+          isset = false;
+        }
+      });
+      
+    },
+
+    'search': function() {
+    },
+
+    'default': function() {
+    },
 
     init: function() {
       (this[$('body > section.app').attr('id')] || (function() {}))();
@@ -63,7 +91,8 @@ $(function() {
             }
           );
         })
-        .then(function(loaded) { 
+        .then(function(loaded) {
+          console.log('Setup', loaded, loaded.page);
           (
             setup[loaded.page] || (function() {})
           )();

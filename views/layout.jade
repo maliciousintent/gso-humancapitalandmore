@@ -82,14 +82,18 @@ html
                 });
               });
 
+    block appID
+      - var appID = 'default'
 
-    section.app
+    section.app(id=appID)
     
       block topspacer
         .spacer-190
         
       block app
-    
+      
+      block scripts
+     
     footer
       .footer-inner
         .pure-g
@@ -116,4 +120,4 @@ html
 
     
     script(src='/js/main.js')
-    block scripts
+    

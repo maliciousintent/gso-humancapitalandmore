@@ -17,14 +17,14 @@ block app
 
           - var tf = featuredPosts[0];
 
-          .home-box(style='background-image: url("");')
+          .home-box(style='background-image: url("#{tf.thumbUrl}");')
             pre=JSON.stringify(tf, null, 2)
           
         .pure-u-1.pure-u-lg-1-4
           .pure-g
             - for (var i = 1; i < featuredPosts.length; i++)
               .pure-u-1.pure-u-sm-1-3.pure-u-lg-1
-                .home-box.home-box-small(style='background-image: url("");')
+                .home-box.home-box-small(style='background-image: url("#{featuredPosts[i].thumbUrl}");')
                   pre=JSON.stringify(featuredPosts[i], null, 2)
 
   .spacer-40

@@ -38,7 +38,7 @@ exports.index = prismic.route(function(req, res, ctx) {
               author: null,
               categories: null,
               date: f.fragments['post.postDate'] ? f.fragments['post.postDate'].value : '',
-              thumbUrl: f.fragments['post.featureImage'].value.views.grid.url
+              thumbUrl: f.fragments['post.featureImage'].value.views.fullscreen.url
             };
           }),
           lastPosts: _.map(_.slice(_diffPosts, 0, 8), function (l) {

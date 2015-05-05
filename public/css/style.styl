@@ -20,6 +20,7 @@ body
   width 100%
   height 100%
   @extends .sans-font
+  color #333333
 
 .pure-form
   input[type='text'], input[type='password'], input[type='email'], input[type='url'], input[type='date'], input[type='month'], input[type='time'], input[type='datetime'], input[type='datetime-local'], input[type='week'], input[type='number'], input[type='search'], input[type='tel'], input[type='color'], select, textarea
@@ -32,7 +33,19 @@ body
 
 h1, h2, h3,
 h4, h5, h6
-  font-weight 400
+  font-weight normal
+  margin 5px 0
+  line-height 1.4em
+
+h1, h2, h3
+  @extends .serif-font
+
+h1
+  font-size 48px
+h2
+  font-size 36px
+h3
+  font-size 30px
 
 _spacer = 5, 10, 20, 40, 60, 80, 90, 100, 150, 190
 
@@ -75,11 +88,18 @@ for _val in _spacer
       right 0
       &:after
         background rgba(darken(_textlight, 30%), 0.4)
+        
   &.page-fixed-image
     height 550px
     display none
     &.fixed
       display block
+      
+  &.page-pattern
+    background-color _light
+    background-image url('../img/pattern-concrete.png')
+    background-position center
+    background-repeat repeat
       
 
 .container
@@ -227,3 +247,21 @@ section.app
   transition opacity 0.5s ease
   &.fade
     opacity 0
+
+    
+#home
+  .home-box
+    background _light
+    height 540px
+    &.home-box-small
+      height 180px
+      background darken(_light, 5%)
+      &.odd
+        background darken(_light, 10%)
+  #about
+    h4
+      color #7B7B7B
+      a
+        color _dark
+        text-decoration underline
+        

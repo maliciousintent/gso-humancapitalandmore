@@ -124,7 +124,7 @@ exports.search = prismic.route(function(req, res, ctx) {
     var q = req.query.q;
 
     if (q) {
-      ctx.api.form('everything').set('page', req.params.page || '1').ref(ctx.ref)
+      ctx.api.form('search').set('page', req.params.page || '1').ref(ctx.ref)
              .query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
         if (err) { prismic.onPrismicError(err, req, res); return; }
         res.render('search', {

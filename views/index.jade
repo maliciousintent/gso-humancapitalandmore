@@ -18,22 +18,29 @@ block app
           - var tf = featuredPosts[0];
 
           .home-box(style='background-image: url("");')
-            pre=JSON.stringify(tf.id, null, 2)
+            pre=JSON.stringify(tf, null, 2)
           
         .pure-u-1.pure-u-lg-1-4
           .pure-g
             - for (var i = 1; i < featuredPosts.length; i++)
               .pure-u-1.pure-u-sm-1-3.pure-u-lg-1
                 .home-box.home-box-small(style='background-image: url("");')
-                  pre=JSON.stringify(featuredPosts[i].id, null, 2)
+                  pre=JSON.stringify(featuredPosts[i], null, 2)
 
-  .page
-    each last in lastPosts
-      p
-        =last.fragments['post.title'].value[0].text + ' - ' + (last.fragments['post.postDate'] ? last.fragments['post.postDate'].value : 'NO DATA')
-        br
-        a(href='/post/#{last.slug}/#{last.id}/')
-          =last.fragments['post.title'].value[0].text
+  .spacer-40
+  
+  #lasts.page
+    .container
+      .pure-g
+        each last in lastPosts
+          .pure-u-1-4
+            .last-box
+              .last-box-image(style='background-image: url("#{last.thumbUrl}");')
+              .last-box-meta
+                h3=last.title
+                p di 
+                  each author in last.author
+                    strong=author
   
   .spacer-100
 

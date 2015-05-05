@@ -30,8 +30,28 @@ exports.index = prismic.route(function(req, res, ctx) {
         var _diffPosts = _.filter(lastPosts.results, function(obj) { return _diff.indexOf(obj.id) >= 0; });
 
         res.render('index', {
-          featuredPosts: _feats,
-          lastPosts: _.slice(_diffPosts, 0, 8),
+          featuredPosts: _.map(_feats, function (f) {
+            return {
+              id: f.id,
+              slug: f.slug,
+              title: f.fragments['post.title'].value[0].text,
+              author: null,
+              categories: null,
+              date: f.fragments['post.postDate'] ? f.fragments['post.postDate'].value : '',
+              thumbUrl: f.fragments['post.featureImage'].value.views.grid.url
+            };
+          }),
+          lastPosts: _.map(_.slice(_diffPosts, 0, 8), function (l) {
+            return {
+              id: l.id,
+              slug: l.slug,
+              title: l.fragments['post.title'].value[0].text,
+              author: [],
+              categories: [],
+              date: l.fragments['post.postDate'] ? l.fragments['post.postDate'].value : '',
+              thumbUrl: l.fragments['post.featureImage'].value.views.social.url
+            };
+          }),
           categories: categories || []
         });
 

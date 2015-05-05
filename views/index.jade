@@ -27,10 +27,13 @@ block app
                 .home-box.home-box-small(style='background-image: url("#{featuredPosts[i].thumbUrl}");')
                   pre=JSON.stringify(featuredPosts[i], null, 2)
 
-  .spacer-40
+  .spacer-100
   
   #lasts.page
-    .container
+    .container.text-center
+      h2 Ultimi articoli
+      .spacer-40
+      
       .pure-g
         each last in lastPosts
           .pure-u-1-4

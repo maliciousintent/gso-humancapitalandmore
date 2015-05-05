@@ -18,13 +18,20 @@ exports.index = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories) {
 
-    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, docs) {
-      if (err_) { prismic.onPrismicError(err_, req, res); return; }
+    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(4).submit(function(err_, featuredPosts) {
 
-      res.render('index', {
-        docs: docs,
-        categories: categories || []
+      ctx.api.form('posts').ref(ctx.ref).query('[[:d=at(my.post.postFeatured, "No")]]').orderings('[my.post.postDate desc]').pageSize(8).submit(function(err__, lastPosts) {
+
+        if (err__) { prismic.onPrismicError(err__, req, res); return; }
+
+        res.render('index', {
+          featuredPosts: featuredPosts,
+          lastPosts: lastPosts,
+          categories: categories || []
+        });
+
       });
+
     });
 
   });

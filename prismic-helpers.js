@@ -53,28 +53,49 @@ exports.getDocuments = function(ctx, ids, callback) {
 exports.getCategories = function (ctx, callback) {
   ctx.api.forms('categorie').ref(ctx.ref).query('').submit(function (err, categories) {
 
-    var _cats = _.chain(categories.results)
-                  .map(function (c) {
+    var _cats = _.map(categories.results, function (c) {
                       return {
                       'id': c.id,
                       'slug': c.slug,
                       'titolo': c.fragments['categoria.title'].value[0].text,
                       'padre': c.fragments['categoria.parent'] ? c.fragments['categoria.parent'].value.document.id : 'parent'
                     };
-                  })
-                  .groupBy(function (cat) {
-                    return cat.padre;
-                  })
-                  .value();
+                  });
 
-    var _finalArray = _.map(_cats.parent, function (p) {
-      p.sottocategorie = _cats[p.id];
+    var _groupedCats = _.groupBy(_cats, function (cat) {
+                          return cat.padre;
+                        });
+
+    var _finalArray = _.map(_groupedCats.parent, function (p) {
+      p.sottocategorie = _groupedCats[p.id];
       delete p['padre'];
       return p;
     });
 
 
-    callback(err, _finalArray);
+    callback(err, _finalArray, _cats);
+  });
+}
+
+
+/**
+  - for GSO authors
+**/
+exports.getAuthors = function (ctx, callback) {
+  ctx.api.forms('autori').ref(ctx.ref).query('').submit(function (err, authors) {
+
+    var _authors = _.chain(authors.results)
+                  .map(function (a) {
+                      return {
+                      'id': a.id,
+                      'slug': a.slug,
+                      'name': a.fragments['autore.name'].value[0].text,
+                      'pic': a.fragments['autore.profilePic'].value.views
+                    };
+                  })
+                  .value();
+
+    callback(err, _authors);
   });
 }
 

@@ -16,43 +16,47 @@ var _ = require('lodash');
 //  -- Display index (featured posts)
 exports.index = prismic.route(function(req, res, ctx) {
 
-  prismic.getCategories(ctx, function (err, categories) {
+  prismic.getCategories(ctx, function (err, categories, rawCategories) {
 
-    ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, featuredPosts) {
+    prismic.getAuthors(ctx, function (err____, authors) {
 
-      ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).submit(function(err__, lastPosts) {
+      ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, featuredPosts) {
 
-        var _feats = _.sample(featuredPosts.results, 4);
+        ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).submit(function(err__, lastPosts) {
 
-        if (err__) { prismic.onPrismicError(err__, req, res); return; }
+          var _feats = _.sample(featuredPosts.results, 4);
 
-        var _diff = _.difference(_.pluck(lastPosts.results, 'id'), _.pluck(_feats, 'id'));
-        var _diffPosts = _.filter(lastPosts.results, function(obj) { return _diff.indexOf(obj.id) >= 0; });
+          if (err__) { prismic.onPrismicError(err__, req, res); return; }
 
-        res.render('index', {
-          featuredPosts: _.map(_feats, function (f) {
-            return {
-              id: f.id,
-              slug: f.slug,
-              title: f.fragments['post.title'].value[0].text,
-              author: null,
-              categories: null,
-              date: f.fragments['post.postDate'] ? f.fragments['post.postDate'].value : '',
-              thumbUrl: f.fragments['post.featureImage'].value.views.fullscreen.url
-            };
-          }),
-          lastPosts: _.map(_.slice(_diffPosts, 0, 8), function (l) {
-            return {
-              id: l.id,
-              slug: l.slug,
-              title: l.fragments['post.title'].value[0].text,
-              author: [],
-              categories: [],
-              date: l.fragments['post.postDate'] ? l.fragments['post.postDate'].value : '',
-              thumbUrl: l.fragments['post.featureImage'].value.views.social.url
-            };
-          }),
-          categories: categories || []
+          var _diff = _.difference(_.pluck(lastPosts.results, 'id'), _.pluck(_feats, 'id'));
+          var _diffPosts = _.filter(lastPosts.results, function(obj) { return _diff.indexOf(obj.id) >= 0; });
+
+          res.render('index', {
+            featuredPosts: _.map(_feats, function (f) {
+                            return {
+                              id: f.id,
+                              slug: f.slug,
+                              title: f.fragments['post.title'].value[0].text,
+                              author: f.fragments['post.authors'] ? _.map(f.fragments['post.authors'].value, function (a) { return _.find(authors, {'id': a.Autore.value.document.id }).name; }) : ['GSO Company'],
+                              categories: f.fragments['post.categories'] ? _.map(f.fragments['post.categories'].value, function (c) { return _.find(rawCategories, {'id': c.Categoria.value.document.id }).titolo; }) : ['Varie'],
+                              date: f.fragments['post.postDate'] ? f.fragments['post.postDate'].value : '',
+                              thumbUrl: f.fragments['post.featureImage'].value.views.fullscreen.url
+                            };
+                          }),
+            lastPosts: _.map(_.slice(_diffPosts, 0, 8), function (l) {
+                            return {
+                              id: l.id,
+                              slug: l.slug,
+                              title: l.fragments['post.title'].value[0].text,
+                              author: l.fragments['post.authors'] ? _.map(l.fragments['post.authors'].value, function (a) { return _.find(authors, {'id': a.Autore.value.document.id }).name; }) : ['GSO Company'],
+                              categories: l.fragments['post.categories'] ? _.map(l.fragments['post.categories'].value, function (c) { return _.find(rawCategories, {'id': c.Categoria.value.document.id }).titolo; }) : ['Varie'],
+                              date: l.fragments['post.postDate'] ? l.fragments['post.postDate'].value : '',
+                              thumbUrl: l.fragments['post.featureImage'].value.views.social.url
+                            };
+                          }),
+            categories: categories || []
+          });
+
         });
 
       });

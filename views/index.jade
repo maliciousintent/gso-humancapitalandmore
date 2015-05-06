@@ -60,3 +60,38 @@ block app
       .spacer-40
       img(src='/img/gso-company-gray.png', width='124', height='54')
       .spacer-100
+
+
+
+  #test
+    each lastz in lastP
+      h1=lastz.getText('post.title')
+      
+      - var auths = lastz.getAll('post.authors')[0]
+      if auths && auths.value.length > 0
+        each a in auths.value
+          =_.find(authors, {'id': a.getLink('Autore').id}).name
+      else
+        ='GSO Company'
+      br
+      
+      - var pic = lastz.get('post.featureImage')
+      if pic
+        =pic.views.fullscreen.url
+      br
+
+      - var cats = lastz.getGroup('post.categories').toArray()[0].getLink('Categoria')
+      pre=JSON.stringify(cats, null, 1)
+      //-
+        if cats && cats.value.length > 0
+          pre=JSON.stringify(cats.value[0].linkedDocuments(),null,1)
+      //-
+        pre=JSON.stringify(cats.value[0].getLink('Categoria'), null, 1)
+
+
+      //-
+        each c in cats.value
+          =c.getLink('Categoria').url(resolver)
+          .spacer-50
+        
+      hr

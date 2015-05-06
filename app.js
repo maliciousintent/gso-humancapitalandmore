@@ -1,3 +1,6 @@
+/*jshint node:true, eqnull:true, laxcomma:true, undef:true, indent:2, camelcase:false */
+
+'use strict';
 
 /**
  * Module dependencies.
@@ -14,10 +17,13 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var prismic = require('./prismic-helpers');
-
+var _ = require('lodash');
 var app = express();
 
 // all environments
+app.locals._ = _;
+
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

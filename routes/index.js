@@ -22,7 +22,9 @@ exports.index = prismic.route(function(req, res, ctx) {
 
       ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, featuredPosts) {
 
-        ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).submit(function(err__, lastPosts) {
+        ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).fetchLinks(['Categoria']).submit(function(err__, lastPosts) {
+
+          console.log('lastPosts >> ', lastPosts.results[0].linkedDocuments());
 
           var _feats = _.sample(featuredPosts.results, 4);
 
@@ -54,7 +56,10 @@ exports.index = prismic.route(function(req, res, ctx) {
                               thumbUrl: l.fragments['post.featureImage'].value.views.social.url
                             };
                           }),
-            categories: categories || []
+            categories: categories || [],
+            lastP: lastPosts.results,
+            authors: authors
+
           });
 
         });

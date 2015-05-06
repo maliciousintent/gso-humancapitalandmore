@@ -3,17 +3,12 @@
 'use strict';
 
 var prismic = require('../prismic-helpers');
-
-
 var url = require('url');
 var _ = require('lodash');
 
 
 
-
-
-
-//  -- Display index (featured posts)
+//  -- Display index (featured posts and last posts)
 exports.index = prismic.route(function(req, res, ctx) {
 
   prismic.getCategories(ctx, function (err, categories, rawCategories) {
@@ -22,9 +17,7 @@ exports.index = prismic.route(function(req, res, ctx) {
 
       ctx.api.form('posts').ref(ctx.ref).query('[[:d=fulltext(my.post.postFeatured, "Sì")]]').orderings('[my.post.postDate desc]').pageSize(10).submit(function(err_, featuredPosts) {
 
-        ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12).fetchLinks(['Categoria']).submit(function(err__, lastPosts) {
-
-          console.log('lastPosts >> ', lastPosts.results[0].linkedDocuments());
+        ctx.api.form('posts').ref(ctx.ref).orderings('[my.post.postDate desc]').pageSize(12)/*.fetchLinks(['Categoria'])*/.submit(function(err__, lastPosts) {
 
           var _feats = _.sample(featuredPosts.results, 4);
 
@@ -34,6 +27,7 @@ exports.index = prismic.route(function(req, res, ctx) {
           var _diffPosts = _.filter(lastPosts.results, function(obj) { return _diff.indexOf(obj.id) >= 0; });
 
           res.render('index', {
+            /*
             featuredPosts: _.map(_feats, function (f) {
                             return {
                               id: f.id,
@@ -56,9 +50,12 @@ exports.index = prismic.route(function(req, res, ctx) {
                               thumbUrl: l.fragments['post.featureImage'].value.views.social.url
                             };
                           }),
+            */
             categories: categories || [],
-            lastP: lastPosts.results,
-            authors: authors
+            rawCategories: rawCategories,
+            authors: authors,
+            featuredPosts_: featuredPosts.results,
+            lastPosts_: _.slice(_diffPosts, 0, 8)
 
           });
 
@@ -180,6 +177,7 @@ exports.search = prismic.route(function(req, res, ctx) {
   });
 
 });
+
 
 
 //  -- 404 Not Found

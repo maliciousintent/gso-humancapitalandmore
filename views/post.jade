@@ -15,5 +15,5 @@ block app
     .container
       pre=JSON.stringify(doc,null,2)
       article
-        !{doc.asHtml(ctx.linkResolver)}
+        | !{doc.asHtml(ctx.linkResolver)}
 

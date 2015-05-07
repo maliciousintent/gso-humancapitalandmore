@@ -61,6 +61,7 @@ exports.getCategories = function (ctx, callback) {
                       'padre': c.fragments['categoria.parent'] ? c.fragments['categoria.parent'].value.document.id : 'parent'
                     };
                   });
+    //console.log('cats before', _cats);
 
     var _groupedCats = _.groupBy(_cats, function (cat) {
                           return cat.padre;
@@ -71,9 +72,12 @@ exports.getCategories = function (ctx, callback) {
       delete p['padre'];
       return p;
     });
+    //console.log('cats after', _cats);
 
 
-    callback(err, _finalArray, _cats);
+    //console.log(_.difference(_.pluck(_cats, 'id'), _.pluck(_finalArray, 'id')));
+
+    callback(err, _finalArray, _cats, categories.results);
   });
 }
 

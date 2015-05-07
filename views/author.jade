@@ -12,4 +12,9 @@ block app
   .page
     .container
       article
-        | !{doc.asHtml(ctx.linkResolver)}
+        h1 bio
+        pre=JSON.stringify(author, null, 2)
+
+      #posts
+        h1 last posts
+        pre=JSON.stringify(posts, null, 2)

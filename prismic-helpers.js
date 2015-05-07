@@ -77,6 +77,12 @@ exports.getCategories = function (ctx, callback) {
 
     //console.log(_.difference(_.pluck(_cats, 'id'), _.pluck(_finalArray, 'id')));
 
+
+    /*
+      _finalArray is for menu
+      _cats is for finding in pages
+    */
+
     callback(err, _finalArray, _cats, categories.results);
   });
 }

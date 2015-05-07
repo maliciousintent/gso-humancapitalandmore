@@ -54,7 +54,7 @@ exports.index = prismic.route(function(req, res, ctx) {
             categories: categories || [],
             rawCategories: rawCategories,
             authors: authors,
-            featuredPosts_: featuredPosts.results,
+            featuredPosts_: _.sample(featuredPosts.results, 4),
             lastPosts_: _.slice(_diffPosts, 0, 8)
 
           });

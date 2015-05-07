@@ -13,18 +13,21 @@ block app
     .container
     
       .pure-g
+
         .pure-u-1.pure-u-lg-3-4
 
           - var tf = featuredPosts_[0];
           - var tfPic = tf.get('post.featureImage').views.fullscreen.url || '';
           - var tfAuthors = tf.getAll('post.authors')[0];
           - var tfCategories = tf.getAll('post.categories')[0];
+
           .home-box(style='background-image: url("#{tfPic}");')
             //-pre=JSON.stringify(tf, null, 2)
             h1
               a(href=ctx.linkResolver(tf))
                 =(tf.getText('post.title') || 'no title')
             h4=(tf.getText('post.excerpt') || 'no excerpt')
+            p=moment(tf.getDate('post.postDate')).format('DD/MM/YYYY')
             p di 
               if tfAuthors && tfAuthors.value.length > 0
                 each author in tfAuthors.value
@@ -43,15 +46,19 @@ block app
         
         .pure-u-1.pure-u-lg-1-4
           .pure-g
+           
             - for (var i = 1; i < featuredPosts_.length; i++)
+             
               - var fPic = featuredPosts_[i].get('post.featureImage').views.social.url || '';
               - var fAuthors = featuredPosts_[i].getAll('post.authors')[0];
               - var fCategories = featuredPosts_[i].getAll('post.categories')[0];
+             
               .pure-u-1.pure-u-sm-1-3.pure-u-lg-1
                 .home-box.home-box-small(style='background-image: url("#{fPic}");')
                   h3
                     a(href=ctx.linkResolver(featuredPosts_[i]))
                       =(featuredPosts_[i].getText('post.title') || 'no title')
+                  p=moment(featuredPosts_[i].getDate('post.postDate')).format('DD/MM/YYYY')
                   p di 
                     if fAuthors && fAuthors.value.length > 0
                       each author in fAuthors.value
@@ -77,9 +84,11 @@ block app
       
       .pure-g
         each last in lastPosts_
+
           - var lPic = last.get('post.featureImage').views.social.url || '';
           - var lAuthors = last.getAll('post.authors')[0];
           - var lCategories = last.getAll('post.categories')[0];
+          
           .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
             .last-box
               .last-box-image(style='background-image: url("#{lPic}");')
@@ -87,6 +96,7 @@ block app
                 h3
                   a(href=ctx.linkResolver(last))
                     =(last.getText('post.title') || 'no title')
+                p=moment(last.getDate('post.postDate')).format('DD/MM/YYYY')
                 p di 
                   if lAuthors && lAuthors.value.length > 0
                     each author in lAuthors.value
@@ -122,36 +132,3 @@ block app
       .spacer-100
 
 
-//-
-  #test
-    each lastz in lastP
-      h1=lastz.getText('post.title')
-      
-      - var auths = lastz.getAll('post.authors')[0]
-      if auths && auths.value.length > 0
-        each a in auths.value
-          =_.find(authors, {'id': a.getLink('Autore').id}).name
-      else
-        ='GSO Company'
-      br
-      
-      - var pic = lastz.get('post.featureImage')
-      if pic
-        =pic.views.fullscreen.url
-      br
-
-      - var cats = lastz.getGroup('post.categories').toArray()[0].getLink('Categoria')
-      pre=JSON.stringify(cats, null, 1)
-      //-
-        if cats && cats.value.length > 0
-          pre=JSON.stringify(cats.value[0].linkedDocuments(),null,1)
-      //-
-        pre=JSON.stringify(cats.value[0].getLink('Categoria'), null, 1)
-
-
-      //-
-        each c in cats.value
-          =c.getLink('Categoria').url(resolver)
-          .spacer-50
-        
-      hr

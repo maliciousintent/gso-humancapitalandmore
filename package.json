@@ -17,6 +17,7 @@
     "lodash": "^3.8.0",
     "marked": "^0.3.3",
     "method-override": "~2.1.1",
+    "moment": "^2.10.2",
     "morgan": "~1.0.0",
     "nib": "^1.1.0",
     "prismic.io": "^1.1.4",

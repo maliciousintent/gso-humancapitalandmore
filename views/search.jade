@@ -19,10 +19,14 @@ block app
       | No documents found
 
     ul#list
-      each doc in docs.results
-        li
-          a(href=ctx.linkResolver(doc)) #{doc.slug}
 
+      each doc in docs.results
+        if doc.type === 'post'
+          include partials/search-post
+        else if doc.type === 'autore'
+          include partials/search-author
+        else
+          include partials/search-default
 
     if docs.prev_page
       a(href='/search?q=#{q}&page=#{docs.page - 1}') « Previous Page

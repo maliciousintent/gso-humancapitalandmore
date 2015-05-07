@@ -3,7 +3,6 @@
 'use strict';
 
 var prismic = require('../prismic-helpers');
-var url = require('url');
 var _ = require('lodash');
 
 
@@ -103,7 +102,7 @@ exports.category = prismic.route(function(req, res, ctx) {
 
       ctx.api
         .form('posts')
-        .set('page', url.parse(req.url, true).query.page || '1')
+        .set('page', req.query.page || '1')
         .query('[[:d = at(my.post.categories.Categoria, "' + id + '")]]')
         .ref(ctx.ref)
         .pageSize(24)
@@ -248,23 +247,36 @@ exports.search = prismic.route(function(req, res, ctx) {
     var q = req.query.q;
 
     if (q) {
-      ctx.api.form('search').set('page', req.params.page || '1').ref(ctx.ref)
-             .query('[[:d = fulltext(document, "' + q + '")]]').submit(function(err, docs) {
-        if (err) { prismic.onPrismicError(err, req, res); return; }
-        res.render('search', {
-          q: q,
-          docs: docs,
-          url: req.url,
-          categories: categories || []
-        });
-      });
+      ctx.api
+        .form('search')
+        .set('page', req.query.page || '1')
+        .ref(ctx.ref)
+        .query('[[:d = fulltext(document, "' + q + '")]]')
+        .submit(function (errSearch, docs) {
+
+          if (errSearch) {
+            prismic.onPrismicError(errSearch, req, res);
+            return;
+          }
+          
+          res.render('search', {
+            q: q,
+            docs: docs,
+            url: req.url,
+            categories: categories || []
+          });
+
+      });   //  - end query
+    
     } else {
+      
       res.render('search', {
         q: q,
         docs: null,
         url: req.url,
         categories: categories || []
       });
+
     }
 
   });   //  - getCategories

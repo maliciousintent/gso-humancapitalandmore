@@ -12,7 +12,14 @@ block app
   .page
     .container
       article
-        h1 bio
+        h1=author.getText('autore.name')
+        h3=author.getText('autore.role')
+        
+        if author.get('autore.profilePic').main
+          img(src=author.get('autore.profilePic').main.url)
+
+        .bio=author.getText('autore.biography')
+        
         pre=JSON.stringify(author, null, 2)
 
       #posts

@@ -11,7 +11,6 @@ block appID
 block app
   .page
     .container
-      h1 Category page
 
       //-pre=JSON.stringify(docs, null, 2)
 
@@ -45,7 +44,8 @@ block app
             em='Varie'
 
         //-pre=JSON.stringify(post, null, 2)
-        hr
+        
+        .spacer-60
 
 
       if (docs.prev_page || docs.next_page)

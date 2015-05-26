@@ -18,9 +18,33 @@ block app
         if author.get('autore.profilePic').main
           img(src=author.get('autore.profilePic').main.url)
 
-        .bio=author.getText('autore.biography')
+        .bio!=author.getStructuredText('autore.biography').asHtml(ctx.linkResolver)
+
+
+        if author.getLink('autore.linkedin')
+          =author.getLink('autore.linkedin').url(ctx.linkResolver)
+
+        .spacer-10
+
+        if author.getLink('autore.twitter')
+          =author.getLink('autore.twitter').url(ctx.linkResolver)
+
+        .spacer-10
+
+        if author.getLink('autore.blog')
+          =author.getLink('autore.blog').url(ctx.linkResolver)
+
+        .spacer-10
+
+        if author.getText('autore.email')
+          =author.getText('autore.email')
+
+        .spacer-10
+
+        if author.getText('autore.phone')
+          =author.getText('autore.phone')
         
-        pre=JSON.stringify(author, null, 2)
+        //-pre=JSON.stringify(author, null, 2)
 
       #posts
         h1 last posts

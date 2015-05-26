@@ -23,9 +23,11 @@ block app
         - var auths = doc.getAll('post.authors')[0]
         h5 di 
           if auths && auths.value.length > 0
-            each author in auths.value
+            each author, authIndex in auths.value
               a(href=ctx.linkResolver(author.getLink('Autore').document))
                 strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+              if (authIndex !== (auths.value.length - 1))
+                | , 
           else
             strong='GSO Company'
 

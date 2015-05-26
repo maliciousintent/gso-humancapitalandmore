@@ -18,6 +18,8 @@ block app
     else
       | No documents found
 
+    pre=JSON.stringify(docs, null, 2)
+
     ul#list
 
       each doc in docs.results

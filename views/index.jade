@@ -30,17 +30,20 @@ block app
             p=moment(tf.getDate('post.postDate')).format('DD/MM/YYYY')
             p di 
               if tfAuthors && tfAuthors.value.length > 0
-                each author in tfAuthors.value
+                each author, authIndex in tfAuthors.value
                   a(href=ctx.linkResolver(author.getLink('Autore').document))
                     strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+                  if (authIndex !== (tfAuthors.value.length - 1))
+                    | ,
               else
                 strong='GSO Company'
             p
               if tfCategories && tfCategories.value.length > 0
-                each category in tfCategories.value
+                each category, catIndex in tfCategories.value
                   a(href=ctx.linkResolver(category.getLink('Categoria').document))
                     em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-                  br
+                  if (catIndex !== (tfCategories.value.length - 1))
+                    | , 
               else
                 em='Varie'
         
@@ -61,17 +64,20 @@ block app
                   p=moment(featuredPosts_[i].getDate('post.postDate')).format('DD/MM/YYYY')
                   p di 
                     if fAuthors && fAuthors.value.length > 0
-                      each author in fAuthors.value
+                      each author, authIndex in fAuthors.value
                         a(href=ctx.linkResolver(author.getLink('Autore').document))
                           strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+                        if (authIndex !== (fAuthors.value.length - 1))
+                          | , 
                     else
                       strong='GSO Company'
                   p
                     if fCategories && fCategories.value.length > 0
-                      each category in fCategories.value
+                      each category, catIndex in fCategories.value
                         a(href=ctx.linkResolver(category.getLink('Categoria').document))
                           em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-                        br
+                        if (catIndex !== (fCategories.value.length - 1))
+                          | , 
                     else
                       em='Varie'
 
@@ -99,18 +105,20 @@ block app
                 p=moment(last.getDate('post.postDate')).format('DD/MM/YYYY')
                 p di 
                   if lAuthors && lAuthors.value.length > 0
-                    each author in lAuthors.value
+                    each author, authIndex in lAuthors.value
                       a(href=ctx.linkResolver(author.getLink('Autore').document))
                         strong=_.find(authors, {'id': author.getLink('Autore').id}).name
-                      br
+                      if (authIndex !== (lAuthors.value.length - 1))
+                        | , 
                   else
                     strong='GSO Company'
                 p
                   if lCategories && lCategories.value.length > 0
-                    each category in lCategories.value
+                    each category, catIndex in lCategories.value
                       a(href=ctx.linkResolver(category.getLink('Categoria').document))
                         em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-                      br
+                      if (catIndex !== (lCategories.value.length - 1))
+                        | ,
                   else
                     em='Varie'
 

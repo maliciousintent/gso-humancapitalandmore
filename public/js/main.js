@@ -92,7 +92,6 @@ $(function() {
           );
         })
         .then(function(loaded) {
-          console.log('Setup', loaded, loaded.page);
           (
             setup[loaded.page] || (function() {})
           )();

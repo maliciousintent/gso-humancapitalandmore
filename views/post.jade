@@ -42,10 +42,11 @@ block app
           .categories
             - var cats = doc.getAll('post.categories')[0]
             if cats && cats.value.length > 0
-              each category in cats.value
+              each category, catIndex in cats.value
                 a(href=ctx.linkResolver(category.getLink('Categoria').document))
-                  em=_.find(categories, {'id': category.getLink('Categoria').id}).titolo
-                br
+                  em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
+                if (catIndex !== (cats.value.length - 1))
+                  | , 
             else
               em='Varie'
 

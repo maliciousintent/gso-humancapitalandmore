@@ -63,9 +63,9 @@ exports.index = prismic.route(function(req, res, ctx) {
 
 
                     res.render('index', {
-                      categories: categories || [],
+                      categories: categories,
                       rawCategories: rawCategories,
-                      authors: authors || [],
+                      authors: authors,
                       featuredPosts_: _.sample(featuredPosts.results, 4),
                       lastPosts_: _.slice(_diffPosts, 0, 8)
                     });
@@ -116,9 +116,9 @@ exports.category = prismic.route(function(req, res, ctx) {
 
           res.render('category', {
             docs: posts,
-            categories: categories || [],
+            categories: categories,
             rawCategories: rawCategories,
-            authors: authors || []
+            authors: authors
           });
 
       });   //  - end query
@@ -172,9 +172,9 @@ exports.author = prismic.route(function(req, res, ctx) {
 
 
               res.render('author', {
-                authors: authors || [],
+                authors: authors,
                 author: auth,
-                categories: categories || [],
+                categories: categories,
                 rawCategories: rawCategories,
                 posts: posts.results
 
@@ -228,8 +228,9 @@ exports.post = prismic.route(function(req, res, ctx) {
           if (err) { prismic.onPrismicError(err, req, res); return; }
           res.render('post', {
             doc: doc,
-            categories: categories || [],
-            authors: authors || [],
+            categories: categories,
+            authors: authors,
+            rawCategories: rawCategories
           });
         },
         function(doc) {
@@ -273,7 +274,7 @@ exports.search = prismic.route(function(req, res, ctx) {
             q: q,
             docs: docs,
             url: req.url,
-            categories: categories || []
+            categories: categories
           });
 
       });   //  - end query
@@ -284,7 +285,7 @@ exports.search = prismic.route(function(req, res, ctx) {
         q: q,
         docs: null,
         url: req.url,
-        categories: categories || []
+        categories: categories
       });
 
     }
@@ -308,7 +309,7 @@ exports.notfound = prismic.route(function(req, res, ctx) {
 
 
     res.render('404', {
-      categories: categories || []
+      categories: categories
     });
 
   });   //  - end getCategories

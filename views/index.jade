@@ -39,7 +39,7 @@ block app
               if tfCategories && tfCategories.value.length > 0
                 each category in tfCategories.value
                   a(href=ctx.linkResolver(category.getLink('Categoria').document))
-                    em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
+                    em=_.find(categories, {'id': category.getLink('Categoria').id}).titolo
                   br
               else
                 em='Varie'

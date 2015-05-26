@@ -7,13 +7,48 @@ block appID
   - var appID = 'post'
 
 block topspacer
-  .page.page-full-image(style='background-image: url("#{doc.fragments["post.featureImage"].value.views.fullscreen.url}");')
+  - var featImg = doc.get('post.featureImage').views.fullscreen.url || ''
+  .page.page-full-image(style='background-image: url("#{featImg}");')
   .page.page-fixed-image
 
 block app
   .page
     .container
-      pre=JSON.stringify(doc,null,2)
+      //-pre=JSON.stringify(doc,null,2)
       article
-        | !{doc.asHtml(ctx.linkResolver)}
+
+        h1=doc.getText('post.title')
+        h3=doc.getText('post.excerpt')
+        
+        - var auths = doc.getAll('post.authors')[0]
+        h5 di 
+          if auths && auths.value.length > 0
+            each author in auths.value
+              a(href=ctx.linkResolver(author.getLink('Autore').document))
+                strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+          else
+            strong='GSO Company'
+
+        .spacer-20
+
+        .post
+          !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
+
+        .spacer-20
+
+        .meta
+          .date=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
+          .reading-time=doc.getText('post.postReadingTime') + ' minuti'
+          .categories
+            - var cats = doc.getAll('post.categories')[0]
+            if cats && cats.value.length > 0
+              each category in cats.value
+                a(href=ctx.linkResolver(category.getLink('Categoria').document))
+                  em=_.find(categories, {'id': category.getLink('Categoria').id}).titolo
+                br
+            else
+              em='Varie'
+
+
+        //- !{doc.asHtml(ctx.linkResolver)}
 

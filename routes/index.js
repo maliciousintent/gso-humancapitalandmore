@@ -65,7 +65,7 @@ exports.index = prismic.route(function(req, res, ctx) {
                     res.render('index', {
                       categories: categories || [],
                       rawCategories: rawCategories,
-                      authors: authors,
+                      authors: authors || [],
                       featuredPosts_: _.sample(featuredPosts.results, 4),
                       lastPosts_: _.slice(_diffPosts, 0, 8)
                     });
@@ -118,7 +118,7 @@ exports.category = prismic.route(function(req, res, ctx) {
             docs: posts,
             categories: categories || [],
             rawCategories: rawCategories,
-            authors: authors
+            authors: authors || []
           });
 
       });   //  - end query
@@ -172,7 +172,7 @@ exports.author = prismic.route(function(req, res, ctx) {
 
 
               res.render('author', {
-                authors: authors,
+                authors: authors || [],
                 author: auth,
                 categories: categories || [],
                 rawCategories: rawCategories,
@@ -206,31 +206,41 @@ exports.author = prismic.route(function(req, res, ctx) {
 // -- Display a post detail 
 exports.post = prismic.route(function(req, res, ctx) {
 
-  prismic.getCategories(ctx, function (errCats, categories) {
+  prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
 
     if (errCats) {
       prismic.onPrismicError(errCats, req, res);
       return;
     }
 
-    var id = req.params.id;
-    var slug = req.params.slug;
+    prismic.getAuthors(ctx, function (errAuths, authors) {
 
-    prismic.getDocument(ctx, id, slug, 'posts',
-      function(err, doc) {
-        if (err) { prismic.onPrismicError(err, req, res); return; }
-        res.render('post', {
-          doc: doc,
-          categories: categories || []
-        });
-      },
-      function(doc) {
-        res.redirect(301, ctx.linkResolver(doc));
-      },
-      function(/*NOT_FOUND*/) {
-        res.status(404).send('Sorry, we cannot find that!');
+      if (errAuths) {
+        prismic.onPrismicError(errAuths, req, res);
+        return;
       }
-    );
+
+      var id = req.params.id;
+      var slug = req.params.slug;
+
+      prismic.getDocument(ctx, id, slug, 'posts',
+        function(err, doc) {
+          if (err) { prismic.onPrismicError(err, req, res); return; }
+          res.render('post', {
+            doc: doc,
+            categories: categories || [],
+            authors: authors || [],
+          });
+        },
+        function(doc) {
+          res.redirect(301, ctx.linkResolver(doc));
+        },
+        function(/*NOT_FOUND*/) {
+          res.status(404).send('Sorry, we cannot find that!');
+        }
+      );
+
+    });   //  - getAuthors
 
   });   //  - getCategories
 });

@@ -14,7 +14,7 @@ block topspacer
 block app
   .page
     .container
-      pre=JSON.stringify(doc,null,2)
+      //-pre=JSON.stringify(doc,null,2)
       article
 
         h1=doc.getText('post.title')
@@ -52,19 +52,18 @@ block app
             else
               em='Varie'
 
+        .spacer-20
+
         .pure-g.related-ones
-          - var relatedOnes = doc.getAll('post.related')
-          if relatedOnes && relatedOnes.length > 0
-            each post in relatedOnes
-              div(class='pure-u-1 pure-u-md-1-#{relatedOnes.length}')
-                pre=JSON.stringify(post, null, 2)
+          if similars && similars.length > 0
+            each post in similars
+              div(class='pure-u-1 pure-u-md-1-#{similars.length}')
+                a(href=ctx.linkResolver(post))
+                  h4=post.getText('post.title')
           else
             .pure-u-1
               h4 Nessun post related
 
-
-
-        .spacer-20
 
         .spacer-20
 

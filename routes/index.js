@@ -223,23 +223,36 @@ exports.post = prismic.route(function(req, res, ctx) {
       var id = req.params.id;
       var slug = req.params.slug;
 
-      prismic.getDocument(ctx, id, slug, 'posts',
-        function(err, doc) {
-          if (err) { prismic.onPrismicError(err, req, res); return; }
-          res.render('post', {
-            doc: doc,
-            categories: categories,
-            authors: authors,
-            rawCategories: rawCategories
-          });
-        },
-        function(doc) {
-          res.redirect(301, ctx.linkResolver(doc));
-        },
-        function(/*NOT_FOUND*/) {
-          res.status(404).send('Sorry, we cannot find that!');
+
+      ctx
+        .api
+        .forms('posts')
+        .ref(ctx.ref)
+        .query('[[:d = similar("' + id + '", 3)]]')
+        .submit(function(errSimilars, similars) {
+
+          prismic.getDocument(ctx, id, slug, 'posts',
+            function(err, doc) {
+              if (err) { prismic.onPrismicError(err, req, res); return; }
+              res.render('post', {
+                doc: doc,
+                categories: categories,
+                authors: authors,
+                rawCategories: rawCategories,
+                similars: similars.results
+              });
+            },
+            function(doc) {
+              res.redirect(301, ctx.linkResolver(doc));
+            },
+            function(/*NOT_FOUND*/) {
+              res.status(404).send('Sorry, we cannot find that!');
+            }
+          );    //  - getDocument
+
         }
-      );
+
+      );    //  - similars
 
     });   //  - getAuthors
 

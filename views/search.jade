@@ -9,34 +9,37 @@ block appID
 //-block topspacer
 
 block app
-  h2#title
+  .page
+    .container
 
-  if docs
+      if docs
 
-    if docs.total_results_size > 0
-      | #{docs.total_results_size} documents
-    else
-      | No documents found
+        if docs.total_results_size === 0
+          .alert
+            h4 No documents found
 
-    pre=JSON.stringify(docs, null, 2)
-
-    ul#list
-
-      each doc in docs.results
-        if doc.type === 'post'
-          include partials/search-post
-        else if doc.type === 'autore'
-          include partials/search-author
         else
-          include partials/search-default
 
-    if docs.prev_page
-      a(href='/search?q=#{q}&page=#{docs.page - 1}') « Previous Page
+          each doc in docs.results
+            .result(class='result-#{doc.type}')
+              if doc.type === 'post'
+                include partials/search-post
+              else if doc.type === 'autore'
+                include partials/search-author
+              else
+                include partials/search-default
+            .spacer-20
 
-    if docs.next_page
-      a(href='/search?q=#{q}&page=#{docs.page + 1}') Next Page »
 
+          if (docs.prev_page || docs.next_page)
+            .navi
+              if docs.prev_page
+                a(href='/search?q=#{q}&page=#{docs.page - 1}') « Previous Page
 
-  else
+              if docs.next_page
+                a(href='/search?q=#{q}&page=#{docs.page + 1}') Next Page »
 
-    h1 Specify a search term
+      else
+
+        .alert
+          h4 Specificare delle parole chiave

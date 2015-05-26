@@ -17,6 +17,8 @@ block app
       //-pre=JSON.stringify(doc,null,2)
       article
 
+        .spacer-60
+
         h1=doc.getText('post.title')
         h3=doc.getText('post.excerpt')
         
@@ -52,20 +54,26 @@ block app
             else
               em='Varie'
 
-        .spacer-20
-
-        .pure-g.related-ones
-          if similars && similars.length > 0
+        if similars && similars.length > 0
+          .spacer-60
+          .pure-g.related-ones
             each post in similars
               div(class='pure-u-1 pure-u-md-1-#{similars.length}')
-                a(href=ctx.linkResolver(post))
-                  h4=post.getText('post.title')
-          else
-            .pure-u-1
-              h4 Nessun post related
+                h3
+                  a(href=ctx.linkResolver(post))=post.getText('post.title')
+                - var authsRelated = post.getAll('post.authors')[0]
+                h5 di 
+                  if authsRelated && authsRelated.value.length > 0
+                    each author, authIndex in authsRelated.value
+                      a(href=ctx.linkResolver(author.getLink('Autore').document))
+                        strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+                      if (authIndex !== (authsRelated.value.length - 1))
+                        | , 
+                  else
+                    strong='GSO Company'
 
 
-        .spacer-20
+        .spacer-40
 
 
         //- !{doc.asHtml(ctx.linkResolver)}

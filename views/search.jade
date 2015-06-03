@@ -26,7 +26,6 @@ block app
                 +printPost('searchResults', doc)
               else if doc.type === 'autore'
                 +printAuthor('searchResults', doc)
-                include partials/search-author
               else
                 pre=JSON.stringify(doc, null, 2)
             .spacer-20

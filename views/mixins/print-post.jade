@@ -1,0 +1,114 @@
+mixin printPost (where, doc)
+
+  case where
+
+
+
+    when 'homeBig'
+      - var tfPic = doc.get('post.featureImage').views.fullscreen.url || '';
+      - var tfAuthors = doc.getAll('post.authors')[0];
+      - var tfCategories = doc.getAll('post.categories')[0];
+
+      .home-box(style='background-image: url("#{tfPic}");')
+        h1
+          a(href=ctx.linkResolver(doc))
+            =(doc.getText('post.title') || 'no title')
+        h4=(doc.getText('post.excerpt') || 'no excerpt')
+        p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
+        p di 
+          if tfAuthors && tfAuthors.value.length > 0
+            each author, authIndex in tfAuthors.value
+              +printAuthor('postMeta', author.getLink('Autore'))
+              if (authIndex !== (tfAuthors.value.length - 1))
+                | ,
+          else
+            strong='GSO Company'
+        p
+          if tfCategories && tfCategories.value.length > 0
+            each category, catIndex in tfCategories.value
+              +printCategory('postMeta', category.getLink('Categoria'))
+              if (catIndex !== (tfCategories.value.length - 1))
+                | , 
+          else
+            em='Varie'
+
+
+
+    when 'homeFeats'
+      - var fPic = doc.get('post.featureImage').views.social.url || '';
+      - var fAuthors = doc.getAll('post.authors')[0];
+      - var fCategories = doc.getAll('post.categories')[0];
+      
+      .pure-u-1.pure-u-sm-1-3.pure-u-lg-1
+        .home-box.home-box-small(style='background-image: url("#{fPic}");')
+          h3
+            a(href=ctx.linkResolver(doc))
+              =(doc.getText('post.title') || 'no title')
+          p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
+          p di 
+            if fAuthors && fAuthors.value.length > 0
+              each author, authIndex in fAuthors.value
+                +printAuthor('postMeta', author.getLink('Autore'))
+                if (authIndex !== (fAuthors.value.length - 1))
+                  | , 
+            else
+              strong='GSO Company'
+          p
+            if fCategories && fCategories.value.length > 0
+              each category, catIndex in fCategories.value
+                +printCategory('postMeta', category.getLink('Categoria'))
+                if (catIndex !== (fCategories.value.length - 1))
+                  | , 
+            else
+              em='Varie'
+
+
+
+    when 'homeLatests'
+    when 'authorLatests'
+      - var lPic = doc.get('post.featureImage').views.social.url || '';
+      - var lAuthors = doc.getAll('post.authors')[0];
+      - var lCategories = doc.getAll('post.categories')[0];
+      
+      .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+        .last-box
+          .last-box-image(style='background-image: url("#{lPic}");')
+          .last-box-meta
+            h3
+              a(href=ctx.linkResolver(doc))
+                =(doc.getText('post.title') || 'no title')
+            p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
+            p di 
+              if lAuthors && lAuthors.value.length > 0
+                each author, authIndex in lAuthors.value
+                  +printAuthor('postMeta', author.getLink('Autore'))
+                  if (authIndex !== (lAuthors.value.length - 1))
+                    | , 
+              else
+                strong='GSO Company'
+            p
+              if lCategories && lCategories.value.length > 0
+                each category, catIndex in lCategories.value
+                  +printCategory('postMeta', category.getLink('Categoria'))
+                  if (catIndex !== (lCategories.value.length - 1))
+                    | ,
+              else
+                em='Varie'
+
+
+
+    when 'searchResults'
+      h1
+        a(href=ctx.linkResolver(doc))
+          =(doc.getText('post.title') || 'no title')
+      h4=(doc.getText('post.excerpt') || 'no excerpt')
+
+      hr
+
+
+
+
+
+
+    default
+      pre(style='display:none')=JSON.stringify(doc, null, 2)

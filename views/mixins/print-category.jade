@@ -1,0 +1,14 @@
+mixin printCategory (where, doc)
+
+  case where
+
+
+
+    when 'postMeta'
+      a(href=ctx.linkResolver(doc.document))
+        em=_.find(rawCategories, {'id': doc.id}).titolo
+
+
+
+    default
+      pre(style='display:none;')=JSON.stringify(doc, null, 2)

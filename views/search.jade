@@ -23,11 +23,12 @@ block app
           each doc in docs.results
             .result(class='result-#{doc.type}')
               if doc.type === 'post'
-                include partials/search-post
+                +printPost('searchResults', doc)
               else if doc.type === 'autore'
+                +printAuthor('searchResults', doc)
                 include partials/search-author
               else
-                include partials/search-default
+                pre=JSON.stringify(doc, null, 2)
             .spacer-20
 
 

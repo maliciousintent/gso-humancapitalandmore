@@ -1,0 +1,21 @@
+mixin printAuthor (where, doc)
+
+  case where
+
+
+
+    when 'searchResults'
+      a(href=ctx.linkResolver(doc))
+        h1=doc.getText('autore.name')
+        h3=doc.getText('autore.role')
+
+
+
+    when 'postMeta'
+      a(href=ctx.linkResolver(doc.document))
+        strong=_.find(authors, {'id': doc.id}).name
+
+
+
+    default
+      pre(style='display:none;')=JSON.stringify(doc, null, 2)

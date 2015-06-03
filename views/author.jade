@@ -43,9 +43,15 @@ block app
 
         if author.getText('autore.phone')
           =author.getText('autore.phone')
-        
-        //-pre=JSON.stringify(author, null, 2)
+  
 
-      #posts
-        h1 last posts
-        pre=JSON.stringify(posts, null, 2)
+  .spacer-100
+
+
+  #lasts.page
+    .container
+      h1 #{author.getText('autore.name')} posts
+
+      .pure-g
+        each post in posts
+          +printPost('authorLatests', post)

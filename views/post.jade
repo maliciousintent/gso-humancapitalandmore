@@ -26,8 +26,7 @@ block app
         h5 di 
           if auths && auths.value.length > 0
             each author, authIndex in auths.value
-              a(href=ctx.linkResolver(author.getLink('Autore').document))
-                strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+              +printAuthor('postMeta', author.getLink('Autore'))
               if (authIndex !== (auths.value.length - 1))
                 | , 
           else
@@ -65,8 +64,7 @@ block app
                 h5 di 
                   if authsRelated && authsRelated.value.length > 0
                     each author, authIndex in authsRelated.value
-                      a(href=ctx.linkResolver(author.getLink('Autore').document))
-                        strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+                      +printAuthor('postMeta', author.getLink('Autore'))
                       if (authIndex !== (authsRelated.value.length - 1))
                         | , 
                   else

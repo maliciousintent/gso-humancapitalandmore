@@ -292,3 +292,33 @@ section.app
           margin 0
           strong
             color darken(_textlight, 30%)
+
+#category
+  .category-box
+    background-position center
+    background-repeat no-repeat
+    background-color _light
+    background-size cover
+    height 540px
+    &.category-box-small
+      height 180px
+      background _accent
+      position relative
+      h1
+        @extends .sans-font
+        position absolute
+        font-size 30px
+        line-height 40px
+        text-transform uppercase
+        text-align center
+        font-weight 300
+        color #FFF
+        top 50%
+        left 20px
+        right 20px
+        transform translate(0, -50%)
+        
+        
+    &.category-box-double
+      height 360px
+      background darken(_light, 5%)

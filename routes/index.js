@@ -116,6 +116,8 @@ exports.category = prismic.route(function(req, res, ctx) {
 
           res.render('category', {
             docs: posts,
+            categorySlug: req.params.slug,
+            categoryId: req.params.id,
             categories: categories,
             rawCategories: rawCategories,
             authors: authors

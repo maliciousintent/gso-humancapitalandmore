@@ -2,8 +2,6 @@ mixin printPost (where, doc)
 
   case where
 
-
-
     when 'homeBig'
       - var tfPic = doc.get('post.featureImage').views.fullscreen.url || '';
       - var tfAuthors = doc.getAll('post.authors')[0];
@@ -31,7 +29,6 @@ mixin printPost (where, doc)
                 | , 
           else
             em='Varie'
-
 
 
     when 'homeFeats'
@@ -95,6 +92,33 @@ mixin printPost (where, doc)
               else
                 em='Varie'
 
+
+    when 'categoryFeat'
+      - var cfPic = doc.get('post.featureImage').views.fullscreen.url || '';
+      - var cfAuthors = doc.getAll('post.authors')[0];
+      - var cfTitle = doc.getText('post.title');
+      - var cfDescription = doc.getText('post.excerpt');
+
+      .pure-g
+        .pure-u-1-2.pure-u-lg-3-4
+          .category-box(style='background-image: url("#{cfPic}");')
+
+        .pure-u-1-2.pure-u-lg-1-4
+          .category-box.category-box-small
+            h1=_.find(rawCategories, { 'slug' : categorySlug }).titolo
+          .category-box.category-box-double
+            .spacer-20
+            h2 #{cfTitle}
+            p.authors di 
+              if cfAuthors && cfAuthors.value.length > 0
+                each author, authIndex in cfAuthors.value
+                  +printAuthor('postMeta', author.getLink('Autore'))
+                  if (authIndex !== (cfAuthors.value.length - 1))
+                    | ,
+              else
+                strong='GSO Company'
+
+            p #{cfDescription}
 
 
     when 'searchResults'

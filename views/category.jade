@@ -9,49 +9,67 @@ block appID
 //-block topspacer
 
 block app
-  .page
-    .container
+  
+  - var posts = docs.results;  
 
-      //-pre=JSON.stringify(docs, null, 2)
-
-      - var posts = docs.results;
-
-      each post in posts
-        h3
-          a(href=ctx.linkResolver(post))=post.getText('post.title')
-        - var auths = post.getAll('post.authors')[0]
-        h5 di 
-          if auths && auths.value.length > 0
-            each author in auths.value
-              a(href=ctx.linkResolver(author.getLink('Autore').document))
-                strong=_.find(authors, {'id': author.getLink('Autore').id}).name
-          else
-            strong='GSO Company'
-
-        .preview=post.getText('post.excerpt')
-
-        p=moment(post.getDate('post.postDate')).format('DD/MM/YYYY')
-
-        .categories
-          - var cats = post.getAll('post.categories')[0]
-          if cats && cats.value.length > 0
-            each category, catIndex in cats.value
-              a(href=ctx.linkResolver(category.getLink('Categoria').document))
-                em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-              if (catIndex !== (cats.value.length - 1))
-                | , 
-          else
-            em='Varie'
-
-        //-pre=JSON.stringify(post, null, 2)
-        
-        .spacer-60
+  if (posts.length > 0)
+  
+    .page
+      .container
+        +printPost('categoryFeat', posts[0])
 
 
-      if (docs.prev_page || docs.next_page)
-        .navi
-          if docs.prev_page
-            a(href='/?page=#{docs.page - 1}') « Previous Page
 
-          if docs.next_page
-            a(href='/?page=#{docs.page + 1}') Next Page »
+    .spacer-100
+
+    .page
+      .container
+
+        //-pre=JSON.stringify(docs, null, 2)
+
+
+        each post in _.without(posts, posts[0])
+
+          h3
+            a(href=ctx.linkResolver(post))=post.getText('post.title')
+          - var auths = post.getAll('post.authors')[0]
+          h5 di 
+            if auths && auths.value.length > 0
+              each author in auths.value
+                a(href=ctx.linkResolver(author.getLink('Autore').document))
+                  strong=_.find(authors, {'id': author.getLink('Autore').id}).name
+            else
+              strong='GSO Company'
+
+          .preview=post.getText('post.excerpt')
+
+          p=moment(post.getDate('post.postDate')).format('DD/MM/YYYY')
+
+          .categories
+            - var cats = post.getAll('post.categories')[0]
+            if cats && cats.value.length > 0
+              each category, catIndex in cats.value
+                a(href=ctx.linkResolver(category.getLink('Categoria').document))
+                  em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
+                if (catIndex !== (cats.value.length - 1))
+                  | , 
+            else
+              em='Varie'
+
+          //-pre=JSON.stringify(post, null, 2)
+
+          .spacer-60
+
+
+        if (docs.prev_page || docs.next_page)
+          .navi
+            if docs.prev_page
+              a(href='/?page=#{docs.page - 1}') « Previous Page
+
+            if docs.next_page
+              a(href='/?page=#{docs.page + 1}') Next Page »
+
+  else
+    .page
+      .container
+        h3 Nessun articolo trovato in questa categoria

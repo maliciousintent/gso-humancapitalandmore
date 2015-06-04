@@ -38,7 +38,7 @@ block app
         
         +printCategory('postAll', pCategories)
         
-        .spacer-20
+        .spacer-40
 
   #post.page
     .container
@@ -58,22 +58,16 @@ block app
           .date=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
           .reading-time=doc.getText('post.postReadingTime') + ' minuti'
 
-        if similars && similars.length > 0
+  if similars && similars.length > 0
+    #lasts.page
+      .container.post-container
+        article
           .spacer-60
+          
           .pure-g.related-ones
             each post in similars
-              div(class='pure-u-1 pure-u-md-1-#{similars.length}')
-                h3
-                  a(href=ctx.linkResolver(post))=post.getText('post.title')
-                - var authsRelated = post.getAll('post.authors')[0]
-                h5 di 
-                  if authsRelated && authsRelated.value.length > 0
-                    each author, authIndex in authsRelated.value
-                      +printAuthor('postMeta', author.getLink('Autore'))
-                      if (authIndex !== (authsRelated.value.length - 1))
-                        | , 
-                  else
-                    strong='GSO Company'
+              .pure-u-1.pure-u-md-1-3
+                +printPost('postSimilar', post)
 
 
         .spacer-40

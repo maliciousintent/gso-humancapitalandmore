@@ -16,7 +16,8 @@ mixin printCategory (where, doc)
               +printCategory('postMeta', category.getLink('Categoria'))
         else
           li
-            span='Varie'
+            a
+              span Varie
 
     default
       pre(style='display:none;')=JSON.stringify(doc, null, 2)

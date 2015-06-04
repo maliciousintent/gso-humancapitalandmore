@@ -36,6 +36,15 @@ h4, h5, h6
   font-weight normal
   margin 5px 0
   line-height 1.2em
+  color _dark
+  
+  a
+    text-decoration none
+    color inherit
+    transition color 0.3s ease
+    
+    &:hover
+      color _accent
 
 h1, h2, h3
   @extends .serif-font
@@ -302,8 +311,6 @@ section.app
         font-size 14px
         color _textlight
         margin 0
-        strong
-          color darken(_textlight, 30%)
 
 #category
   .category-box
@@ -336,16 +343,27 @@ section.app
       background darken(_light, 5%)
       
       .padding
-        padding 20px
+        padding 30px
         text-align center
+        overflow hidden
+        p.excerpt
+          line-height 1.6em
+          font-weight 300
+          text-align justify
 
 p.authors
-  color #666
+  color _textlight
+  margin-top 0
+  margin-bottom 10px
   a
-    color #444
+    font-weight 500
+    color _textlight
     text-decoration none
+    transition color 0.3s ease
     &:hover
-      color #333
+      color _dark
+    strong
+      font-weight 500
       
 ul.categories
   list-style none
@@ -353,12 +371,13 @@ ul.categories
   margin 0
   li
     display inline-block
-    font-weight 600
+    font-weight 500
     font-size 18px
     margin-right 20px
     a
       color _accent
       text-decoration none
+      transition color 0.3s ease
       &:hover
         color darken(_accent, 20%)
 

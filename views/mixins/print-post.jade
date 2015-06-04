@@ -54,6 +54,7 @@ mixin printPost (where, doc)
     when 'homeLatests'
     when 'categoryLatests'
     when 'authorLatests'
+    when 'postSimilar'
       - var lPic = doc.get('post.featureImage').views.social.url || '';
       - var lAuthors = doc.getAll('post.authors')[0];
       - var lCategories = doc.getAll('post.categories')[0];
@@ -101,7 +102,7 @@ mixin printPost (where, doc)
 
               +printAuthor('postAll', cfAuthors)
 
-              p #{cfDescription}
+              p.excerpt #{cfDescription}
 
 
     when 'searchResults'

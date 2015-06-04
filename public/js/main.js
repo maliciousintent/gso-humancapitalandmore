@@ -28,10 +28,10 @@ $(function() {
       var isset = false;
       $(window).on('scroll', function () {
         var top = Math.max($('html').scrollTop(), $('body').scrollTop());
-        if (top >= 300 && !isset) {
+        if (top >= 320 && !isset) {
           $('.page-full-image, .page-fixed-image').addClass('fixed');
           isset = true;
-        } else if (top < 300 && isset) {
+        } else if (top < 320 && isset) {
           $('.page-full-image, .page-fixed-image').removeClass('fixed');
           isset = false;
         }

@@ -8,60 +8,55 @@ block appID
 
 block topspacer
   - var featImg = doc.get('post.featureImage').views.fullscreen.url || ''
+  - var pCategories = doc.getAll('post.categories')[0];
+  
   .page.page-full-image(style='background-image: url("#{featImg}");')
   
-    .container.post-container
-      .post-social
-        a(href='')
-          img(src='/img/social-facebook.png', height='50', width='50')
-        a(href='')
-          img(src='/img/social-twitter.png', height='50', width='50')
-        a(href='')
-          img(src='/img/social-linkedin.png', height='50', width='50')
+    .social-container
+      .container.post-container
+        .post-social
+          a(href='')
+            img(src='/img/social-facebook.png', height='50', width='50')
+          a(href='')
+            img(src='/img/social-twitter.png', height='50', width='50')
+          a(href='')
+            img(src='/img/social-linkedin.png', height='50', width='50')
 
   .page.page-fixed-image
 
 block app
   .page
-    .container
-      //-pre=JSON.stringify(doc,null,2)
+    .container.post-container
+
       article
-
         .spacer-60
-
+        
         h1=doc.getText('post.title')
-        h3=doc.getText('post.excerpt')
         
         - var auths = doc.getAll('post.authors')[0]
-        h5 di 
-          if auths && auths.value.length > 0
-            each author, authIndex in auths.value
-              +printAuthor('postMeta', author.getLink('Autore'))
-              if (authIndex !== (auths.value.length - 1))
-                | , 
-          else
-            strong='GSO Company'
-
+        +printAuthor('postAll', auths)
+        
+        +printCategory('postAll', pCategories)
+        
         .spacer-20
 
+  #post.page
+    .container
+
+      article
         .post
+          
           !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
 
         .spacer-20
 
+  .page
+    .container.post-container
+
+      article
         .meta
           .date=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
           .reading-time=doc.getText('post.postReadingTime') + ' minuti'
-          .categories
-            - var cats = doc.getAll('post.categories')[0]
-            if cats && cats.value.length > 0
-              each category, catIndex in cats.value
-                a(href=ctx.linkResolver(category.getLink('Categoria').document))
-                  em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-                if (catIndex !== (cats.value.length - 1))
-                  | , 
-            else
-              em='Varie'
 
         if similars && similars.length > 0
           .spacer-60

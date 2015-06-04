@@ -6,9 +6,17 @@ mixin printCategory (where, doc)
 
     when 'postMeta'
       a(href=ctx.linkResolver(doc.document))
-        em=_.find(rawCategories, {'id': doc.id}).titolo
+        span=_.find(rawCategories, {'id': doc.id}).titolo
 
-
+    when 'postAll'
+      ul.categories
+        if doc && doc.value.length > 0
+          each category, catIndex in doc.value
+            li
+              +printCategory('postMeta', category.getLink('Categoria'))
+        else
+          li
+            span='Varie'
 
     default
       pre(style='display:none;')=JSON.stringify(doc, null, 2)

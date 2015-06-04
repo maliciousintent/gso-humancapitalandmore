@@ -79,21 +79,22 @@ for _val in _spacer
       left 0
       right 0
       bottom 0
-      background rgba(darken(_textlight, 30%), 0)
-      transition background 1s ease
     &.fixed
       position fixed
-      top -300px
+      top -320px
       left 0
       right 0
-      &:after
-        background rgba(darken(_textlight, 30%), 0.4)
     
-    .post-container
+    .social-container
       position absolute
       bottom 0
+      left 0
+      right 0
+      z-index 2
       a
-        display inline-block
+        display block
+        float left
+        margin-right 10px
         img
           display block
         
@@ -338,4 +339,66 @@ section.app
         padding 20px
         text-align center
 
+p.authors
+  color #666
+  a
+    color #444
+    text-decoration none
+    &:hover
+      color #333
+      
+ul.categories
+  list-style none
+  padding 0
+  margin 0
+  li
+    display inline-block
+    font-weight 600
+    font-size 18px
+    margin-right 20px
+    a
+      color _accent
+      text-decoration none
+      &:hover
+        color darken(_accent, 20%)
+
+    
+#post
+  .post
+    h1, h2, h3, h4, h5, h6, p, pre, blockquote
+      display block
+      max-width 960px
+      margin 0 auto
+      
+    h1, h2, h3, h4, h5, h6
+      padding 30px 0 15px 0
+      
+    p
+      padding 15px 0
+      text-align justify
+      line-height 1.8em
+      font-size 18px
+      font-weight 300
+      b, 
+      strong
+        font-weight 600
         
+    a
+      color _accent
+      text-decoration none
+      border-bottom 1px solid _accent
+      font-weight 600
+      transition all 0.3s ease
+      &:hover
+        color darken(_accent, 20%)
+        border-bottom-color darken(_accent, 20%)
+        
+
+    p.block-img
+      max-width 1280px
+      margin 0 auto
+      padding 40px 0
+      img
+        max-width 100%
+        display block
+        margin auto

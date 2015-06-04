@@ -88,6 +88,14 @@ for _val in _spacer
       right 0
       &:after
         background rgba(darken(_textlight, 30%), 0.4)
+    
+    .post-container
+      position absolute
+      bottom 0
+      a
+        display inline-block
+        img
+          display block
         
   &.page-fixed-image
     height 550px
@@ -108,6 +116,9 @@ pre
 .container
   margin 0 auto
   padding 0 50px
+
+.post-container
+  max-width 960px
 
 .loader
   position fixed
@@ -322,3 +333,9 @@ section.app
     &.category-box-double
       height 360px
       background darken(_light, 5%)
+      
+      .padding
+        padding 20px
+        text-align center
+
+        

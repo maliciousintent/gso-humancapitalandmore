@@ -9,6 +9,16 @@ block appID
 block topspacer
   - var featImg = doc.get('post.featureImage').views.fullscreen.url || ''
   .page.page-full-image(style='background-image: url("#{featImg}");')
+  
+    .container.post-container
+      .post-social
+        a(href='')
+          img(src='/img/social-facebook.png', height='50', width='50')
+        a(href='')
+          img(src='/img/social-twitter.png', height='50', width='50')
+        a(href='')
+          img(src='/img/social-linkedin.png', height='50', width='50')
+
   .page.page-fixed-image
 
 block app

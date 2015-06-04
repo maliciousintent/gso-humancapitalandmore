@@ -10,17 +10,12 @@ mixin printPost (where, doc)
       .home-box(style='background-image: url("#{tfPic}");')
         h1
           a(href=ctx.linkResolver(doc))
-            =(doc.getText('post.title') || 'no title')
+            =(doc.getText('post.title') || 'Untitled')
         h4=(doc.getText('post.excerpt') || 'no excerpt')
         p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
-        p di 
-          if tfAuthors && tfAuthors.value.length > 0
-            each author, authIndex in tfAuthors.value
-              +printAuthor('postMeta', author.getLink('Autore'))
-              if (authIndex !== (tfAuthors.value.length - 1))
-                | ,
-          else
-            strong='GSO Company'
+        
+        +printAuthor('postAll', tfAuthors)
+        
         p
           if tfCategories && tfCategories.value.length > 0
             each category, catIndex in tfCategories.value
@@ -40,16 +35,11 @@ mixin printPost (where, doc)
         .home-box.home-box-small(style='background-image: url("#{fPic}");')
           h3
             a(href=ctx.linkResolver(doc))
-              =(doc.getText('post.title') || 'no title')
+              =(doc.getText('post.title') || 'Untitled')
           p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
-          p di 
-            if fAuthors && fAuthors.value.length > 0
-              each author, authIndex in fAuthors.value
-                +printAuthor('postMeta', author.getLink('Autore'))
-                if (authIndex !== (fAuthors.value.length - 1))
-                  | , 
-            else
-              strong='GSO Company'
+          
+          +printAuthor('postAll', fAuthors)
+          
           p
             if fCategories && fCategories.value.length > 0
               each category, catIndex in fCategories.value
@@ -62,27 +52,25 @@ mixin printPost (where, doc)
 
 
     when 'homeLatests'
+    when 'categoryLatests'
     when 'authorLatests'
       - var lPic = doc.get('post.featureImage').views.social.url || '';
       - var lAuthors = doc.getAll('post.authors')[0];
       - var lCategories = doc.getAll('post.categories')[0];
       
-      .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
-        .last-box
-          .last-box-image(style='background-image: url("#{lPic}");')
-          .last-box-meta
-            h3
-              a(href=ctx.linkResolver(doc))
-                =(doc.getText('post.title') || 'no title')
+      .last-box
+        .last-box-image(style='background-image: url("#{lPic}");')
+        .last-box-meta
+          h3
+            a(href=ctx.linkResolver(doc))
+              =(doc.getText('post.title') || 'Untitled')
+          
+          //-
             p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
-            p di 
-              if lAuthors && lAuthors.value.length > 0
-                each author, authIndex in lAuthors.value
-                  +printAuthor('postMeta', author.getLink('Autore'))
-                  if (authIndex !== (lAuthors.value.length - 1))
-                    | , 
-              else
-                strong='GSO Company'
+          
+          +printAuthor('postAll', lAuthors)
+          
+          //-
             p
               if lCategories && lCategories.value.length > 0
                 each category, catIndex in lCategories.value
@@ -96,7 +84,6 @@ mixin printPost (where, doc)
     when 'categoryFeat'
       - var cfPic = doc.get('post.featureImage').views.fullscreen.url || '';
       - var cfAuthors = doc.getAll('post.authors')[0];
-      - var cfTitle = doc.getText('post.title');
       - var cfDescription = doc.getText('post.excerpt');
 
       .pure-g
@@ -108,15 +95,11 @@ mixin printPost (where, doc)
             h1=_.find(rawCategories, { 'slug' : categorySlug }).titolo
           .category-box.category-box-double
             .spacer-20
-            h2 #{cfTitle}
-            p.authors di 
-              if cfAuthors && cfAuthors.value.length > 0
-                each author, authIndex in cfAuthors.value
-                  +printAuthor('postMeta', author.getLink('Autore'))
-                  if (authIndex !== (cfAuthors.value.length - 1))
-                    | ,
-              else
-                strong='GSO Company'
+            h2
+              a(href=ctx.linkResolver(doc))
+                =(doc.getText('post.title') || 'Untitled')
+            
+            +printAuthor('postAll', cfAuthors)
 
             p #{cfDescription}
 
@@ -124,7 +107,7 @@ mixin printPost (where, doc)
     when 'searchResults'
       h1
         a(href=ctx.linkResolver(doc))
-          =(doc.getText('post.title') || 'no title')
+          =(doc.getText('post.title') || 'Untitled')
       h4=(doc.getText('post.excerpt') || 'no excerpt')
 
       hr

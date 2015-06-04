@@ -16,6 +16,16 @@ mixin printAuthor (where, doc)
         strong=_.find(authors, {'id': doc.id}).name
 
 
+    when 'postAll'
+      p.authors di 
+        if doc && doc.value.length > 0
+          each author, authIndex in doc.value
+            +printAuthor('postMeta', author.getLink('Autore'))
+            if (authIndex !== (doc.value.length - 1))
+              | ,
+        else
+          strong='GSO Company'
+
 
     default
       pre(style='display:none;')=JSON.stringify(doc, null, 2)

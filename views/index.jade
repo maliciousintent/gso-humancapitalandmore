@@ -33,7 +33,8 @@ block app
 
       .pure-g
         each last in lastPosts_
-          +printPost('homeLatests', last)
+          .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+            +printPost('homeLatests', last)
 
   
   .spacer-100

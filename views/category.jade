@@ -18,56 +18,27 @@ block app
       .container
         +printPost('categoryFeat', posts[0])
 
-
-
     .spacer-100
 
-    .page
-      .container
+    if (posts.length > 1)
+      #lasts.page
+        .container.text-center
+          h2 Altri articoli in 
+            strong=_.find(rawCategories, { 'slug' : categorySlug }).titolo
+          .spacer-40
 
-        //-pre=JSON.stringify(docs, null, 2)
+          .pure-g
+            each post in _.without(posts, posts[0])
+              .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+                +printPost('categoryLatests', post)
 
+          if (docs.prev_page || docs.next_page)
+            .navi
+              if docs.prev_page
+                a(href='/?page=#{docs.page - 1}') « Previous Page
 
-        each post in _.without(posts, posts[0])
-
-          h3
-            a(href=ctx.linkResolver(post))=post.getText('post.title')
-          - var auths = post.getAll('post.authors')[0]
-          h5 di 
-            if auths && auths.value.length > 0
-              each author in auths.value
-                a(href=ctx.linkResolver(author.getLink('Autore').document))
-                  strong=_.find(authors, {'id': author.getLink('Autore').id}).name
-            else
-              strong='GSO Company'
-
-          .preview=post.getText('post.excerpt')
-
-          p=moment(post.getDate('post.postDate')).format('DD/MM/YYYY')
-
-          .categories
-            - var cats = post.getAll('post.categories')[0]
-            if cats && cats.value.length > 0
-              each category, catIndex in cats.value
-                a(href=ctx.linkResolver(category.getLink('Categoria').document))
-                  em=_.find(rawCategories, {'id': category.getLink('Categoria').id}).titolo
-                if (catIndex !== (cats.value.length - 1))
-                  | , 
-            else
-              em='Varie'
-
-          //-pre=JSON.stringify(post, null, 2)
-
-          .spacer-60
-
-
-        if (docs.prev_page || docs.next_page)
-          .navi
-            if docs.prev_page
-              a(href='/?page=#{docs.page - 1}') « Previous Page
-
-            if docs.next_page
-              a(href='/?page=#{docs.page + 1}') Next Page »
+              if docs.next_page
+                a(href='/?page=#{docs.page + 1}') Next Page »
 
   else
     .page

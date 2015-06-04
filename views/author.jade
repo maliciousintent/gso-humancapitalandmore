@@ -47,11 +47,12 @@ block app
 
   .spacer-100
 
-
   #lasts.page
-    .container
-      h1 #{author.getText('autore.name')} posts
+    .container.text-center
+      h2 Articoli di #{author.getText('autore.name')}
+      .spacer-40
 
       .pure-g
         each post in posts
-          +printPost('authorLatests', post)
+          .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+            +printPost('authorLatests', post)

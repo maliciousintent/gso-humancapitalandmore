@@ -21,6 +21,7 @@ exports.index = prismic.route(function(req, res, ctx) {
           if (errCats) {
             prismic.onPrismicError(errCats, req, res);
             callback(errCats);
+            return;
           }
 
           callback(null, [categories, rawCategories]);
@@ -36,6 +37,7 @@ exports.index = prismic.route(function(req, res, ctx) {
           if (errAuths) {
             prismic.onPrismicError(errAuths, req, res);
             callback(errAuths);
+            return;
           }
 
           callback(null, authors);
@@ -136,6 +138,7 @@ exports.category = prismic.route(function(req, res, ctx) {
           if (errCats) {
             prismic.onPrismicError(errCats, req, res);
             callback(errCats);
+            return;
           }
 
           callback(null, [categories, rawCategories]);
@@ -151,6 +154,7 @@ exports.category = prismic.route(function(req, res, ctx) {
           if (errAuths) {
             prismic.onPrismicError(errAuths, req, res);
             callback(errAuths);
+            return;
           }
 
           callback(null, authors);
@@ -212,8 +216,6 @@ exports.category = prismic.route(function(req, res, ctx) {
 // -- Display author page (with its last three posts)
 exports.author = prismic.route(function(req, res, ctx) {
 
-
-
   var id = req.params.id;
   var slug = req.params.slug;
 
@@ -229,6 +231,7 @@ exports.author = prismic.route(function(req, res, ctx) {
           if (errCats) {
             prismic.onPrismicError(errCats, req, res);
             callback(errCats);
+            return;
           }
 
           callback(null, [categories, rawCategories]);
@@ -244,6 +247,7 @@ exports.author = prismic.route(function(req, res, ctx) {
           if (errAuths) {
             prismic.onPrismicError(errAuths, req, res);
             callback(errAuths);
+            return;
           }
 
           callback(null, authors);
@@ -323,57 +327,107 @@ exports.author = prismic.route(function(req, res, ctx) {
 // -- Display a post detail 
 exports.post = prismic.route(function(req, res, ctx) {
 
-  prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+  var id = req.params.id;
+  var slug = req.params.slug;
 
-    if (errCats) {
-      prismic.onPrismicError(errCats, req, res);
-      return;
-    }
 
-    prismic.getAuthors(ctx, function (errAuths, authors) {
+  async.parallel(
 
-      if (errAuths) {
-        prismic.onPrismicError(errAuths, req, res);
-        return;
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+            return;
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        prismic.getAuthors(ctx, function (errAuths, authors) {
+
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+            return;
+          }
+
+          callback(null, authors);
+
+        });
+      },
+
+
+      getPost: function (callback) {
+
+        prismic.getDocument(ctx, id, slug, 'posts',
+          function(errPost, doc) {
+            
+            if (errPost) { 
+              prismic.onPrismicError(errPost, req, res);
+              callback(errPost);
+              return;
+            }
+            
+            callback(null, doc);
+          }
+        );
+
+      },
+
+
+      getSimilars: function (callback) {
+
+        ctx
+          .api
+          .forms('posts')
+          .ref(ctx.ref)
+          .query('[[:d = similar("' + id + '", 3)]]')
+          .submit(function(errSimilars, similars) {
+
+            if (errSimilars) {
+              prismic.onPrismicError(errSimilars, req, res);
+              callback(errSimilars);
+              return;
+            }
+
+            callback(null, similars.results);
+          });
+        
       }
 
-      var id = req.params.id;
-      var slug = req.params.slug;
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
 
 
-      ctx
-        .api
-        .forms('posts')
-        .ref(ctx.ref)
-        .query('[[:d = similar("' + id + '", 3)]]')
-        .submit(function(errSimilars, similars) {
 
-          prismic.getDocument(ctx, id, slug, 'posts',
-            function(err, doc) {
-              if (err) { prismic.onPrismicError(err, req, res); return; }
-              res.render('post', {
-                doc: doc,
-                categories: categories,
-                authors: authors,
-                rawCategories: rawCategories,
-                similars: similars.results
-              });
-            },
-            function(doc) {
-              res.redirect(301, ctx.linkResolver(doc));
-            },
-            function(/*NOT_FOUND*/) {
-              res.status(404).send('Sorry, we cannot find that!');
-            }
-          );    //  - getDocument
 
-        }
+      res.render('post', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors,
+        doc: results.getPost,
+        similars: results.getSimilars
+      });
 
-      );    //  - similars
+    }
+  );
 
-    });   //  - getAuthors
 
-  });   //  - getCategories
 });
 
 

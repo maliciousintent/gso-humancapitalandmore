@@ -109,9 +109,8 @@ mixin printPost (where, doc)
     when 'searchResults'
       h1
         a(href=ctx.linkResolver(doc))
-          =(doc.getText('post.title') || 'Untitled')
+          =(doc.getText('post.title') || 'Untitled')      
       h4=(doc.getText('post.excerpt') || 'no excerpt')
-
       hr
 
 

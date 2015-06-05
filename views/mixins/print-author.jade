@@ -5,9 +5,10 @@ mixin printAuthor (where, doc)
 
 
     when 'searchResults'
-      a(href=ctx.linkResolver(doc))
-        h1=doc.getText('autore.name')
-        h3=doc.getText('autore.role')
+      h1
+        a(href=ctx.linkResolver(doc))
+          =doc.getText('autore.name')
+      hr
 
 
 

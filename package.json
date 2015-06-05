@@ -1,6 +1,6 @@
 {
-  "name": "javascript-nodejs-starter",
-  "version": "0.0.1",
+  "name": "gso-human-capital-and-more",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -28,5 +28,9 @@
   "repository": {
     "type": "git",
     "url": "http://github.com/prismicio/javascript-nodejs-starter.git"
+  },
+  "engines": {
+    "node": "0.12.x",
+    "npm": "2.7.x"
   }
 }

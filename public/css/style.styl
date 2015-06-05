@@ -63,7 +63,7 @@ h2
 h3
   font-size 30px
 
-_spacer = 5, 10, 20, 40, 60, 80, 90, 100, 150, 190
+_spacer = 5, 10, 20, 30, 40, 60, 80, 90, 100, 150, 190
 
 for _val in _spacer
   .spacer-{ _val }
@@ -405,6 +405,32 @@ section.app
           font-weight 300
           text-align justify
 
+p.reading-time,
+p.date
+  color _textlight
+  font-size 14px
+  font-weight 300
+  display inline-block
+  background #F2F2F2
+  border 1px solid #EEE
+  padding 10px
+  margin 0 10px 10px 0
+  
+  & > *
+    display inline-block
+    vertical-align middle
+    margin-right 5px
+    &:last-child
+      margin-right 0
+    
+  strong
+    font-weight 500
+    
+  i.icon
+    margin-right 10px
+    font-size 20px
+    opacity 0.5
+
 p.authors
   color _textlight
   margin-top 0
@@ -475,3 +501,28 @@ ul.categories
         max-width 100%
         display block
         margin auto
+
+
+@media all and (max-width: 480px)
+  
+  header
+    top 20px
+    left 20px
+    right 20px
+  
+  .spacer-190
+    height 130px
+  
+  .container
+    margin 0 auto
+    padding 0 20px
+    
+  #lasts > .container
+    padding 0
+  
+  p.reading-time,
+  p.date
+    display block
+    margin 0 0 10px 0
+    span
+      display none

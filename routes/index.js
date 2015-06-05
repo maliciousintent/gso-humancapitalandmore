@@ -213,6 +213,72 @@ exports.category = prismic.route(function(req, res, ctx) {
 
 
 
+//  -- Display authors list page
+exports.authors = prismic.route(function(req, res, ctx) { 
+
+  async.parallel(
+
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+            return;
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        ctx.api
+          .form('autori')
+          .set('page', /*req.query.page ||*/ '1')
+          .ref(ctx.ref)
+          .pageSize(100)
+          .submit(function (errAuthors, authors) {
+
+            if (errAuthors) { 
+              prismic.onPrismicError(errAuthors, req, res);
+              callback(errAuthors);
+              return;
+            }
+
+            callback(null, authors.results);
+          });
+
+      }
+
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+      res.render('authors', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors
+      });
+
+    }
+  );
+
+
+});
+
+
+
+
 // -- Display author page (with its last three posts)
 exports.author = prismic.route(function(req, res, ctx) {
 

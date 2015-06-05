@@ -120,6 +120,95 @@ exports.index = prismic.route(function(req, res, ctx) {
 
 //  -- Display category page (its posts and paginating)
 exports.category = prismic.route(function(req, res, ctx) {  
+
+
+  async.parallel(
+
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        prismic.getAuthors(ctx, function (errAuths, authors) {
+
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+          }
+
+          callback(null, authors);
+
+        });
+      },
+
+
+      getPosts: function (callback) {
+
+        var id = req.params.id;
+        var slug = req.params.slug;
+
+        ctx.api
+          .form('posts')
+          .set('page', req.query.page || '1')
+          .query('[[:d = at(my.post.categories.Categoria, "' + id + '")]]')
+          .ref(ctx.ref)
+          .pageSize(24)
+          .submit(function (errPosts, posts) {
+
+            if (errPosts) { 
+              prismic.onPrismicError(errPosts, req, res);
+              callback(errPosts);
+              return;
+            }
+
+            callback(null, [posts, slug, id]);
+          });
+
+
+      }
+
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+      res.render('category', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors,
+        docs: results.getPosts[0],
+        categorySlug: results.getPosts[1],
+        categoryId: results.getPosts[2]
+      });
+
+    }
+  );
+
+
+
+
+
+
+
+
+  /*
   prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
     
     if (errCats) {
@@ -163,6 +252,8 @@ exports.category = prismic.route(function(req, res, ctx) {
       });   //  - end query
     });   //  - end getAuthors
   });   //  - end getCategories
+
+  */
 });
 
 

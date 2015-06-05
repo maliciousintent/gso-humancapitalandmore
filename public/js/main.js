@@ -8,7 +8,6 @@ $(function() {
   
   var clicking = false;
   
-  
   $(window).on('scroll', function () {
     var top = Math.max($('html').scrollTop(), $('body').scrollTop());
     if (top >= 50) {
@@ -17,6 +16,14 @@ $(function() {
       $('header').removeClass('scrolled');
     }
   });
+  
+  var cleanHandler = function () {
+    
+    if (window.postScrollHandler) {
+      $(window).off('scroll', window.postScrollHandler);
+      delete window.postScrollHandler;
+    }
+  };
 
   
   /**
@@ -25,35 +32,44 @@ $(function() {
   var setup = {
 
     'home': function() {
+      cleanHandler();
     },
 
     'author': function() {
+      cleanHandler();
     },
 
     'category': function() {
+      cleanHandler();
     },
 
     'post': function() {
+      cleanHandler();
       
       /* Set fixed image on top when scrolling */
       var isset = false;
-      $(window).on('scroll', function () {
+      
+      window.postScrollHandler = function () {
         var top = Math.max($('html').scrollTop(), $('body').scrollTop());
+        console.log("I'm stupid", top);
         if (top >= 370 && !isset) {
-          $('.page-full-image, .page-fixed-image, .page-full-image .post-title').addClass('fixed');
+          $('#post .page-full-image, #post .page-fixed-image, #post .page-full-image .post-title').addClass('fixed');
           isset = true;
         } else if (top < 370 && isset) {
-          $('.page-full-image, .page-fixed-image, .page-full-image .post-title').removeClass('fixed');
+          $('#post .page-full-image, #post .page-fixed-image, #post .page-full-image .post-title').removeClass('fixed');
           isset = false;
         }
-      });
+      };
+      $(window).on('scroll', window.postScrollHandler);
       
     },
 
     'search': function() {
+      cleanHandler();
     },
 
     'default': function() {
+      cleanHandler();
     },
 
     init: function() {

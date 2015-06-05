@@ -6,51 +6,81 @@ block title
 block appID
   - var appID = 'author'
 
-//-block topspacer
+
+block topspacer
+  if author.get('autore.profilePic')
+    - var pic = author.get('autore.profilePic').main.url
+    .page.page-full-image(style='background-image: url("#{pic}"); height: 800px;')
+      
+  else
+    .spacer-190
 
 block app
-  .page
-    .container
-      article
+  #author.page
+    .container.post-container
+      article.text-center
+        .spacer-40
+      
         h1=author.getText('autore.name')
-        h3=author.getText('autore.role')
+        h5=author.getText('autore.role')
         
-        if author.get('autore.profilePic').main
-          img(src=author.get('autore.profilePic').main.url)
+        .spacer-20
+        
+      article.text-justify
+        .post!=author.getStructuredText('autore.biography').asHtml(ctx.linkResolver)
+        
+        .spacer-80
 
-        .bio!=author.getStructuredText('autore.biography').asHtml(ctx.linkResolver)
+  #author-meta.page
+    .pure-g
+      - var social = 0;
+      if author.getLink('autore.linkedin')
+        - social += 1;
+      if author.getLink('autore.twitter')
+        - social += 1;
+      if author.getLink('autore.blog')
+        - social += 1;
+      if author.getText('autore.email')
+        - social += 1;
+      //-if author.getText('autore.phone')
+        - social += 1;
+      
+      if author.getLink('autore.linkedin')
+        .pure-u-1(class='pure-u-md-1-' + social)
+          a.author-meta.author-linkedin(href=author.getLink('autore.linkedin').url(ctx.linkResolver), target='_blank')
+            span
+              i.icon.icon-linkedin
 
+      if author.getLink('autore.twitter')
+        .pure-u-1(class='pure-u-md-1-' + social)
+          a.author-meta.author-twitter(href=author.getLink('autore.twitter').url(ctx.linkResolver), target='_blank')
+            span
+              i.icon.icon-twitter
 
-        if author.getLink('autore.linkedin')
-          =author.getLink('autore.linkedin').url(ctx.linkResolver)
+      if author.getLink('autore.blog')
+        .pure-u-1(class='pure-u-md-1-' + social)
+          a.author-meta.author-blog(href=author.getLink('autore.blog').url(ctx.linkResolver), target='_blank')
+            span
+              i.icon.icon-bookmarks
 
-        .spacer-10
+      if author.getText('autore.email')
+        .pure-u-1(class='pure-u-md-1-' + social)
+          a.author-meta.author-email(href='mailto:' + author.getText('autore.email'))
+            span
+              i.icon.icon-paper-plane
 
-        if author.getLink('autore.twitter')
-          =author.getLink('autore.twitter').url(ctx.linkResolver)
-
-        .spacer-10
-
-        if author.getLink('autore.blog')
-          =author.getLink('autore.blog').url(ctx.linkResolver)
-
-        .spacer-10
-
-        if author.getText('autore.email')
-          =author.getText('autore.email')
-
-        .spacer-10
-
-        if author.getText('autore.phone')
-          =author.getText('autore.phone')
+      //-if author.getText('autore.phone')
+        .pure-u-1(class='pure-u-md-1-' + social)
+          .author-meta.author-phone
+            div
+              =author.getText('autore.phone')
   
 
   .spacer-100
 
   #lasts.page
     .container.text-center
-      h2 Articoli di 
-        strong #{author.getText('autore.name')}
+      h2 Di questo autore ti potrebbe interessare...
       .spacer-40
 
       .pure-g

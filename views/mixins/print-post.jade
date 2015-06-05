@@ -96,6 +96,7 @@ mixin printPost (where, doc)
             h1=_.find(rawCategories, { 'slug' : categorySlug }).titolo
           .category-box.category-box-double
             .padding
+              h5 Ultimo articolo
               h3
                 a(href=ctx.linkResolver(doc))
                   =(doc.getText('post.title') || 'Untitled')

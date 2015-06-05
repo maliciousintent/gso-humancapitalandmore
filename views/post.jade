@@ -21,6 +21,9 @@ block topspacer
             img(src='/img/social-twitter.png', height='50', width='50')
           a(href='')
             img(src='/img/social-linkedin.png', height='50', width='50')
+        .post-title
+          p
+            strong=doc.getText('post.title')
 
   .page.page-fixed-image
 
@@ -38,7 +41,19 @@ block app
         
         +printCategory('postAll', pCategories)
         
-        .spacer-40
+        .spacer-30
+        
+        p.reading-time
+          i.icon.icon-clock
+          span.mobile-hide tempo di lettura 
+          strong=doc.getText('post.postReadingTime') + ' minuti'
+        
+        p.date
+          i.icon.icon-calendar
+          span.mobile-hide pubblicato il 
+          strong=moment(doc.getDate('post.postDate')).format('DD MMMM YYYY')
+        
+        .spacer-20
 
   #post.page
     .container
@@ -48,15 +63,7 @@ block app
           
           !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
 
-        .spacer-20
-
-  .page
-    .container.post-container
-
-      article
-        .meta
-          .date=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
-          .reading-time=doc.getText('post.postReadingTime') + ' minuti'
+        .spacer-40
 
   if similars && similars.length > 0
     #lasts.page

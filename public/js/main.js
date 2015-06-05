@@ -7,7 +7,18 @@ $(function() {
   'use strict';
   
   var clicking = false;
+  
+  
+  $(window).on('scroll', function () {
+    var top = Math.max($('html').scrollTop(), $('body').scrollTop());
+    if (top >= 50) {
+      $('header').addClass('scrolled');
+    } else if (top < 320) {
+      $('header').removeClass('scrolled');
+    }
+  });
 
+  
   /**
    * Pages setup
    */
@@ -28,11 +39,11 @@ $(function() {
       var isset = false;
       $(window).on('scroll', function () {
         var top = Math.max($('html').scrollTop(), $('body').scrollTop());
-        if (top >= 320 && !isset) {
-          $('.page-full-image, .page-fixed-image').addClass('fixed');
+        if (top >= 370 && !isset) {
+          $('.page-full-image, .page-fixed-image, .page-full-image .post-title').addClass('fixed');
           isset = true;
-        } else if (top < 320 && isset) {
-          $('.page-full-image, .page-fixed-image').removeClass('fixed');
+        } else if (top < 370 && isset) {
+          $('.page-full-image, .page-fixed-image, .page-full-image .post-title').removeClass('fixed');
           isset = false;
         }
       });

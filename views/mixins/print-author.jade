@@ -22,7 +22,7 @@ mixin printAuthor (where, doc)
           each author, authIndex in doc.value
             +printAuthor('postMeta', author.getLink('Autore'))
             if (authIndex !== (doc.value.length - 1))
-              | ,
+              | , 
         else
           a
             strong='GSO Company'

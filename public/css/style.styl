@@ -27,8 +27,13 @@ body
 .pure-form
   input[type='text'], input[type='password'], input[type='email'], input[type='url'], input[type='date'], input[type='month'], input[type='time'], input[type='datetime'], input[type='datetime-local'], input[type='week'], input[type='number'], input[type='search'], input[type='tel'], input[type='color'], select, textarea
     @extends .sans-font
+    box-shadow none
+    border none
   button
     @extends .sans-font
+    & > *
+      display inline-block
+      vertical-align middle
 
 .pure-button
   @extends .sans-font
@@ -405,11 +410,11 @@ section.app
     &.category-box-double
       height 360px
       background darken(_light, 5%)
+      overflow hidden
       
       .padding
         padding 30px
         text-align center
-        overflow hidden
         
         h5
           margin 0 0 15px 0
@@ -475,6 +480,27 @@ ul.categories
       &:hover
         color darken(_accent, 20%)
 
+form#search-noresults-form
+  input
+    border 1px solid #DDD
+    margin 10px
+  button
+    background _accent
+    border 1px solid _accent
+    transition background 0.3s ease
+    color #FFF
+    margin 10px
+    i
+      margin-left 10px
+      top 0
+    span
+      text-transform uppercase
+      font-weight 700
+      font-size 13px
+      
+    &:hover
+      background lighten(_accent, 10%)
+  
     
 #post,
 #author

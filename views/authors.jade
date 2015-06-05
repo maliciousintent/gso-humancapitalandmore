@@ -17,7 +17,8 @@ block app
         each author in authors
 
           .author
-            h1=author.getText('autore.name')
+            a(href=ctx.linkResolver(author))
+              h1=author.getText('autore.name')
             h3=author.getText('autore.role')
             
             if author.get('autore.profilePic').main

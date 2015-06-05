@@ -121,6 +121,9 @@ exports.index = prismic.route(function(req, res, ctx) {
 //  -- Display category page (its posts and paginating)
 exports.category = prismic.route(function(req, res, ctx) {  
 
+  var id = req.params.id;
+  var slug = req.params.slug;
+
 
   async.parallel(
 
@@ -158,8 +161,7 @@ exports.category = prismic.route(function(req, res, ctx) {
 
       getPosts: function (callback) {
 
-        var id = req.params.id;
-        var slug = req.params.slug;
+        
 
         ctx.api
           .form('posts')
@@ -175,7 +177,7 @@ exports.category = prismic.route(function(req, res, ctx) {
               return;
             }
 
-            callback(null, [posts, slug, id]);
+            callback(null, posts);
           });
 
 
@@ -193,67 +195,15 @@ exports.category = prismic.route(function(req, res, ctx) {
         categories: results.getCategories[0],
         rawCategories: results.getCategories[1],
         authors: results.getAuthors,
-        docs: results.getPosts[0],
-        categorySlug: results.getPosts[1],
-        categoryId: results.getPosts[2]
+        docs: results.getPosts,
+        categorySlug: slug,
+        categoryId: id
       });
 
     }
   );
 
 
-
-
-
-
-
-
-  /*
-  prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
-    
-    if (errCats) {
-      prismic.onPrismicError(errCats, req, res);
-      return;
-    }
-
-    prismic.getAuthors(ctx, function (errAuths, authors) {
-      
-      if (errAuths) {
-        prismic.onPrismicError(errAuths, req, res);
-        return;
-      }
-
-      var id = req.params.id;
-      //var slug = req.params.slug;
-
-      ctx.api
-        .form('posts')
-        .set('page', req.query.page || '1')
-        .query('[[:d = at(my.post.categories.Categoria, "' + id + '")]]')
-        .ref(ctx.ref)
-        .pageSize(24)
-        .submit(function (errPosts, posts) {
-
-          if (errPosts) { 
-            prismic.onPrismicError(errPosts, req, res);
-            return;
-          }
-
-
-          res.render('category', {
-            docs: posts,
-            categorySlug: req.params.slug,
-            categoryId: req.params.id,
-            categories: categories,
-            rawCategories: rawCategories,
-            authors: authors
-          });
-
-      });   //  - end query
-    });   //  - end getAuthors
-  });   //  - end getCategories
-
-  */
 });
 
 
@@ -262,71 +212,108 @@ exports.category = prismic.route(function(req, res, ctx) {
 // -- Display author page (with its last three posts)
 exports.author = prismic.route(function(req, res, ctx) {
 
-  prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
 
-    if (errCats) {
-      prismic.onPrismicError(errCats, req, res);
-      return;
-    }
 
-    prismic.getAuthors(ctx, function (errAuths, authors) {
-      
-      if (errAuths) {
-        prismic.onPrismicError(errAuths, req, res);
-        return;
-      }
+  var id = req.params.id;
+  var slug = req.params.slug;
 
-      var id = req.params.id;
-      var slug = req.params.slug;
 
-      prismic.getDocument(ctx, id, slug, 'autori', 
+  async.parallel(
 
-        function (errAuth, auth) {
-          if (errAuth) {
-            prismic.onPrismicError(errAuth, req, res);
-            return;
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
           }
 
-          ctx.api
-            .form('posts')
-            .query('[[:d = at(my.post.authors.Autore, "' + id + '")]]')
-            .orderings('[my.post.postDate desc]')
-            .ref(ctx.ref)
-            .pageSize(3)
-            .submit(function (errPosts, posts) {
+          callback(null, [categories, rawCategories]);
 
-              if (errPosts) {
-                prismic.onPrismicError(errPosts, req, res);
-                return;
-              }
+        });
+      },
 
 
-              res.render('author', {
-                authors: authors,
-                author: auth,
-                categories: categories,
-                rawCategories: rawCategories,
-                posts: posts.results
+      getAuthors: function (callback) {
 
-              });
+        prismic.getAuthors(ctx, function (errAuths, authors) {
 
-            });   //  - end query
-          
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+          }
+
+          callback(null, authors);
+
+        });
+      },
 
 
-        },
+      getAuthor: function (callback) {
 
-        function(auth) {
-          res.redirect(301, ctx.linkResolver(auth));
-        },
-        
-        function(/*NOT_FOUND*/) {
-          res.status(404).send('Sorry, we cannot find that!');
-        }
+        prismic.getDocument(ctx, id, slug, 'autori', 
 
-      );    //  - getDocument
-    });   //  - get Authors
-  });   //  - getCategories
+          function (errAuth, auth) {
+            if (errAuth) {
+              prismic.onPrismicError(errAuth, req, res);
+              callback(errAuth);
+              return;
+            }
+
+            callback(null, auth);
+          }
+        );
+
+      },
+
+
+      getPosts: function (callback) {
+
+        ctx.api
+          .form('posts')
+          .query('[[:d = at(my.post.authors.Autore, "' + id + '")]]')
+          .orderings('[my.post.postDate desc]')
+          .ref(ctx.ref)
+          .pageSize(8)
+          .submit(function (errPosts, posts) {
+
+            if (errPosts) {
+              prismic.onPrismicError(errPosts, req, res);
+              callback(errPosts);
+              return;
+            }
+
+            callback(null, posts.results);
+          });        
+
+
+      }
+
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+
+
+
+      res.render('author', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors,
+        author: results.getAuthor,
+        posts: results.getPosts
+      });
+
+    }
+  );
+
 });
 
 

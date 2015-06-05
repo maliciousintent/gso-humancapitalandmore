@@ -47,19 +47,19 @@ block app
       
       if author.getLink('autore.linkedin')
         .pure-u-1(class='pure-u-md-1-' + social)
-          a.author-meta.author-linkedin(href=author.getLink('autore.linkedin').url(ctx.linkResolver))
+          a.author-meta.author-linkedin(href=author.getLink('autore.linkedin').url(ctx.linkResolver), target='_blank')
             span
               i.icon.icon-linkedin
 
       if author.getLink('autore.twitter')
         .pure-u-1(class='pure-u-md-1-' + social)
-          a.author-meta.author-twitter(href=author.getLink('autore.twitter').url(ctx.linkResolver))
+          a.author-meta.author-twitter(href=author.getLink('autore.twitter').url(ctx.linkResolver), target='_blank')
             span
               i.icon.icon-twitter
 
       if author.getLink('autore.blog')
         .pure-u-1(class='pure-u-md-1-' + social)
-          a.author-meta.author-blog(href=author.getLink('autore.blog').url(ctx.linkResolver))
+          a.author-meta.author-blog(href=author.getLink('autore.blog').url(ctx.linkResolver), target='_blank')
             span
               i.icon.icon-bookmarks
 
@@ -80,8 +80,7 @@ block app
 
   #lasts.page
     .container.text-center
-      h2 Articoli di 
-        strong #{author.getText('autore.name')}
+      h2 Di questo autore ti potrebbe interessare...
       .spacer-40
 
       .pure-g

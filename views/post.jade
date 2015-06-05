@@ -37,6 +37,8 @@ block app
         h1=doc.getText('post.title')
         
         - var auths = doc.getAll('post.authors')[0]
+        - var quotes = doc.getAll('post.quotes')[0]
+
         +printAuthor('postAll', auths)
         
         +printCategory('postAll', pCategories)
@@ -62,6 +64,14 @@ block app
         .post
           
           !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
+
+        .spacer-40
+
+        .quotes
+          if quotes && quotes.value.length > 0
+            each quote in quotes.value
+              .quote
+                =quote.getText('quote')
 
         .spacer-40
 

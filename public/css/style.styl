@@ -6,6 +6,8 @@ _light = #f2f2f2
 _textlight = #a89f9f
 _dark = #212121
 
+_postWidth = 960px
+
 .sans-font
   font-family 'museo-sans', sans-serif
 .serif-font
@@ -48,11 +50,16 @@ h4, h5, h6
 
 h1, h2, h3
   @extends .serif-font
+  
+  font-weight 400
+  strong
+    font-weight 600
 
 h1
   font-size 48px
 h2
   font-size 36px
+  color lighten(_dark, 10%)
 h3
   font-size 30px
 
@@ -81,19 +88,18 @@ for _val in _spacer
     max-height 100%
     position relative
     overflow hidden
-    &:after
-      position absolute
-      content ''
-      top 0
-      left 0
-      right 0
-      bottom 0
+    
+    box-shadow inset 0 -10px 10px -5px rgba(_dark, 0)
+    transition box-shadow 0.5s ease
+      
     &.fixed
       position fixed
-      top -320px
+      top -370px
       left 0
       right 0
-    
+      
+      box-shadow inset 0 -10px 10px -5px rgba(_dark, 0.2)
+        
     .social-container
       position absolute
       bottom 0
@@ -104,8 +110,43 @@ for _val in _spacer
         display block
         float left
         margin-right 10px
+        width 50px
+        height 50px
+        background #FFF
         img
           display block
+          transition opacity 0.3s ease
+        &:hover
+          img
+            opacity 0.9
+          
+      .post-title
+        float right
+        position relative
+        top -25px
+        opacity 0
+        transition all 0.5s ease
+        
+        width auto
+        width unquote('calc(100% - 200px)')
+        
+        &.fixed
+          top 0
+          opacity 1
+        p
+          color #FFF
+          text-transform uppercase
+          font-size 16px
+          font-weight 300
+          text-align right
+          margin 14px 0 0 0
+          
+          text-overflow ellipsis
+          white-space nowrap
+          overflow hidden
+          
+          strong
+            font-weight 700
         
   &.page-fixed-image
     height 550px
@@ -128,7 +169,7 @@ pre
   padding 0 50px
 
 .post-container
-  max-width 960px
+  max-width _postWidth
 
 .loader
   position fixed
@@ -148,6 +189,13 @@ header
   left 50px
   right 50px
   background _light
+  
+  transition all 0.3s ease
+  
+  &.scrolled
+    left 0
+    top 0
+    right 0
   
   .header-inner
     clearfix()
@@ -294,6 +342,12 @@ section.app
 #lasts
   & > .container
     padding 0 30px
+  & > .post-container
+    max-width (_postWidth + 40)
+    .last-box
+      .last-box-image
+        height 180px
+        
   .last-box
     margin 0 20px 40px 20px
     text-align center
@@ -306,7 +360,7 @@ section.app
 
     .last-box-meta
       h3
-        margin 20px 0 10px 0
+        margin 25px 0 5px 0
       p
         font-size 14px
         color _textlight
@@ -386,7 +440,7 @@ ul.categories
   .post
     h1, h2, h3, h4, h5, h6, p, pre, blockquote
       display block
-      max-width 960px
+      max-width _postWidth
       margin 0 auto
       
     h1, h2, h3, h4, h5, h6

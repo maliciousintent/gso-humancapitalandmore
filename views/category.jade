@@ -46,5 +46,13 @@ block app
         .text-center
           h1 Ops!
           h3 Nessun articolo trovato in questa categoria... 
+          
+          .spacer-40
+          
+          form.pure-form#search-noresults-form(action='/search', method='GET')
+            input(type='text', name='q', placeholder='Cosa vuoi cercare?')
+            button.pure-button.search-button(type='submit')
+              span Cerca
+              i.icon-magnifying-glass
 
   .spacer-40

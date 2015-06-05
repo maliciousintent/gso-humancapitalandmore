@@ -11,20 +11,12 @@ var methodOverride = require('method-override');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 var routes = require('./routes');
-//var http = require('http');
 var path = require('path');
-//var prismic = require('./prismic-helpers');
 var stylus = require('stylus');
 var nib = require('nib');
 
 
-
-
-
 var app = express();
-
-
-
 
 app.locals._ = require('lodash');
 app.locals.moment = require('moment');
@@ -60,6 +52,7 @@ app.use(errorHandler());
 app.route('/').get(routes.index);
 app.route('/post/:slug/:id').get(routes.post);
 app.route('/category/:slug/:id').get(routes.category);
+app.route('/authors').get(routes.authors);
 app.route('/author/:slug/:id').get(routes.author);
 app.route('/search').get(routes.search);
 //  -- 404 --

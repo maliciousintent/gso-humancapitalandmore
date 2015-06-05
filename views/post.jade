@@ -69,9 +69,11 @@ block app
 
         .quotes
           if quotes && quotes.value.length > 0
+            .pure-g
             each quote in quotes.value
-              .quote
-                =quote.getText('quote')
+              div(class='pure-u-1 pure-u-md-1-#{quotes.value.length}')
+                .quote
+                  =quote.getText('quote')
 
         .spacer-40
 

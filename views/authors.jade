@@ -1,0 +1,30 @@
+extends layout
+
+block title
+  | - Welcome
+
+block appID
+  - var appID = 'author'
+
+//-block topspacer
+
+block app
+  .page
+    .container
+      
+      if authors && authors.length > 0
+
+        each author in authors
+
+          .author
+            a(href=ctx.linkResolver(author))
+              h1=author.getText('autore.name')
+            h3=author.getText('autore.role')
+            
+            if author.get('autore.profilePic').main
+              img(src=author.get('autore.profilePic').main.url)
+
+
+      else
+
+        h1 Nessun autore.

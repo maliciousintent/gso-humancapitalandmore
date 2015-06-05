@@ -68,21 +68,30 @@ block app
           
           !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
 
-          .spacer-40
 
           if quotes && quotes.value.length > 0
             - var randomQuote = _.sample(quotes.value);
-            p.quote
-              =randomQuote.getText('quote')
+            if randomQuote.get('quote')
+              .spacer-40
+              p.quote
+                strong "
+                =randomQuote.getText('quote')
+                strong "
 
         .spacer-40
 
   if similars && similars.length > 0
-    #lasts.page
+    .page.page-light
+      .container.post-container
+        article.text-center
+          hr
+          .spacer-20
+          h2 Altri articoli che ti potrebbero interessare...
+          .spacer-40
+          
+    #lasts.page.page-light
       .container.post-container
         article
-          .spacer-60
-          
           .pure-g.related-ones
             each post in similars
               .pure-u-1.pure-u-md-1-3

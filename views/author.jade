@@ -19,7 +19,7 @@ block app
   #author.page
     .container.post-container
       article.text-center
-        .spacer-40
+        .spacer-60
       
         h1=author.getText('autore.name')
         h5=author.getText('autore.role')
@@ -87,3 +87,5 @@ block app
         each post in posts
           .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
             +printPost('authorLatests', post)
+  
+  .spacer-60

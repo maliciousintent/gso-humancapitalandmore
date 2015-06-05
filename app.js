@@ -19,8 +19,8 @@ var nib = require('nib');
 var app = express();
 
 app.locals._ = require('lodash');
+app.locals.readingTime = require('reading-time');
 app.locals.moment = require('moment');
-
 app.locals.moment.locale('it');
 
 app.set('port', process.env.PORT || 3000);

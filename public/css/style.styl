@@ -62,6 +62,10 @@ h2
   color lighten(_dark, 10%)
 h3
   font-size 30px
+h5
+  text-transform uppercase
+  color _textlight
+  font-weight 700
 
 _spacer = 5, 10, 20, 30, 40, 60, 80, 90, 100, 150, 190
 
@@ -408,9 +412,6 @@ section.app
         overflow hidden
         
         h5
-          text-transform uppercase
-          color _textlight
-          font-weight 700
           margin 0 0 15px 0
         
         p.excerpt
@@ -475,7 +476,8 @@ ul.categories
         color darken(_accent, 20%)
 
     
-#post
+#post,
+#author
   .post
     h1, h2, h3, h4, h5, h6, p, pre, blockquote
       display block
@@ -515,6 +517,45 @@ ul.categories
         display block
         margin auto
 
+#author-meta
+  a.author-meta
+    height 100px
+    color #FFF
+    font-weight 500
+    font-size 16px
+    position relative
+    text-decoration none
+    display block
+    transition background 0.3s ease
+    
+    & > span
+      position absolute
+      color #FFF
+      top 50%
+      left 30px
+      right 30px
+      transform translate(0, -50%)
+      text-align center
+      
+      i.icon
+        font-size 30px
+    
+    &.author-twitter
+      background #02b0e8
+      &:hover
+        background lighten(@background, 10%)
+    &.author-linkedin
+      background #0077b6
+      &:hover
+        background lighten(@background, 10%)
+    &.author-blog
+      background #999
+      &:hover
+        background lighten(@background, 10%)
+    &.author-email
+      background #777
+      &:hover
+        background lighten(@background, 10%)
 
 @media all and (max-width: 480px)
   

@@ -68,15 +68,12 @@ block app
           
           !=doc.getStructuredText('post.content').asHtml(ctx.linkResolver)
 
-        .spacer-40
+          .spacer-40
 
-        .quotes
           if quotes && quotes.value.length > 0
-            .pure-g
-            each quote in quotes.value
-              div(class='pure-u-1 pure-u-md-1-#{quotes.value.length}')
-                .quote
-                  =quote.getText('quote')
+            - var randomQuote = _.sample(quotes.value);
+            p.quote
+              =randomQuote.getText('quote')
 
         .spacer-40
 

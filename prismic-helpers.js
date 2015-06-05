@@ -1,10 +1,9 @@
-var Prismic = require('prismic.io').Prismic,
-    Configuration = require('./prismic-configuration').Configuration,
-    http = require('http'),
-    https = require('https'),
-    url = require('url'),
-    querystring = require('querystring');
+/*jshint node:true, eqnull:true, laxcomma:true, undef:true, indent:2, camelcase:false */
 
+'use strict';
+
+var Prismic = require('prismic.io').Prismic;
+var Configuration = require('./prismic-configuration').Configuration;
 
 var _ = require('lodash');
 
@@ -29,9 +28,9 @@ exports.getDocument = function(ctx, id, slug, type, onSuccess, onNewSlug, onNotF
     var results = documents.results;
     var doc = results && results.length ? results[0] : undefined;
     if (err) onSuccess(err);
-    else if(doc && (!slug || doc.slug == slug)) onSuccess(null, doc)
-    else if(doc && doc.slugs.indexOf(slug) > -1 && onNewSlug) onNewSlug(doc)
-    else if(onNotFound) onNotFound()
+    else if(doc && (!slug || doc.slug == slug)) onSuccess(null, doc);
+    else if(doc && doc.slugs.indexOf(slug) > -1 && onNewSlug) onNewSlug(doc);
+    else if(onNotFound) onNotFound();
     else onSuccess();
   });
 };
@@ -69,7 +68,7 @@ exports.getCategories = function (ctx, callback) {
 
     var _finalArray = _.map(_groupedCats.parent, function (p) {
       p.sottocategorie = _groupedCats[p.id];
-      delete p['padre'];
+      delete p.padre;
       return p;
     });
     //console.log('cats after', _cats);
@@ -85,7 +84,7 @@ exports.getCategories = function (ctx, callback) {
 
     callback(err, _finalArray, _cats, categories.results);
   });
-}
+};
 
 
 /**
@@ -107,7 +106,7 @@ exports.getAuthors = function (ctx, callback) {
 
     callback(err, _authors);
   });
-}
+};
 
 
 
@@ -127,7 +126,7 @@ exports.onPrismicError = Configuration.onPrismicError;
 
 exports.route = function(callback) {
   return function(req, res) {
-    var accessToken = (req.session && req.session['ACCESS_TOKEN']) || Configuration.accessToken;
+    var accessToken = (req.session && req.session.ACCESS_TOKEN) || Configuration.accessToken;
     exports.getApiHome(accessToken, function(err, Api) {
       if (err) {
           exports.onPrismicError(err, req, res);

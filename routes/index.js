@@ -4,77 +4,114 @@
 
 var prismic = require('../prismic-helpers');
 var _ = require('lodash');
-
-
-
+var async = require('async');
 
 
 //  -- Display index (featured posts and last posts)
 exports.index = prismic.route(function(req, res, ctx) {
-  prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
 
-    if (errCats) {
-      prismic.onPrismicError(errCats, req, res);
-      return;
-    }
+  async.parallel(
 
-    prismic.getAuthors(ctx, function (errAuths, authors) {
+    {
 
-      if (errAuths) {
-        prismic.onPrismicError(errAuths, req, res);
-        return;
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        prismic.getAuthors(ctx, function (errAuths, authors) {
+
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+          }
+
+          callback(null, authors);
+
+        });
+      },
+
+
+      getPosts: function (callback) {
+
+        ctx
+          .api
+            .form('posts')
+              .ref(ctx.ref)
+              .query('[[:d=fulltext(my.post.postFeatured, "Sì")]]')
+              .orderings('[my.post.postDate desc]')
+              .pageSize(10)
+              .submit(function (errFeats, featuredPosts) {
+
+                if (errFeats) {
+                  prismic.onPrismicError(errFeats, req, res);
+                  callback(errFeats);
+                  return;
+                }
+          
+                ctx.api
+                  .form('posts')
+                    .ref(ctx.ref)
+                    .orderings('[my.post.postDate desc]')
+                    .pageSize(12)
+                    .submit(function (errLasts, lastPosts) {
+
+                      if (errLasts) { 
+                        prismic.onPrismicError(errLasts, req, res);
+                        callback(errLasts);
+                        return;
+                      }
+
+                      var _feats = _.sample(featuredPosts.results, 4);
+                      var _diff = _.difference(_.pluck(lastPosts.results, 'id'), _.pluck(_feats, 'id'));
+                      var _diffPosts = _.filter(
+                                          lastPosts.results, 
+                                          function(obj) { 
+                                            return _diff.indexOf(obj.id) >= 0; 
+                                          }
+                                        );
+
+                      //  -- feat, lasts --
+                      callback(null, [_.sample(featuredPosts.results, 4), _.slice(_diffPosts, 0, 8)]);
+
+
+                });   //  - end query posts
+              });   //  - end query featured
+
       }
 
-      ctx
-        .api
-          .form('posts')
-            .ref(ctx.ref)
-            .query('[[:d=fulltext(my.post.postFeatured, "Sì")]]')
-            .orderings('[my.post.postDate desc]')
-            .pageSize(10)
-            .submit(function (errFeats, featuredPosts) {
 
-              if (errFeats) {
-                prismic.onPrismicError(errFeats, req, res);
-                return;
-              }
-        
-              ctx.api
-                .form('posts')
-                  .ref(ctx.ref)
-                  .orderings('[my.post.postDate desc]')
-                  .pageSize(12)
-                  .submit(function (errLasts, lastPosts) {
+    },  //-  end 'object' fs
 
-                    if (errLasts) { 
-                      prismic.onPrismicError(errLasts, req, res);
-                      return;
-                    }
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+      res.render('index', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors,
+        featuredPosts_: results.getPosts[0],
+        lastPosts_: results.getPosts[1]
+      });
+
+    }
+  );
 
 
-                    var _feats = _.sample(featuredPosts.results, 4);
-                    var _diff = _.difference(_.pluck(lastPosts.results, 'id'), _.pluck(_feats, 'id'));
-                    var _diffPosts = _.filter(
-                                        lastPosts.results, 
-                                        function(obj) { 
-                                          return _diff.indexOf(obj.id) >= 0; 
-                                        }
-                                      );
-
-
-                    res.render('index', {
-                      categories: categories,
-                      rawCategories: rawCategories,
-                      authors: authors,
-                      featuredPosts_: _.sample(featuredPosts.results, 4),
-                      lastPosts_: _.slice(_diffPosts, 0, 8)
-                    });
-
-
-        });   //  - end query posts
-      });   //  - end query featured
-    });   //  - end getAuthors
-  });   //  - end getCategories
 });
 
 
@@ -83,6 +120,95 @@ exports.index = prismic.route(function(req, res, ctx) {
 
 //  -- Display category page (its posts and paginating)
 exports.category = prismic.route(function(req, res, ctx) {  
+
+
+  async.parallel(
+
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        prismic.getAuthors(ctx, function (errAuths, authors) {
+
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+          }
+
+          callback(null, authors);
+
+        });
+      },
+
+
+      getPosts: function (callback) {
+
+        var id = req.params.id;
+        var slug = req.params.slug;
+
+        ctx.api
+          .form('posts')
+          .set('page', req.query.page || '1')
+          .query('[[:d = at(my.post.categories.Categoria, "' + id + '")]]')
+          .ref(ctx.ref)
+          .pageSize(24)
+          .submit(function (errPosts, posts) {
+
+            if (errPosts) { 
+              prismic.onPrismicError(errPosts, req, res);
+              callback(errPosts);
+              return;
+            }
+
+            callback(null, [posts, slug, id]);
+          });
+
+
+      }
+
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+      res.render('category', {
+        categories: results.getCategories[0],
+        rawCategories: results.getCategories[1],
+        authors: results.getAuthors,
+        docs: results.getPosts[0],
+        categorySlug: results.getPosts[1],
+        categoryId: results.getPosts[2]
+      });
+
+    }
+  );
+
+
+
+
+
+
+
+
+  /*
   prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
     
     if (errCats) {
@@ -126,6 +252,8 @@ exports.category = prismic.route(function(req, res, ctx) {
       });   //  - end query
     });   //  - end getAuthors
   });   //  - end getCategories
+
+  */
 });
 
 

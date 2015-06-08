@@ -9,7 +9,7 @@ block appID
 //-block topspacer
 
 block app
-  .page
+  #search.page
     .container
     
       h2 Risultati della ricerca 
@@ -33,7 +33,7 @@ block app
                 +printAuthor('searchResults', doc)
               else
                 pre=JSON.stringify(doc, null, 2)
-            .spacer-20
+                
 
 
           if (docs.prev_page || docs.next_page)

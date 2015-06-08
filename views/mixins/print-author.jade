@@ -5,12 +5,16 @@ mixin printAuthor (where, doc)
 
 
     when 'searchResults'
-      h1
-        a(href=ctx.linkResolver(doc))
-          =doc.getText('autore.name')
-      hr
-
-
+      if doc.get('autore.profilePic')
+        - var pic = doc.get('autore.profilePic').views.avatar.url
+          img.avatar(src=pic)
+      
+      .author-info
+        label.badge Autore
+        h3
+          a(href=ctx.linkResolver(doc))
+            =doc.getText('autore.name')
+          
 
     when 'postMeta'
       a(href=ctx.linkResolver(doc.document))

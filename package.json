@@ -14,7 +14,6 @@
     "errorhandler": "~1.1.1",
     "express": "~4.11.2",
     "express-session": "~1.6.5",
-    "express-uglify": "^0.3.1",
     "jade": "~1.9.2",
     "lodash": "^3.8.0",
     "marked": "^0.3.3",
@@ -25,7 +24,8 @@
     "prismic.io": "^1.1.4",
     "reading-time": "0.0.1",
     "static-favicon": "~1.0.0",
-    "stylus": "^0.51.1"
+    "stylus": "^0.51.1",
+    "uglify-js": "^2.4.23"
   },
   "repository": {
     "type": "git",

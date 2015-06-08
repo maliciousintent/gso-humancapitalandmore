@@ -25,6 +25,8 @@ $(function() {
     }
   };
 
+
+
   
   /**
    * Pages setup

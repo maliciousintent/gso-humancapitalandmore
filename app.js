@@ -14,7 +14,7 @@ var routes = require('./routes');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
-var uglify = require('express-uglify');
+var uglify = require('./uglifyJS.js');
 
 var app = express();
 
@@ -38,7 +38,7 @@ app
   .use(methodOverride())
   .use(cookieParser('V*0%*R&DSwTM`@jF'))
   .use(session({secret: 'V*0%*R&DSwTM`@jF', saveUninitialized: true, resave: true}))
-  .use(uglify.middleware({ src: __dirname + '/public', logLevel: 'none' }))
+  .use(uglify({ src: __dirname + '/public', maxAge: 60 * 60 }))
   .use(express.static(path.join(__dirname, 'public')))
   .use(errorHandler());
 

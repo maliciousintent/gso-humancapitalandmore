@@ -75,17 +75,18 @@ block app
             div
               =author.getText('autore.phone')
   
+  if posts.length > 0
 
-  .spacer-100
+    .spacer-100
 
-  #lasts.page
-    .container.text-center
-      h2 Di questo autore ti potrebbe interessare...
-      .spacer-40
+    #lasts.page
+      .container.text-center
+        h2 Di questo autore ti potrebbe interessare...
+        .spacer-40
 
-      .pure-g
-        each post in posts
-          .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
-            +printPost('authorLatests', post)
+        .pure-g
+          each post in posts
+            .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+              +printPost('authorLatests', post)
   
   .spacer-60

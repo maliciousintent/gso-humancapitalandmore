@@ -10,7 +10,7 @@ block appID
 block topspacer
   if author.get('autore.profilePic')
     - var pic = author.get('autore.profilePic').main.url
-    .page.page-full-image(style='background-image: url("#{pic}"); height: 800px;')
+    .page.page-full-image#author-pic(style='background-image: url("#{pic}"); height: 800px;')
       
   else
     .spacer-190

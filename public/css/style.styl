@@ -363,6 +363,23 @@ section.app
       width 100%
       position relative
       overflow hidden
+      
+  .swipe-navigation
+    a
+      position absolute
+      top 50%
+      transform translate(0, -50%)
+      
+      &.next
+        right 25px
+      &.prev
+        left 25px
+        
+      color #FFF
+      font-size 30px
+      z-index 2
+      display block
+      cursor pointer
 
 
     
@@ -373,6 +390,40 @@ section.app
     background-color _light
     background-size cover
     height 540px
+    
+    &.home-box-featured
+      position relative
+      background _accent
+      .text
+        padding 30px
+        text-align center
+        position absolute
+        top 50%
+        left 0
+        right 0
+        transform translate(0, -50%)
+        
+        & > *
+          color #FFF
+          
+          a:hover
+            color #FFF !important
+        
+        h5
+          margin 0 0 15px 0
+          color lighten(_accent, 50%)
+        
+        p.excerpt
+          line-height 1.6em
+          font-weight 300
+          text-align justify
+        
+        p.authors
+          color lighten(_accent, 50%)
+          a
+            color lighten(_accent, 70%)
+        
+          
     
   #about
     h4
@@ -678,8 +729,51 @@ form#search-noresults-form
       & > *
         float left
         
-        
-@media all and (max-width: 480px)
+@media screen and (max-width: 568px)
+  // Pure SM Grid
+  
+  #home
+    .swipe-wrap
+      background _light
+    .home-box
+      height 180px
+      
+      &.home-box-featured
+        height 240px
+        .text
+          p.excerpt
+            display none
+          .spacer-20
+            display none
+  
+  #category
+    .category-box
+      height 180px
+      &.category-box-small
+        height 120px
+      &.category-box-double
+        height auto
+            
+  #lasts
+    .last-box
+      .last-box-image
+        height 180px
+  
+  #author-pic
+    height 400px !important
+            
+  .swipe
+    .swipe-navigation
+      a
+        &.next
+          color _textlight
+          position static
+          float right
+          margin-top 20px
+          transform none !important
+    
+  
+@media screen and (max-width: 480px)
   
   header
     top 20px

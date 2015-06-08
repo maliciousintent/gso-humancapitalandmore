@@ -207,6 +207,10 @@ pre
       background lighten(_textlight, 30%)
   
 //*** Layout Specifics ***//
+
+menu#mobile
+  display none
+  
 header
   position fixed
   z-index 20
@@ -731,6 +735,28 @@ form#search-noresults-form
         
 @media screen and (max-width: 568px)
   // Pure SM Grid
+  
+  header
+    display none
+  
+  menu#mobile
+    display block
+    background _light
+    position fixed
+    z-index 5
+    top 0
+    left 0
+    right 0
+    margin 0
+    padding 0
+    a.gso-hcam-logo
+      display block
+      width 60px
+      height @width
+      img
+        display block
+        height @width
+        width @width
   
   #home
     .swipe-wrap

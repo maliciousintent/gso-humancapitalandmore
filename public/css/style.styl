@@ -736,6 +736,8 @@ form#search-noresults-form
 @media screen and (max-width: 568px)
   // Pure SM Grid
   
+  _mobileMenu = 80px
+  
   header
     display none
   
@@ -751,12 +753,15 @@ form#search-noresults-form
     padding 0
     a.gso-hcam-logo
       display block
-      width 60px
+      width _mobileMenu
       height @width
       img
         display block
         height @width
         width @width
+  
+  .spacer-190
+    height (_mobileMenu + 20px)
   
   #home
     .swipe-wrap
@@ -781,12 +786,14 @@ form#search-noresults-form
         height auto
             
   #lasts
+    & > .container
+      padding 0
     .last-box
       .last-box-image
         height 180px
   
   #author-pic
-    height 400px !important
+    height 550px !important
             
   .swipe
     .swipe-navigation
@@ -797,26 +804,11 @@ form#search-noresults-form
           float right
           margin-top 20px
           transform none !important
-    
-  
-@media screen and (max-width: 480px)
-  
-  header
-    top 20px
-    left 20px
-    right 20px
-  
-  .spacer-190
-    height 130px
   
   .container
     margin 0 auto
     padding 0 20px
     
-  #lasts 
-    & > .container
-      padding 0
-  
   p.reading-time,
   p.date
     display block

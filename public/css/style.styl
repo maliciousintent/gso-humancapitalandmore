@@ -777,6 +777,24 @@ form#search-noresults-form
           .spacer-20
             display none
   
+            
+  // FIX for post layout
+  .page-full-image
+    &.fixed
+      position relative !important
+      top 0 !important
+      .social-container
+        position absolute !important
+        top auto !important
+        bottom 0 !important
+      .post-title
+        display none !important
+      
+  .page-fixed-image
+    &.fixed
+      display none !important
+
+  
   #category
     .category-box
       height 180px

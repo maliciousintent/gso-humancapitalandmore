@@ -50,6 +50,8 @@ app.route('/category/:slug/:id').get(routes.category);
 app.route('/authors').get(routes.authors);
 app.route('/author/:slug/:id').get(routes.author);
 app.route('/search').get(routes.search);
+//  -- preview --
+app.route('/preview').get(routes.preview);
 //  -- 404 --
 app.route('*').get(routes.notfound);
 

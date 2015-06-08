@@ -480,8 +480,8 @@ exports.post = prismic.route(function(req, res, ctx) {
       }
 
 
-      var _customHTML = function (element, content) {
-        if (element.type === "image") {
+      var _customHTML = function (element) {
+        if (element.type === 'image') {
           if (element.dimensions.width > 1280 && element.dimensions.height > 768) {
             element.url = 'https://r.size.li/2/s/90/png/1280x768/' + element.url;
           } else if (element.dimensions.width > 768 && element.dimensions.height > 1280) {
@@ -489,7 +489,7 @@ exports.post = prismic.route(function(req, res, ctx) {
           }
           return '<p class="block-img"><img src="' + element.url + '" alt="' + element.alt + '"></p>';
         }
-      }
+      };
 
 
       res.render('post', {
@@ -553,6 +553,24 @@ exports.search = prismic.route(function(req, res, ctx) {
 
   });   //  - getCategories
 
+});
+
+
+
+
+
+// -- Preview documents from the Writing Room
+exports.preview = prismic.route(function(req, res, ctx) {
+  var token = req.query.token;
+
+  if (token) {
+    ctx.api.previewSession(token, ctx.linkResolver, '/', function(err, url) {
+      res.cookie(prismic.previewCookie, token, { maxAge: 30 * 60 * 1000, path: '/', httpOnly: false });
+      res.redirect(301, url);
+    });
+  } else {
+    res.status(400).send('Missing token from querystring');
+  }
 });
 
 

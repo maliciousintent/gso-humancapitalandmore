@@ -128,8 +128,9 @@ exports.getBookmark = function(ctx, bookmark, callback) {
 // -- Exposing as a helper what to do in the event of an error (please edit prismic-configuration.js to change this)
 exports.onPrismicError = Configuration.onPrismicError;
 
-// -- Route wrapper that provide a "prismic context" to the underlying function
 
+
+// -- Route wrapper that provide a "prismic context" to the underlying function
 exports.route = function(callback) {
   return function(req, res) {
     var accessToken = (req.session && req.session.ACCESS_TOKEN) || Configuration.accessToken;

@@ -41,20 +41,7 @@ mixin printPost (where, doc)
             a(href=ctx.linkResolver(doc))
               =(doc.getText('post.title') || 'Untitled')
           
-          //-
-            p=moment(doc.getDate('post.postDate')).format('DD/MM/YYYY')
-          
           +printAuthor('postAll', lAuthors)
-          
-          //-
-            p
-              if lCategories && lCategories.value.length > 0
-                each category, catIndex in lCategories.value
-                  +printCategory('postMeta', category.getLink('Categoria'))
-                  if (catIndex !== (lCategories.value.length - 1))
-                    | ,
-              else
-                em='Varie'
 
 
     when 'categoryFeat'

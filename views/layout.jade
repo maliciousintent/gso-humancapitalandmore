@@ -42,6 +42,7 @@ html
             img(src='/img/gso-hcam-logo.png', alt='Human Capital and More', width='90', height='90')
           menu
             ul
+              li: a(href='/authors/') Autori
               each cat in categories
                 li: a(href='/category/#{cat.slug}/#{cat.id}/') #{cat.titolo}
 

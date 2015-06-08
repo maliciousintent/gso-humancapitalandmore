@@ -348,6 +348,23 @@ section.app
   &.fade
     opacity 0
 
+
+.swipe
+  overflow hidden
+  visibility hidden
+  position relative
+
+  .swipe-wrap
+    overflow hidden
+    position relative
+
+    & > div
+      float left
+      width 100%
+      position relative
+      overflow hidden
+
+
     
 #home
   .home-box
@@ -356,11 +373,7 @@ section.app
     background-color _light
     background-size cover
     height 540px
-    &.home-box-small
-      height 180px
-      background darken(_light, 5%)
-      &.odd
-        background darken(_light, 10%)
+    
   #about
     h4
       padding 15px 0

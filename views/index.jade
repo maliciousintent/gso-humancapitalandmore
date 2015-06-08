@@ -12,15 +12,17 @@ block app
   .page
     .container
     
-      .pure-g
+      
+      #homeFeatSlider.swipe
+        .swipe-wrap
+          each fp in featuredPosts_
+            +printPost('homeFeatsSlider', fp)
 
-        .pure-u-1.pure-u-lg-3-4
-          +printPost('homeBig', featuredPosts_[0])
-
-        .pure-u-1.pure-u-lg-1-4
-          .pure-g           
-            - for (var i = 1; i < featuredPosts_.length; i++)
-              +printPost('homeFeats', featuredPosts_[i])
+        .swipe-navigation
+          a.prev(onclick='window.homeFeatSliderHandler.prev(); return false;')
+            i.icon.icon-chevron-with-circle-left
+          a.next(onclick='window.homeFeatSliderHandler.next(); return false;')
+            i.icon.icon-chevron-with-circle-right
 
 
   .spacer-100

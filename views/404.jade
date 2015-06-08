@@ -1,13 +1,26 @@
 extends layout
 
 block title
-  | - Welcome
+  | - 404
 
 //-block topspacer
 
 block app
   .page
     .container
-      h1 404
+      .text-center
+        .spacer-60
+        h1 Houston, we have a problem. 
+        h3 Non abbiamo trovato la pagina che stai cercando.
+        
+        .spacer-40
+        
+        form.pure-form#search-noresults-form(action='/search', method='GET')
+          input(type='text', name='q', placeholder='Cosa vuoi cercare?')
+          button.pure-button.search-button(type='submit')
+            span Cerca
+            i.icon-magnifying-glass
+
+  .spacer-40
 
 //-block scripts

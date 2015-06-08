@@ -23,6 +23,12 @@ $(function() {
       $(window).off('scroll', window.postScrollHandler);
       delete window.postScrollHandler;
     }
+
+    if (window.homeFeatSliderHandler) {
+      console.log('killing slider');
+      window.homeFeatSliderHandler.kill();
+      delete window.homeFeatSliderHandler;
+    }
     
     $('header').removeClass('inobtrusive');
     
@@ -38,6 +44,17 @@ $(function() {
 
     'home': function() {
       cleanJS();
+
+      console.log('initializing home js');
+
+      window.homeFeatSliderHandler = new Swipe(document.getElementById('homeFeatSlider'), {
+        auto: 5000,
+        speed: 500,
+        draggable: true,
+        continuos: true,
+        disableScroll: true
+      });
+
     },
 
     'author': function() {

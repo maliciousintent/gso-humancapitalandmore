@@ -53,7 +53,6 @@ $(function() {
       
       window.postScrollHandler = function () {
         var top = Math.max($('html').scrollTop(), $('body').scrollTop());
-        console.log("I'm stupid", top);
         if (top >= 370 && !isset) {
           $('#post .page-full-image, #post .page-fixed-image, #post .page-full-image .post-title').addClass('fixed');
           isset = true;

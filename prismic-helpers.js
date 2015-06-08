@@ -57,17 +57,23 @@ exports.getCategories = function (ctx, callback) {
                       'id': c.id,
                       'slug': c.slug,
                       'titolo': c.fragments['categoria.title'].value[0].text,
-                      'padre': c.fragments['categoria.parent'] ? c.fragments['categoria.parent'].value.document.id : 'parent'
+                      'padre': c.fragments['categoria.parent'] ? c.fragments['categoria.parent'].value.document.id : 'parent',
+                      'posizione': parseInt(c.fragments['categoria.position'].value, 10) || 100
                     };
                   });
     //console.log('cats before', _cats);
 
-    var _groupedCats = _.groupBy(_cats, function (cat) {
+    var _groupedCats = _.chain(_cats)
+                        .sortBy(function (cat) {
+                          return cat.posizione;
+                        })
+                        .groupBy(function (cat) {
                           return cat.padre;
-                        });
+                        })
+                        .value();
 
     var _finalArray = _.map(_groupedCats.parent, function (p) {
-      p.sottocategorie = _groupedCats[p.id];
+      p.sottocategorie = _groupedCats[p.id] || [];
       delete p.padre;
       return p;
     });

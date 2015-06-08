@@ -42,7 +42,7 @@ module.exports = function(options) {
 
           if(data === null) {
             logger.log('info', '"GET ' + path + '" 404');
-            res.end("file not found", 404);
+            res.status(404).send("file not found");
           } else {
             if(!isCached) {
               var ast;
@@ -63,11 +63,11 @@ module.exports = function(options) {
                   });
                 logger.log('info', '"GET ' + path + '" 200 - Minified');
                 res.setHeader('Content-Type', 'text/javascript');
-                res.send(200, ast);
+                res.status(200).send(ast);
               } else {
                 logger.log('warning', '"GET ' + path + '" 200 - Failed to Minify');
                 res.setHeader('Content-Type', 'text/javascript');
-                res.send(200, data);
+                res.status(200).send(data);
               }
 
             } else {
@@ -75,7 +75,7 @@ module.exports = function(options) {
               res.setHeader('Expires', new Date(Date.now() + maxAge).toUTCString());
               res.setHeader('Cache-Control', 'public, max-age=' + (maxAge / 1000));
               res.setHeader('Content-Type', 'text/javascript');
-              res.send(200, data);
+              res.status(200).send(data);
             }
           }
 

@@ -14,7 +14,7 @@ var routes = require('./routes');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
-var uglify = require('express-uglify');
+var uglify = require('./custom_modules/express-uglify');
 
 var app = express();
 

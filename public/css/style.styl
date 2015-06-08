@@ -221,6 +221,9 @@ header
     left 0
     top 0
     right 0
+    
+  &.inobtrusive
+    background rgba(_light, 0.75)
   
   .header-inner
     clearfix()
@@ -504,12 +507,14 @@ form#search-noresults-form
   input
     border 1px solid #DDD
     margin 10px
+    padding 15px
   button
     background _accent
     border 1px solid _accent
     transition background 0.3s ease
     color #FFF
     margin 10px
+    padding 15px
     i
       margin-left 10px
       top 0
@@ -621,9 +626,11 @@ form#search-noresults-form
       
   .result
     display block
-    margin-bottom 20px
-    padding-bottom 20px
+    margin-bottom 40px
+    padding-bottom 40px
     border-bottom 1px solid lighten(_textlight, 70%)
+    &:last-child
+      border-bottom none
     
     h4
       font-weight 300px
@@ -637,7 +644,7 @@ form#search-noresults-form
         text-transform uppercase
         font-weight 700
         font-size 13px
-        color _accent
+        color _textlight
         padding-top 10px
         padding-bottom 5px
 

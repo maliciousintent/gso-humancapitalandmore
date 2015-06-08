@@ -17,12 +17,15 @@ $(function() {
     }
   });
   
-  var cleanHandler = function () {
+  var cleanJS = function () {
     
     if (window.postScrollHandler) {
       $(window).off('scroll', window.postScrollHandler);
       delete window.postScrollHandler;
     }
+    
+    $('header').removeClass('inobtrusive');
+    
   };
 
 
@@ -34,23 +37,38 @@ $(function() {
   var setup = {
 
     'home': function() {
-      cleanHandler();
+      cleanJS();
     },
 
     'author': function() {
-      cleanHandler();
+      cleanJS();
+      
+      $('header').addClass('inobtrusive');
+      
+      var isset = false;
+      window.authorScrollHandler = function () {
+        var top = Math.max($('html').scrollTop(), $('body').scrollTop());
+        var headerHeight = $('.page-full-image').height() - $('header').height();
+        if (top >= headerHeight && !isset) {
+          $('header').removeClass('inobtrusive');
+          isset = true;
+        } else if (top < headerHeight && isset) {
+          $('header').addClass('inobtrusive');
+          isset = false;
+        }
+      };
+      $(window).on('scroll', window.authorScrollHandler);
     },
 
     'category': function() {
-      cleanHandler();
+      cleanJS();
     },
 
     'post': function() {
-      cleanHandler();
+      cleanJS();
       
       /* Set fixed image on top when scrolling */
       var isset = false;
-      
       window.postScrollHandler = function () {
         var top = Math.max($('html').scrollTop(), $('body').scrollTop());
         if (top >= 370 && !isset) {
@@ -66,11 +84,11 @@ $(function() {
     },
 
     'search': function() {
-      cleanHandler();
+      cleanJS();
     },
 
     'default': function() {
-      cleanHandler();
+      cleanJS();
     },
 
     init: function() {

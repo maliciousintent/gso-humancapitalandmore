@@ -21,7 +21,17 @@ block app
 
         if docs.total_results_size === 0
           .alert
-            h4 Nessun risultato
+            h4
+              strong Nessun risultato. 
+              span Prova ad effettuare una nuova ricerca.
+          
+          .spacer-40
+            
+          form.pure-form#search-noresults-form(action='/search', method='GET')
+            input(type='text', name='q', placeholder='Cosa vuoi cercare?', style='margin-left: 0;')
+            button.pure-button.search-button(type='submit')
+              span Cerca
+              i.icon-magnifying-glass
 
         else
 

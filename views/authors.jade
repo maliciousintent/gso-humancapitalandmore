@@ -11,18 +11,22 @@ block appID
 block app
   .page
     .container
+    
       
       if authors && authors.length > 0
 
-        each author in authors
+        .pure-g
+        
+          each author in authors
 
-          .author
-            a(href=ctx.linkResolver(author))
-              h1=author.getText('autore.name')
-            h3=author.getText('autore.role')
-            
-            if author.get('autore.profilePic').main
-              img(src=author.get('autore.profilePic').main.url)
+            .pure-u-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-4
+              .author-box
+                a(href=ctx.linkResolver(author))
+                  h1=author.getText('autore.name')
+                h3=author.getText('autore.role')
+
+                if author.get('autore.profilePic').main
+                  img(src=author.get('autore.profilePic').main.url)
 
 
       else

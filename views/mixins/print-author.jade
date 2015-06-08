@@ -10,7 +10,7 @@ mixin printAuthor (where, doc)
           img.avatar(src=pic)
       
       .author-info
-        label.badge Autore
+        label.badge=doc.getText('autore.role')
         h3
           a(href=ctx.linkResolver(doc))
             =doc.getText('autore.name')

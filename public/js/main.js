@@ -52,7 +52,7 @@ $(function() {
         speed: 500,
         draggable: true,
         continuos: true,
-        disableScroll: true
+        disableScroll: false
       });
 
     },

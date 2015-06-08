@@ -47,13 +47,17 @@ html
             if cat.sottocategorie
               each subcat in cat.sottocategorie
                 li: a(href='/category/#{subcat.slug}/#{subcat.id}/') #{subcat.titolo}
+                
+        
+        form.pure-form#search-menu(action='/search', method='GET')
+          input(type='text', name='q', placeholder='Cosa vuoi cercare?')
+          button.pure-button.search-button(type='submit')
+            i.icon-magnifying-glass
       
       a.menu-toggle
         i.icon.icon-menu
       a.gso-hcam-logo(href='/', title='Vai alla pagina iniziale del Blog')
         img(src='/img/gso-hcam-logo.png', alt='Human Capital and More', width='50', height='50')
-      a.search-toggle
-        i.icon.icon-magnifying-glass
   
     header
       .header-inner

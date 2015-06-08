@@ -51,7 +51,7 @@ $(function() {
     return false;
   });
   
-  $('menu#mobile .mobile-menu a, menu#mobile .mobile-mask').on('click', function () {
+  $('menu#mobile .mobile-menu a, menu#mobile .mobile-mask, menu#mobile a.search-toggle, menu#mobile button').on('click', function () {
     $('menu#mobile a.menu-toggle').trigger('click'); 
   });
   

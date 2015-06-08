@@ -491,6 +491,7 @@ section.app
         text-transform uppercase
         text-align center
         font-weight 300
+        margin 0
         color #FFF
         top 50%
         left 20px
@@ -571,7 +572,8 @@ ul.categories
       &:hover
         color darken(_accent, 20%)
 
-form#search-noresults-form
+form#search-noresults-form,
+form#search-menu
   input
     border 1px solid #DDD
     margin 10px
@@ -804,7 +806,7 @@ form#search-noresults-form
       display none
       &.open
         background rgba(_dark, 0.8)
-        
+  
 
     .mobile-menu
       display block
@@ -891,6 +893,29 @@ form#search-noresults-form
       margin 0 0 20px 0
       width 100%
       text-align center
+  form#search-menu
+    position relative
+    margin 20px
+    input
+      width 100%
+      margin 0
+      padding 12px
+      font-size 14px
+      border none
+      border-radius 3px
+      box-shadow none
+    button
+      position absolute
+      right 0
+      top 0
+      bottom 0
+      margin 0
+      padding 10px 15px
+      border none
+      border-radius 3px
+      box-shadow none
+      i
+        margin 0
 
   
   #category

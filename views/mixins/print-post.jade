@@ -52,10 +52,10 @@ mixin printPost (where, doc)
       - var cfDescription = doc.getText('post.excerpt');
 
       .pure-g
-        .pure-u-1.pure-u-md-1-2.pure-u-lg-3-4
+        .pure-u-1.pure-u-sm-1-3.pure-u-md-1-2.pure-u-lg-2-3.pure-u-xl-3-4
           .category-box(style='background-image: url("#{cfPic}");')
 
-        .pure-u-1.pure-u-md-1-2.pure-u-lg-1-4
+        .pure-u-1.pure-u-sm-2-3.pure-u-md-1-2.pure-u-lg-1-3.pure-u-xl-1-4
           .category-box.category-box-small
             h1=_.find(rawCategories, { 'slug' : categorySlug }).titolo
           .category-box.category-box-double

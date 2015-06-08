@@ -17,6 +17,45 @@ $(function() {
     }
   });
   
+  $(window).on('resize', function () {
+    window.mobileMenuSize = $(window).width() - 60;
+    $('menu#mobile .mobile-menu').width(window.mobileMenuSize + 1);
+  });
+  $(window).trigger('resize');
+  
+  $('menu#mobile a.menu-toggle').on('click', function (e) {
+    e.preventDefault();
+    
+    if ($('body').hasClass('menu-view')) {
+      
+      $('menu#mobile .mobile-mask').removeClass('open');
+      setTimeout(function () {
+        $('menu#mobile .mobile-mask').css('display', 'none');
+      }, 510);
+      
+      $('menu#mobile .mobile-menu').css('right', '100%');
+      $('body').removeClass('menu-view');
+      
+    } else {
+      
+      $('menu#mobile .mobile-mask').css('display', 'block');
+      setTimeout(function () {
+        $('menu#mobile .mobile-mask').addClass('open');
+      }, 10);
+      
+      $('menu#mobile .mobile-menu').css('right', '60px');
+      $('body').addClass('menu-view');
+      
+    }
+    
+    return false;
+  });
+  
+  $('menu#mobile .mobile-menu a, menu#mobile .mobile-mask').on('click', function () {
+    $('menu#mobile a.menu-toggle').trigger('click'); 
+  });
+  
+  
   var cleanJS = function () {
     
     if (window.postScrollHandler) {

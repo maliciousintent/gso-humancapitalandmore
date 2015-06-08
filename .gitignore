@@ -20,7 +20,6 @@ npm-debug.log
 .cache
 
 
-!node_modules/express-uglify
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

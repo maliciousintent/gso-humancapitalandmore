@@ -25,8 +25,7 @@
     "prismic.io": "^1.1.4",
     "reading-time": "0.0.1",
     "static-favicon": "~1.0.0",
-    "stylus": "^0.51.1",
-    "uglify-js": "^2.4.23"
+    "stylus": "^0.51.1"
   },
   "repository": {
     "type": "git",

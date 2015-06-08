@@ -737,7 +737,7 @@ form#search-noresults-form
 @media screen and (max-width: 568px)
   // Pure SM Grid
   
-  _mobileMenu = 80px
+  _mobileMenu = 60px
   
   header
     display none
@@ -760,6 +760,38 @@ form#search-noresults-form
         display block
         height @width
         width @width
+    .mobile-cats
+      display none
+      text-align center
+      position fixed
+      top 0
+      left 0
+      bottom 0
+      right 0
+      overflow scroll
+      z-index 10
+      background #fff
+      transition left 0.5s ease
+      overflow-scrolling touch
+      ul
+        list-style-type none
+        margin 0
+        padding 0
+        margin-bottom 30px
+        li
+          margin-bottom 10px
+          a
+            color _accent
+            text-decoration none
+            padding 3px
+            display block
+            text-transform uppercase
+          &.parent
+            font-size 24px
+            margin-bottom 20px
+            & > a
+              background _accent
+              color #fff
   
   .spacer-190
     height (_mobileMenu + 20px)

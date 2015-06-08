@@ -36,6 +36,15 @@ html
         div
     
     menu#mobile
+
+      .mobile-cats
+        each cat in categories
+          ul
+            li.parent: a(href='/category/#{cat.slug}/#{cat.id}/'): strong #{cat.titolo}
+            if cat.sottocategorie
+              each subcat in cat.sottocategorie
+                li: a(href='/category/#{subcat.slug}/#{subcat.id}/') #{subcat.titolo}
+
       a.gso-hcam-logo(href='/', title='Vai alla pagina iniziale del Blog')
         img(src='/img/gso-hcam-logo-mobile.png', alt='Human Capital and More', width='50', height='50')
   

@@ -45,8 +45,6 @@ $(function() {
     'home': function() {
       cleanJS();
 
-      console.log('initializing home js');
-
       window.homeFeatSliderHandler = new Swipe(document.getElementById('homeFeatSlider'), {
         auto: 5000,
         speed: 500,

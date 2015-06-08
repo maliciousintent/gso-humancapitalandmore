@@ -8,8 +8,9 @@ mixin printAuthor (where, doc)
       if doc.get('autore.profilePic')
         - var pic = doc.get('autore.profilePic').views.avatar.url
         - var bgpic = doc.get('autore.profilePic').views.profile.url
-        .author-avatar(style='background-image: url("#{bgpic}");')
-          img(src=pic)
+        .author-avatar
+          .bg(style='background-image: url("#{bgpic}");')
+        img.avatar(src=pic)
       
       .author-info
         label.badge=doc.getText('autore.role')

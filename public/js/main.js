@@ -139,6 +139,10 @@ $(function() {
 
     'search': function() {
       cleanJS();
+
+      $('#search .author-avatar .bg').each(function (i, el) {
+        $(el).Vague({ intensity: 3 }).blur();
+      });
     },
 
     'default': function() {

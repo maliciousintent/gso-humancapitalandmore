@@ -12,7 +12,6 @@ logs
 results
 
 npm-debug.log
-node_modules/*
 
 .idea
 
@@ -22,3 +21,7 @@ node_modules/*
 
 
 !node_modules/express-uglify
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

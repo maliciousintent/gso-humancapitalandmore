@@ -15,12 +15,15 @@ block topspacer
     .social-container
       .container.post-container
         .post-social
-          a(href='')
-            img(src='/img/social-facebook.png', height='50', width='50')
-          a(href='')
-            img(src='/img/social-twitter.png', height='50', width='50')
-          a(href='')
-            img(src='/img/social-linkedin.png', height='50', width='50')
+
+          .addthis_sharing_toolbox(data-url='http://humancapitalandmore.com' + ctx.linkResolver(doc), data-title=doc.getText('post.title') || '')
+            a.addthis_button_facebook
+              img(src='/img/social-facebook.png', height='50', width='50')
+            a.addthis_button_twitter
+              img(src='/img/social-twitter.png', height='50', width='50')
+            a.addthis_button_linkedin
+              img(src='/img/social-linkedin.png', height='50', width='50')
+
         .post-title
           p
             strong=doc.getText('post.title')
@@ -99,7 +102,4 @@ block app
 
 
         .spacer-40
-
-
-        //- !{doc.asHtml(ctx.linkResolver)}
 

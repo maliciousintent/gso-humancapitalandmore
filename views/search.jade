@@ -1,10 +1,15 @@
 extends layout
 
 block title
-  | - Welcome
+  | Cerca - Human Capital and More - GSO Company
 
 block appID
   - var appID = 'search'
+  
+block afterhead
+  meta(property='og:title', content='Cerca - Human Capital and More - GSO Company')
+  meta(property='og:description', content='Guarda i risultati della ricerca "' + q + '"')
+  meta(property='og:image', content='//beta.humancapitalandmore.com/img/social/search.png')
 
 //-block topspacer
 

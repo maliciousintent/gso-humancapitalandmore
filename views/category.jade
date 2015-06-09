@@ -1,7 +1,7 @@
 extends layout
 
 block title
-  | - Welcome
+  | #{_.find(rawCategories, { 'slug' : categorySlug }).titolo} - Human Capital and More - GSO Company
 
 block appID
   - var appID = 'category'

@@ -636,6 +636,13 @@ form#search-menu
         max-width 100%
         display block
         margin auto
+        
+      small.caption
+        color _textlight
+        display block
+        text-align center
+        &:empty
+          display none
     
     p.quote
       @extends .serif-font
@@ -767,6 +774,11 @@ form#search-menu
   
   header
     display none
+    
+  footer
+    text-align center
+    .footer-menu
+      display none
     
   body
     transition margin-left 0.5s ease

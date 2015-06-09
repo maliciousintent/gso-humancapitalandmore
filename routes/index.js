@@ -482,12 +482,14 @@ exports.post = prismic.route(function(req, res, ctx) {
 
       var _customHTML = function (element) {
         if (element.type === 'image') {
-          if (element.dimensions.width > 1280 && element.dimensions.height > 768) {
-            element.url = 'https://r.size.li/2/s/90/png/1280x768/' + element.url;
-          } else if (element.dimensions.width > 768 && element.dimensions.height > 1280) {
-            element.url = 'https://r.size.li/2/s/90/png/768x1280/' + element.url;
+          if (element.url.indexOf('https://r.size.li/2/') === -1) {
+            if (element.dimensions.width > 1280 && element.dimensions.height > 768) {
+              element.url = 'https://r.size.li/2/s/90/png/1280x768/' + element.url;
+            } else if (element.dimensions.width > 768 && element.dimensions.height > 1280) {
+              element.url = 'https://r.size.li/2/s/90/png/768x1280/' + element.url;
+            }
           }
-          return '<p class="block-img"><img src="' + element.url + '" alt="' + element.alt + '"></p>';
+          return '<p class="block-img"><img src="' + element.url + '" alt="' + element.alt + '" /><span class="caption">' + element.alt + '</span></p>';
         }
       };
 

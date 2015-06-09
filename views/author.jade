@@ -5,7 +5,11 @@ block title
 
 block appID
   - var appID = 'author'
-
+  
+block afterhead
+  meta(property='og:title', content=author.getText('autore.name') + ' - Human Capital and More - GSO Company')
+  meta(property='og:description', content=author.getText('autore.biography'))
+  meta(property='og:image', content=author.get('autore.profilePic').views.profile.url || '')
 
 block topspacer
   if author.get('autore.profilePic')

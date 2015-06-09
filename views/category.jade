@@ -5,6 +5,11 @@ block title
 
 block appID
   - var appID = 'category'
+  
+block afterhead
+  meta(property='og:title', content=_.find(rawCategories, { 'slug' : categorySlug }).titolo + ' - Human Capital and More - GSO Company')
+  meta(property='og:description', content='Leggi tutti gli articoli del Blog scritti dai nostri autori')
+  meta(property='og:image', content='//beta.humancapitalandmore.com/img/social/blog.png')
 
 //-block topspacer
 

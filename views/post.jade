@@ -6,6 +6,11 @@ block title
 block appID
   - var appID = 'post'
 
+block afterhead
+  meta(property='og:title', content=doc.getText('post.title') + ' - Human Capital and More - GSO Company')
+  meta(property='og:description', content=doc.getText('post.excerpt'))
+  meta(property='og:image', content=doc.get('post.featureImage').views.social.url || '')
+
 block topspacer
   - var featImg = doc.get('post.featureImage').views.fullscreen.url || ''
   - var pCategories = doc.getAll('post.categories')[0];

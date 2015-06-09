@@ -134,6 +134,8 @@ $(function() {
         }
       };
       $(window).on('scroll', window.postScrollHandler);
+
+      addthis.toolbox('.addthis_toolbox');
       
     },
 

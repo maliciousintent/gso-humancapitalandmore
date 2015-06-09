@@ -21,7 +21,7 @@ block topspacer
       .container.post-container
         .post-social
 
-          .addthis_sharing_toolbox(data-url='http://humancapitalandmore.com' + ctx.linkResolver(doc), data-title=doc.getText('post.title') || '')
+          .addthis_toolbox(data-url='http://humancapitalandmore.com' + ctx.linkResolver(doc), data-title=doc.getText('post.title') + ' - Human Capital and More - GSO Company', addthis:title=doc.getText('post.title') + ' - Human Capital and More - GSO Company')
             a.addthis_button_facebook
               img(src='/img/social-facebook.png', height='50', width='50')
             a.addthis_button_twitter

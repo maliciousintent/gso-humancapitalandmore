@@ -134,6 +134,8 @@ $(function() {
         }
       };
       $(window).on('scroll', window.postScrollHandler);
+
+      addthis.toolbox('.addthis_toolbox');
       
     },
 
@@ -224,14 +226,20 @@ $(function() {
     // Intercept clicks on links
     $(document.body).on('click', '[href]', function(e) {
 
+      var href = $(this).attr('href');
+
       if (clicking) {
+        e.preventDefault();
+        return;
+      }
+
+      if (href.trim() === '#' || href.trim() === '') {
         e.preventDefault();
         return;
       }
 
       clicking = true;
       
-      var href = $(this).attr('href');
 
       if(!/https?:\/\//.test(href) || href.replace(/https?:\/\//, '').indexOf(document.location.host) !== 0) {
 

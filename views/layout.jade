@@ -175,11 +175,17 @@ html
                         li: a(href='/category/#{subcat.slug}/#{subcat.id}/') #{subcat.titolo}
 
 
+    // Vague is required ONLY for the blur effect in the search page
     script(src='//cdnjs.cloudflare.com/ajax/libs/Vague.js/0.0.6/Vague.min.js')
+    
+    // AddThis requires some cookies to work, so we need to check if the user gives the permission
+    script(type='text/plain', class='_iub_cs_activate', src='//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5576a5b801777c42')
+    
     script(src='/js/swipe.min.js')
     script(src='/js/main.js')
     
-    script(type='text/plain', class='_iub_cs_activate').
+    // Google Analytics with anonymizeIp so we do not need to block the script
+    script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

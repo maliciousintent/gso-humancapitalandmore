@@ -1,5 +1,5 @@
 /*jshint browser:true, indent:2, laxcomma:true, loopfunc: true */
-/*global $, Modernizr*/
+/*global $, Modernizr, Swipe, addthis, console */
 
 
 $(function() {
@@ -64,7 +64,6 @@ $(function() {
     }
 
     if (window.homeFeatSliderHandler) {
-      console.log('killing slider');
       window.homeFeatSliderHandler.kill();
       delete window.homeFeatSliderHandler;
     }
@@ -134,8 +133,13 @@ $(function() {
         }
       };
       $(window).on('scroll', window.postScrollHandler);
-
-      addthis.toolbox('.addthis_toolbox');
+      
+      try {
+        addthis.toolbox('.addthis_toolbox');
+      } catch (e) {
+        // AddThis error
+        console.log('AddThis error when initializing', e.message);
+      }
       
     },
 

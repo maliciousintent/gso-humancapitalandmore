@@ -177,22 +177,36 @@ $(function() {
           return $.get(href);
         })
         .then(function(html) {
+          var $head = $($.parseHTML(html.match(/<head[^>]*>([\s\S.]*)<\/head>/i)[0]));
+          var $headog = $head.filter('meta[property^="og:"]');
+          var $headtitle = $head.filter('title');
+        
           var $body = $($.parseHTML(html.match(/<body[^>]*>([\s\S.]*)<\/body>/i)[0]));
           var $fragment = $body.filter('section.app');
+        
 
           return { 
             $el: $fragment, 
             page: $fragment.attr('id'), 
-            selected: href
+            selected: href,
+            $headog: $headog,
+            $headtitle: $headtitle
           };
         })
         .then(function(loaded) {
           return $('body > section.app').attr('data-to', loaded.page).delay(250).promise().then(
             function() {
+              
+              $('head > title').text(loaded.$headtitle.text());
+              loaded.$headog.each(function (i, og) {
+                $('head > meta[property="' + $(og).attr('property') + '"]').attr('content', $(og).attr('content'));
+              });
+              
               $('body > section.app').attr('id', loaded.page)
                 .html(loaded.$el.html())
                 .removeAttr('data-to');
               $('header menu li a[href="' + loaded.selected + '"]').closest('li').addClass('selected');
+              
               return loaded;
             }
           );

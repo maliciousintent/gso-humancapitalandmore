@@ -560,6 +560,123 @@ exports.search = prismic.route(function(req, res, ctx) {
 
 
 
+exports.latestsApi = prismic.route(function(req, res, ctx) {
+
+  async.parallel(
+
+    {
+
+
+      getCategories: function (callback) {
+        prismic.getCategories(ctx, function (errCats, categories, rawCategories) {
+
+          if (errCats) {
+            prismic.onPrismicError(errCats, req, res);
+            callback(errCats);
+            return;
+          }
+
+          callback(null, [categories, rawCategories]);
+
+        });
+      },
+
+
+      getAuthors: function (callback) {
+
+        prismic.getAuthors(ctx, function (errAuths, authors) {
+
+          if (errAuths) {
+            prismic.onPrismicError(errAuths, req, res);
+            callback(errAuths);
+            return;
+          }
+
+          callback(null, authors);
+
+        });
+      },
+
+
+      getPosts: function (callback) {
+
+        ctx
+          .api
+            .form('posts')
+              .ref(ctx.ref)
+              .orderings('[my.post.postDate desc]')
+              .pageSize(10)
+              .submit(function (errLatests, latestPosts) {
+
+                if (errLatests) {
+                  prismic.onPrismicError(errLatests, req, res);
+                  callback(errLatests);
+                  return;
+                }
+          
+                
+                callback(null, latestPosts.results);
+
+
+              });   //  - end query posts
+
+      }
+
+
+    },  //-  end 'object' fs
+
+    function (err, results) {
+      if (err) {
+        prismic.onPrismicError(err, req, res); return;
+      }
+
+      var _posts = results.getPosts;
+
+      var _fullInfo = _.chain(_posts)
+                        .map(function (p) {
+                          return {
+                            pic: p.get('post.featureImage').views.fullscreen.url || '',
+                            title: p.getText('post.title') || 'Untitled',
+                            preview: p.getText('post.excerpt') || '',
+                            link: ctx.linkResolver(p),
+                            authors: p.getAll('post.authors')[0] ? 
+                                      _.chain(p.getAll('post.authors')[0].value)
+                                        .map(function (a) {
+                                          return _.find(results.getAuthors, {'id': a.getLink('Autore').document.id}).name;
+                                        })
+                                        .value()
+                                        :
+                                        'GSO Company',
+                            categories: p.getAll('post.categories')[0] ?
+                                          _.chain(p.getAll('post.categories')[0].value)
+                                            .map(function (c) {
+                                              return c.getLink('Categoria').document;
+                                              //return _.find(results.getCategories[1], {'id': c.getLink('Categoria').document.id}).slug;
+                                            })
+                                            .value()
+                                          :
+                                          'Varie'
+                          };
+                        })
+                        .value()
+
+
+      res.end(
+        JSON.stringify({
+          //rawCategories: results.getCategories[1],
+          //authors: results.getAuthors,
+          lastPosts: _fullInfo
+        }, null, 2)
+      );
+      return;
+
+    }
+  );
+
+});
+
+
+
 
 // -- Preview documents from the Writing Room
 exports.preview = prismic.route(function(req, res, ctx) {

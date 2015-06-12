@@ -15,6 +15,8 @@ var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
 var uglify = require('./custom_modules/express-uglify');
+var cors = require('cors');
+
 
 var app = express();
 
@@ -51,7 +53,7 @@ app.route('/authors').get(routes.authors);
 app.route('/author/:slug/:id').get(routes.author);
 app.route('/search').get(routes.search);
 //  -- for api calls --
-app.route('/latestPosts').get(routes.latestsApi);
+app.route('/latestPosts').get(cors(), routes.latestsApi);
 //  -- preview --
 app.route('/preview').get(routes.preview);
 //  -- 404 --

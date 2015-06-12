@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title Human Capital and More - GSO Company
+    
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css')
+    link(rel='stylesheet', href='/static/css/style.css')
+    link(rel='shortcut icon', href='/static/img/favicon.png', type='image/png')
+    
+    script(src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='//use.typekit.net/iqx5wxc.js')
+    script.
+      try{Typekit.load();}catch(e){}
+    
+    block afterhead
+      meta(property='og:title', content='Human Capital and More - GSO Company')
+      meta(property='og:description', content='')
+      meta(property='og:image', content='//beta.humancapitalandmore.com/img/social/blog.png')
+
+  body
+    header
+      .header-inner
+        .pull-left
+          a.gso-hcam-logo(href='/', title='Vai alla pagina iniziale del Blog')
+            img(src='/static/img/gso-hcam-logo.png', alt='Human Capital and More', width='90', height='90')
+        .pull-right
+          menu
+            ul
+              li: a: strong Coming soon
+    footer
+      img.logo(src='/static/img/gso-company-footer.png', width='85', height='37')
+            

@@ -1,0 +1,150 @@
+@import ('nib')
+
+_accent = #de2f32
+_light = #f2f2f2
+_textlight = #a89f9f
+_dark = #212121
+
+_postWidth = 960px
+
+.sans-font
+  font-family 'museo-sans', sans-serif
+.serif-font
+  font-family 'adobe-caslon-pro', serif
+
+.pure-g [class *='pure-u'],
+.pure-g-r [class*="pure-u"]
+  @extends .sans-font
+
+html,
+body
+  width 100%
+  height 100%
+  @extends .sans-font
+  color #FFF
+  background-image url('../img/hcam-comingsoon.jpg')
+  background-position center
+  background-repeat no-repeat
+  background-size cover
+
+.pure-form
+  input[type='text'], input[type='password'], input[type='email'], input[type='url'], input[type='date'], input[type='month'], input[type='time'], input[type='datetime'], input[type='datetime-local'], input[type='week'], input[type='number'], input[type='search'], input[type='tel'], input[type='color'], select, textarea
+    @extends .sans-font
+    box-shadow none
+    border none
+  button
+    @extends .sans-font
+    & > *
+      display inline-block
+      vertical-align middle
+
+.pure-button
+  @extends .sans-font
+
+h1, h2, h3,
+h4, h5, h6
+  font-weight normal
+  margin 5px 0
+  line-height 1.2em
+  color _dark
+  
+  a
+    text-decoration none
+    color inherit
+    transition color 0.3s ease
+    
+    &:hover
+      color _accent
+
+h1, h2, h3
+  @extends .serif-font
+  
+  font-weight 400
+  strong
+    font-weight 600
+
+h1
+  font-size 48px
+h2
+  font-size 36px
+  color lighten(_dark, 10%)
+h3
+  font-size 30px
+h5
+  text-transform uppercase
+  color _textlight
+  font-weight 700
+
+_spacer = 5, 10, 20, 30, 40, 60, 80, 90, 100, 150, 190
+
+for _val in _spacer
+  .spacer-{ _val }
+    height ( _val * 1px )
+
+hr
+  border none
+  border-top 1px solid lighten(_textlight, 70%)
+  margin 30px 0
+  
+    
+.text-left
+  text-align left
+.text-center
+  text-align center
+.text-right
+  text-align right
+
+  
+.page
+  width 100%
+  height auto
+  
+header
+  position fixed
+  z-index 20
+  top 50px
+  left 50px
+  right 50px
+  
+  .header-inner
+    clearfix()
+    .pull-left
+      float left
+    .pull-right
+      float right
+
+  a.gso-hcam-logo
+    display block
+    width 90px
+    height 90px
+    float left
+    
+  menu
+    margin 0
+    padding 0
+    float right
+    text-align right
+    ul
+      display block
+      margin 0
+      padding 0 0 0 0
+      list-style none
+      li
+        display inline-block
+        a
+          display block
+          padding 0
+          height 90px
+          line-height 90px
+          font-weight 500
+          font-size 14px
+          text-transform uppercase
+          text-decoration none
+          color #FFF
+          text-shadow 1px 1px 1px rgba(#000, 0.2)
+    
+footer
+  .logo
+    position absolute
+    bottom 50px
+    right 50px

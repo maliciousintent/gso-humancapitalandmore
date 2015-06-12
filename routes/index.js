@@ -650,8 +650,7 @@ exports.latestsApi = prismic.route(function(req, res, ctx) {
                             categories: p.getAll('post.categories')[0] ?
                                           _.chain(p.getAll('post.categories')[0].value)
                                             .map(function (c) {
-                                              return c.getLink('Categoria').document;
-                                              //return _.find(results.getCategories[1], {'id': c.getLink('Categoria').document.id}).slug;
+                                              return _.find(results.getCategories[1], {'id': c.getLink('Categoria').document.id}).titolo;
                                             })
                                             .value()
                                           :
@@ -661,13 +660,7 @@ exports.latestsApi = prismic.route(function(req, res, ctx) {
                         .value()
 
 
-      res.end(
-        JSON.stringify({
-          //rawCategories: results.getCategories[1],
-          //authors: results.getAuthors,
-          lastPosts: _fullInfo
-        }, null, 2)
-      );
+      res.end(JSON.stringify(_fullInfo,null,1));
       return;
 
     }
